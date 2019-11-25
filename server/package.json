@@ -1,0 +1,29 @@
+{
+    "name": "server",
+    "version": "1.0.0",
+    "main": "index.js",
+    "repository": "https://github.com/junseok5/franchisee-coupon",
+    "author": "Junseok Oh",
+    "license": "MIT",
+    "scripts": {
+        "dev": "cd src && cross-env NODE_PATH=src nodemon --exec ts-node index.ts -e ts"
+    },
+    "dependencies": {
+        "cors": "^2.8.5",
+        "cross-env": "^6.0.3",
+        "dotenv": "^8.2.0",
+        "express": "^4.17.1",
+        "express-session": "^1.17.0",
+        "helmet": "^3.21.2",
+        "jsonwebtoken": "^8.5.1",
+        "morgan": "^1.9.1",
+        "pg": "^7.14.0",
+        "typeorm": "^0.2.20"
+    },
+    "devDependencies": {
+        "@types/node": "^12.12.12",
+        "ts-node": "^8.5.2",
+        "tslint-config-prettier": "^1.18.0",
+        "typescript": "^3.7.2"
+    }
+}
