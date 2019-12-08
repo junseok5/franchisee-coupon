@@ -21,7 +21,7 @@ class VerificationStore extends BaseEntity {
         enum: [REQUESTING, ACCEPTED, REJECTED],
         default: REQUESTING
     })
-    status: string
+    status?: string
 
     @Column({ type: "text" })
     bizRegImg: string

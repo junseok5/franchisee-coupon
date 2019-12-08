@@ -1,4 +1,5 @@
 import express, { Router } from "express"
+import admin from "./admin"
 import ads from "./ads"
 import auth from "./auth"
 import owners from "./owners"
@@ -10,5 +11,6 @@ router.use("/ads", ads)
 router.use("/auth", auth)
 router.use("/owners", owners)
 router.use("/stores", stores)
+router.use("/admin", admin)
 
 export default router

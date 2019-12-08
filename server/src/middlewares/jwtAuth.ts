@@ -1,19 +1,18 @@
-import { NextFunction, Request, Response } from "express"
 import decodeJWT from "../utils/decodeJWT"
 
-export default async (req: Request, res: Response, next: NextFunction) => {
+export default async (req, res, next) => {
     const token = req.get("X-JWT")
 
     if (!token) {
-        req.body.owner = null
+        req.owner = null
         return next()
     }
 
     try {
         const owner = await decodeJWT(token)
-        req.body.owner = owner
+        req.owner = owner
     } catch (e) {
-        req.body.owner = null
+        req.owner = null
     }
 
     return next()

@@ -27,13 +27,17 @@ class Store extends BaseEntity {
     address: string
 
     @Column({ type: "text" })
+    detailAdress: string
+
+    @Column({ type: "text" })
     category: string
 
     @Column({ type: "text", nullable: true })
     webUrl?: string
 
-    @Column({ type: "text", nullable: true })
-    logoImg?: string
+    @Column({ type: "text", default: "/img/default_store_logo.png" })
+    logoImg: string
+    // default 값 필요
 
     @Column({ type: "double precision", default: 0 })
     lat: number

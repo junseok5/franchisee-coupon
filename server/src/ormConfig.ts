@@ -6,7 +6,7 @@ const connectionOptions: ConnectionOptions = {
     port: Number(process.env.DB_PORT) || 5432,
     username: process.env.DB_USERNAME,
     password: process.env.DB_PASSWORD,
-    database: "cardround",
+    database: "outsourcing",
     entities: ["entities/**/*.*"],
     synchronize: true,
     logging: true
