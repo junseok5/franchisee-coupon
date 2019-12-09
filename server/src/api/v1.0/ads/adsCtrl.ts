@@ -1,4 +1,5 @@
 import { Request, Response } from "express"
+// import Joi from "joi"
 
 export const read = (req: Request, res: Response) => {
     // 쿠폰 또는 특가 상세보기
@@ -13,6 +14,11 @@ export const list = (req: Request, res: Response) => {
 
 export const write = (req: Request, res: Response) => {
     // 쿠폰 또는 특가 등록
+    // const ad = req.body
+
+    // const schema = Joi.object().keys({
+    //     title: Joi.string().required()
+    // })
 }
 
 export const update = (req: Request, res: Response) => {
