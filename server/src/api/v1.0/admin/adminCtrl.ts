@@ -1,3 +1,5 @@
+import { moreInfo } from "../../../constants"
+
 const adminPwd = process.env.ADMIN_PWD
 
 export const login = async (req, res) => {
@@ -5,16 +7,27 @@ export const login = async (req, res) => {
 
     if (password === adminPwd) {
         req.session.logged = true
-        return res.json({ ok: true, msg: "SUCCESS_LOGIN" })
+        return res.json({
+            ok: true,
+            client_message: "Success to login admin",
+            server_message: "관리자 로그인에 성공하였습니다."
+        })
     }
 
     return res.status(401).json({
         ok: false,
-        msg: "FAIL_LOGIN"
+        client_message: "비밀번호가 틀립니다.",
+        server_message: "Password is not valid",
+        code: 1,
+        more_info: moreInfo
     })
 }
 
 export const logout = async (req, res) => {
     req.session = null
-    return res.status(204)
+    return res.json({
+        ok: true,
+        client_message: "Success to logout admin",
+        server_message: "관리자 로그아웃에 성공하였습니다."
+    })
 }

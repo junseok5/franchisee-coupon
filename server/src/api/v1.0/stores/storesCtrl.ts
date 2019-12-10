@@ -1,5 +1,6 @@
 import { Request, Response } from "express"
 import Joi from "joi"
+import { moreInfo } from "../../../constants"
 import Store from "../../../entities/Store"
 import VerificationStore from "../../../entities/VerificationStore"
 
@@ -10,16 +11,28 @@ export const read = async (req: Request, res: Response) => {
         const store = await Store.findOne({ id })
 
         if (!store) {
-            return res.status(404).json({ ok: false, error: "NOT_FOUND_STORE" })
+            return res.status(404).json({
+                ok: false,
+                client_message: "가맹점이 존재하지 않습니다.",
+                server_message: "Not found store.",
+                code: 31,
+                more_info: moreInfo
+            })
         }
 
         delete store.owner
         return res.json({
             ok: true,
-            store
+            data: { store }
         })
     } catch (e) {
-        return res.status(500).json({ ok: false, error: e.message })
+        return res.status(500).json({
+            ok: false,
+            client_message: "서버 에러로 인해 조회에 실패하였습니다.",
+            server_message: e.message,
+            code: 100,
+            more_info: moreInfo
+        })
     }
 }
 
@@ -46,7 +59,13 @@ export const write = async (req, res: Response) => {
 
     if (validation.error) {
         console.error(validation.error)
-        return res.status(400).json({ ok: false, msg: validation.error })
+        return res.status(400).json({
+            ok: false,
+            client_message: "유효하지 않은 입력 값이 존재합니다.",
+            server_message: validation.error,
+            code: 32,
+            more_info: moreInfo
+        })
     }
 
     if (logoImg) {
@@ -61,10 +80,16 @@ export const write = async (req, res: Response) => {
 
         return res.json({
             ok: true,
-            store: savedStore
+            data: { store: savedStore }
         })
     } catch (e) {
-        return res.status(500).json({ ok: false, msg: e.message })
+        return res.status(500).json({
+            ok: false,
+            client_message: "서버 에러로 인해 등록에 실패하였습니다.",
+            server_message: e.message,
+            code: 100,
+            more_info: moreInfo
+        })
     }
 }
 
@@ -90,7 +115,13 @@ export const update = async (req, res: Response) => {
 
     if (validation.error) {
         console.error(validation.error)
-        return res.status(400).json({ ok: false, msg: validation.error })
+        return res.status(400).json({
+            ok: false,
+            client_message: "유효하지 않은 입력 값이 존재합니다.",
+            server_message: validation.error,
+            code: 32,
+            more_info: moreInfo
+        })
     }
 
     if (logoImg) {
@@ -103,15 +134,28 @@ export const update = async (req, res: Response) => {
         if (!exists) {
             return res.status(404).json({
                 ok: false,
-                msg: "NOT_FOUND_STORE"
+                client_message: "가맹점이 존재하지 않습니다.",
+                server_message: "Not found store",
+                code: 33,
+                more_info: moreInfo
             })
         }
 
         await Store.update({ id }, { ...store })
 
-        return res.json({ ok: true, msg: "UPDATE_SUCCESS" })
+        return res.json({
+            ok: true,
+            client_message: "업데이트에 성공하였습니다.",
+            server_message: "Success to update store"
+        })
     } catch (e) {
-        return res.status(500).json({ ok: false, msg: e.message })
+        return res.status(500).json({
+            ok: false,
+            client_message: "서버 에러로 인해 업데이트에 실패하였습니다.",
+            server_message: e.message,
+            code: 100,
+            more_info: moreInfo
+        })
     }
 }
 
@@ -125,9 +169,13 @@ export const writeVerificationStore = async (req, res: Response) => {
     const bizRegImg = req.file
 
     if (!bizRegImg) {
-        return res
-            .status(400)
-            .json({ ok: false, msg: "Need business Registration image" })
+        return res.status(400).json({
+            ok: false,
+            client_message: "사업자 등록 인증서 사진이 존재하지 않습니다.",
+            server_message: "Need business Registration image",
+            code: 34,
+            more_info: moreInfo
+        })
     }
 
     try {
@@ -139,7 +187,10 @@ export const writeVerificationStore = async (req, res: Response) => {
         if (!store) {
             return res.status(404).json({
                 ok: false,
-                msg: "NOT_FOUND_STORE"
+                client_message: "가맹점이 존재하지 않습니다.",
+                server_message: "Not found store.",
+                code: 35,
+                more_info: moreInfo
             })
         }
 
@@ -148,7 +199,10 @@ export const writeVerificationStore = async (req, res: Response) => {
         if (owner.id !== storeOWner.id) {
             return res.status(401).json({
                 ok: false,
-                msg: "NOT_STORE_OWNER"
+                client_message: "가맹점의 점주가 아닙니다.",
+                server_message: "Not store owner",
+                code: 36,
+                more_info: moreInfo
             })
         }
 
@@ -157,7 +211,10 @@ export const writeVerificationStore = async (req, res: Response) => {
         if (existsVS) {
             return res.status(401).json({
                 ok: false,
-                msg: "Already exist verification store."
+                client_message: "인증 요청 중이거나 이미 인증된 가맹점입니다.",
+                server_message: "Already exist verification store.",
+                code: 37,
+                more_info: moreInfo
             })
         }
 
@@ -168,12 +225,15 @@ export const writeVerificationStore = async (req, res: Response) => {
 
         return res.json({
             ok: true,
-            verificationStore
+            data: { verificationStore }
         })
     } catch (e) {
         return res.status(500).json({
             ok: false,
-            msg: e.message
+            client_message: "서버 에러로 인해 인증 등록에 실패하였습니다.",
+            server_message: e.message,
+            code: 100,
+            more_info: moreInfo
         })
     }
 }
@@ -188,19 +248,30 @@ export const patchVerificationStore = async (req, res: Response) => {
         })
 
         if (!verificationStore) {
-            return res
-                .status(404)
-                .json({ ok: false, msg: "Not found verification store" })
+            return res.status(404).json({
+                ok: false,
+                client_message: "인증한 적이 없는 가맹점입니다.",
+                server_message: "Not found verification store",
+                code: 38,
+                more_info: moreInfo
+            })
         }
 
         verificationStore.status = status
         verificationStore.save()
 
-        return res.json({ ok: true, msg: "Success status change" })
+        return res.json({
+            ok: true,
+            client_message: "인증 상태 변경에 성공하였습니다.",
+            server_message: "Success to change status"
+        })
     } catch (e) {
         return res.status(500).json({
             ok: false,
-            msg: e.message
+            client_message: "서버 에러로 인해 인증 상태 변경에 실패하였습니다.",
+            server_message: e.message,
+            code: 100,
+            more_info: moreInfo
         })
     }
 }

@@ -1,5 +1,6 @@
 import { Request, Response } from "express"
 import Joi from "joi"
+import { moreInfo } from "../../../constants"
 import Owner from "../../../entities/Owner"
 import { RegisterOwnerBody } from "../../../types/types"
 import createJWT from "../../../utils/createJWT"
@@ -29,7 +30,13 @@ export const register = async (req: Request, res: Response) => {
 
     if (validation.error) {
         console.error(validation.error)
-        return res.status(400).json({ ok: false, msg: validation.error })
+        return res.status(400).json({
+            ok: false,
+            client_message: "유효하지 않은 입력 값이 존재합니다.",
+            server_message: validation.error,
+            code: 11,
+            more_info: moreInfo
+        })
     }
 
     try {
@@ -38,7 +45,13 @@ export const register = async (req: Request, res: Response) => {
         })
 
         if (existingOwner.length) {
-            return res.status(401).json({ ok: false, msg: "EXISTING_OWNER" })
+            return res.status(401).json({
+                ok: false,
+                client_message: "이미 존재하는 계정입니다.",
+                server_message: "Already exist owner.",
+                code: 12,
+                more_info: moreInfo
+            })
         }
 
         const owner = await Owner.create({
@@ -52,11 +65,21 @@ export const register = async (req: Request, res: Response) => {
 
         return res.json({
             ok: true,
-            owner,
-            token
+            data: {
+                owner,
+                token
+            },
+            client_message: "회원가입에 성공하였습니다.",
+            server_message: "Success to register owner"
         })
     } catch (e) {
-        return res.status(500).json({ ok: false, msg: e.message })
+        return res.status(500).json({
+            ok: false,
+            client_message: "서버 에러로 인해 회원가입에 실패하였습니다.",
+            server_message: e.message,
+            code: 100,
+            more_info: moreInfo
+        })
     }
 }
 
@@ -77,7 +100,13 @@ export const login = async (req: Request, res: Response) => {
 
     if (validation.error) {
         console.error(validation.error)
-        return res.status(400).json({ ok: false, msg: validation.error })
+        return res.status(400).json({
+            ok: false,
+            client_message: "유효하지 않은 입력 값이 존재합니다.",
+            server_message: validation.error,
+            code: 13,
+            more_info: moreInfo
+        })
     }
 
     try {
@@ -86,27 +115,40 @@ export const login = async (req: Request, res: Response) => {
         if (!owner) {
             return res.status(401).json({
                 ok: false,
-                msg: "NOT_FOUND_ID"
+                client_message: "아이디가 존재하지 않습니다.",
+                server_message: "Not found id",
+                code: 14,
+                more_info: moreInfo
             })
         }
 
-        const checkPassword = await owner.comparePassword(password)
+        const isValidPassword = await owner.comparePassword(password)
 
-        if (checkPassword) {
+        if (isValidPassword) {
             const token = createJWT(owner.num)
             return res.json({
                 ok: true,
-                owner,
-                token
+                data: { owner, token },
+                client_message: "로그인에 성공하였습니다.",
+                server_message: "Success to login owner"
             })
         } else {
             return res.status(401).json({
                 ok: false,
-                msg: "WRONG_PASSWORD"
+                client_message: "비밀번호가 잘못되었습니다.",
+                server_message: "Not valid password",
+                code: 15,
+                more_info: moreInfo
             })
         }
     } catch (e) {
-        return res.status(500).json({ ok: false, msg: e.message })
+        return res.status(500).json({
+            ok: false,
+            client_message: "서버 에러로 인해 로그인에 실패하였습니다.",
+            server_message: e.message,
+            code: 100,
+            more_info: moreInfo
+        })
     }
 }
 
@@ -114,9 +156,18 @@ export const check = async (req, res: Response) => {
     const { owner } = req
 
     if (!owner) {
-        return res.status(401).json({ ok: false, msg: "NOT_LOGIN" })
+        return res.status(401).json({
+            ok: false,
+            client_message: "로그인이 되어있지 않습니다.",
+            server_message: "Not logged owner",
+            code: 16,
+            more_info: moreInfo
+        })
     }
 
     const token = createJWT(owner.num)
-    return res.json({ ok: true, owner, token })
+    return res.json({
+        ok: true,
+        data: { owner, token }
+    })
 }

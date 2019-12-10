@@ -1,6 +1,7 @@
 import { Request, Response } from "express"
 import Joi from "joi"
 // import Store from "../../../entities/Store"
+import { moreInfo } from "../../../constants"
 import Owner from "../../../entities/Owner"
 
 export const read = (req, res: Response) => {
@@ -9,7 +10,7 @@ export const read = (req, res: Response) => {
 
     return res.json({
         ok: true,
-        owner
+        data: { owner }
     })
 }
 
@@ -24,13 +25,25 @@ export const listMyStore = async (req, res: Response) => {
         )
 
         if (!owner) {
-            return res.status(404).json({ ok: false, msg: "NOT_FOUND_OWNER" })
+            return res.status(404).json({
+                ok: false,
+                client_message: "가맹주 정보가 존재하지 않습니다.",
+                server_message: "Not found owner.",
+                code: 21,
+                more_info: moreInfo
+            })
         }
         const stores = owner.stores
 
-        return res.json({ ok: true, stores })
+        return res.json({ ok: true, data: { stores } })
     } catch (e) {
-        return res.status(500).json({ ok: false, msg: e.message })
+        return res.status(500).json({
+            ok: false,
+            client_message: "서버 에러로 인해 조회에 실패하였습니다.",
+            server_message: e.message,
+            code: 100,
+            more_info: moreInfo
+        })
     }
 }
 
@@ -52,7 +65,13 @@ export const update = async (req, res: Response) => {
     const validation = Joi.validate(ownerBody, schema)
 
     if (validation.error) {
-        return res.status(400).json({ ok: false, msg: validation.error })
+        return res.status(400).json({
+            ok: false,
+            client_message: "유효하지 않은 값이 입력되었습니다.",
+            server_message: validation.error,
+            code: 22,
+            more_info: moreInfo
+        })
     }
 
     if (ownerBody.password) {
@@ -64,9 +83,19 @@ export const update = async (req, res: Response) => {
     try {
         await Owner.update({ id: owner.id }, { ...ownerBody })
 
-        return res.json({ ok: true, msg: "Update success" })
+        return res.json({
+            ok: true,
+            client_message: "업데이트에 성공하였습니다.",
+            server_message: "Success to update owner"
+        })
     } catch (e) {
-        return res.status(500).json({ ok: false, msg: e.message })
+        return res.status(500).json({
+            ok: false,
+            client_message: "서버 에러로 인해 업데이트에 실패하였습니다.",
+            server_message: e.message,
+            code: 100,
+            more_info: moreInfo
+        })
     }
 }
 
