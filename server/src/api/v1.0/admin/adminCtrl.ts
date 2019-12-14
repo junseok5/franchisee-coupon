@@ -1,9 +1,8 @@
 import { moreInfo } from "../../../constants"
 
-const adminPwd = process.env.ADMIN_PWD
-
 export const login = async (req, res) => {
     const { password } = req.body
+    const adminPwd = process.env.ADMIN_PWD
 
     if (password === adminPwd) {
         req.session.logged = true

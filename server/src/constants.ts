@@ -4,13 +4,6 @@ export const verifStoreStatus = {
     REJECTED: "REJECTED"
 }
 
-export const adStatus = {
-    IN_PROGRESS: "IN_PROGRESS",
-    STOPED: "STOPED",
-    EXPIRED: "EXPIRED",
-    WAITING: "WAITING"
-}
-
 export const adType = {
     SPECIAL: "SPECIAL",
     COUPON: "COUPON"

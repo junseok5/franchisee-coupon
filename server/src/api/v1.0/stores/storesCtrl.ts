@@ -78,6 +78,11 @@ export const write = async (req, res: Response) => {
             owner
         }).save()
 
+        // api test 필요
+        await VerificationStore.create({
+            store
+        }).save()
+
         return res.json({
             ok: true,
             data: { store: savedStore }
@@ -163,8 +168,8 @@ export const remove = (req: Request, res: Response) => {
     // 관련 쿠폰/특가 모두 삭제 (나중에 구현)
 }
 
-export const writeVerificationStore = async (req, res: Response) => {
-    const storeId = Number(req.params.id)
+export const registerBizRegImg = async (req, res: Response) => {
+    const storeId = Number(req.params.storeId)
     const owner = req.owner
     const bizRegImg = req.file
 
@@ -206,28 +211,28 @@ export const writeVerificationStore = async (req, res: Response) => {
             })
         }
 
-        const existsVS = await VerificationStore.findOne({ store })
+        const verificationStore = await VerificationStore.findOne({ store })
 
-        if (existsVS) {
-            return res.status(401).json({
+        if (!verificationStore) {
+            return res.status(404).json({
                 ok: false,
-                client_message: "인증 요청 중이거나 이미 인증된 가맹점입니다.",
-                server_message: "Already exist verification store.",
-                code: 37,
+                client_message:
+                    "가맹점 인증 정보가 만들어지지 않았습니다. 관리자에게 문의해주세요.",
+                server_message: "Not found verification store.",
+                code: 45,
                 more_info: moreInfo
             })
         }
 
-        const verificationStore = await VerificationStore.create({
-            bizRegImg: `/${bizRegImg.path}`,
-            store
-        }).save()
+        verificationStore.bizRegImg = `/${bizRegImg.path}`
+        verificationStore.save()
 
         return res.json({
             ok: true,
             data: { verificationStore }
         })
     } catch (e) {
+        console.error(e)
         return res.status(500).json({
             ok: false,
             client_message: "서버 에러로 인해 인증 등록에 실패하였습니다.",

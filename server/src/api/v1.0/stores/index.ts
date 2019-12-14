@@ -5,19 +5,19 @@ import authOwner from "../../../middlewares/authOwner"
 import * as storesCtrl from "./storesCtrl"
 
 const router = Router()
-const upload = multer({ dest: "uploads/" })
+const upload = multer({ dest: "uploads/stores/" })
 
 // authentication 필요
 router.get("/:id", storesCtrl.read)
-router.post("/", authOwner, upload.single("image"), storesCtrl.write)
-router.patch("/:id", authOwner, upload.single("image"), storesCtrl.update)
+router.post("/", authOwner, upload.single("logoImg"), storesCtrl.write)
+router.patch("/:id", authOwner, upload.single("logoImg"), storesCtrl.update)
 router.delete("/:id", authOwner, storesCtrl.remove)
 
 router.post(
-    "/:id/verification-stores",
+    "/:storeId/verification-stores",
     authOwner,
-    upload.single("image"),
-    storesCtrl.writeVerificationStore
+    upload.single("bizRegImg"),
+    storesCtrl.registerBizRegImg
 )
 router.patch(
     "/:storeId/verification-stores",

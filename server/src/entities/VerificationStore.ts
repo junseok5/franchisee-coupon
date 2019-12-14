@@ -23,8 +23,8 @@ class VerificationStore extends BaseEntity {
     })
     status?: string
 
-    @Column({ type: "text" })
-    bizRegImg: string
+    @Column({ type: "text", nullable: true })
+    bizRegImg?: string
 
     @OneToOne(
         type => Store,

@@ -8,10 +8,9 @@ import {
     PrimaryGeneratedColumn,
     UpdateDateColumn
 } from "typeorm"
-import { adStatus, adType } from "../constants"
+import { adType } from "../constants"
 import Store from "./Store"
 
-const { IN_PROGRESS, STOPED, EXPIRED, WAITING } = adStatus
 const { SPECIAL, COUPON } = adType
 
 @Entity()
@@ -34,11 +33,10 @@ class Advertisement extends BaseEntity {
     endAt: string
 
     @Column({
-        type: "text",
-        enum: [IN_PROGRESS, STOPED, EXPIRED, WAITING],
-        default: WAITING
+        type: "boolean",
+        default: false
     })
-    status: string
+    isStopped: string
 
     @Column({ type: "text", enum: [SPECIAL, COUPON] })
     adType: string
