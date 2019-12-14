@@ -4,7 +4,7 @@ import multer from "multer"
 import authOwner from "../../../middlewares/authOwner"
 
 const router: Router = Router()
-const upload = multer({ dest: "uploads/ads/" })
+const upload = multer({ dest: "../uploads/ads/" })
 
 router.get("/:id", adsCtrl.read)
 router.get("/", adsCtrl.list)

@@ -5,7 +5,7 @@ import authOwner from "../../../middlewares/authOwner"
 import * as storesCtrl from "./storesCtrl"
 
 const router = Router()
-const upload = multer({ dest: "uploads/stores/" })
+const upload = multer({ dest: "../uploads/stores/" })
 
 // authentication 필요
 router.get("/:id", storesCtrl.read)
