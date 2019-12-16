@@ -27,7 +27,7 @@ class Store extends BaseEntity {
     address: string
 
     @Column({ type: "text" })
-    detailAdress: string
+    detailAddress: string
 
     @Column({ type: "text" })
     category: string

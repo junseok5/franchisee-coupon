@@ -1,12 +1,11 @@
 import { Request, Response } from "express"
 import Joi from "joi"
 import { moreInfo } from "../../../constants"
-import Store from "../../../entities/Store"
 import Advertisement from "../../../entities/Advertisement"
+import Store from "../../../entities/Store"
 import VerificationStore from "../../../entities/VerificationStore"
 
 export const read = async (req: Request, res: Response) => {
-    // 쿠폰 또는 특가 상세보기
     const id = Number(req.params.id)
 
     try {
@@ -45,8 +44,6 @@ export const list = (req: Request, res: Response) => {
 }
 
 export const write = async (req, res: Response) => {
-    // 쿠폰 또는 특가 등록
-    // 인증된 가맹점인지 확인 필요
     const ad = req.body
     const photo = req.file
     const storeId = req.params.id
@@ -57,7 +54,6 @@ export const write = async (req, res: Response) => {
             { id: storeId },
             { relations: ["owner"] }
         )
-        console.log(store)
 
         if (!store) {
             return res.status(404).json({
@@ -148,8 +144,6 @@ export const write = async (req, res: Response) => {
 }
 
 export const update = async (req, res: Response) => {
-    // 쿠폰 또는 특가 수정
-    // 인증된 가맹점인지 확인 필요
     const id = req.params.id
     const owner = req.owner
     const photo = req.file
@@ -233,7 +227,7 @@ export const update = async (req, res: Response) => {
     } catch (e) {
         return res.status(500).json({
             ok: false,
-            client_message: "서버 에러로 인해 등록에 실패하였습니다.",
+            client_message: "서버 에러로 인해 업데이트에 실패하였습니다.",
             server_message: e.message,
             code: 100,
             more_info: moreInfo
@@ -241,7 +235,62 @@ export const update = async (req, res: Response) => {
     }
 }
 
-export const remove = (req: Request, res: Response) => {
-    // 쿠폰 또는 특가 삭제
-    // 인증된 가맹점인지 확인 필요
+export const remove = async (req, res: Response) => {
+    const owner = req.owner
+    const id = req.params.id
+
+    try {
+        const ad = await Advertisement.findOne({ id }, { relations: ["store"] })
+
+        if (!ad) {
+            return res.status(404).json({
+                ok: false,
+                client_message: "해당 id의 광고가 존재하지 않습니다.",
+                server_message: "Not found advertisement.",
+                code: 50,
+                more_info: moreInfo
+            })
+        }
+
+        const store = await Store.findOne(
+            { id: ad.store.id },
+            { relations: ["owner"] }
+        )
+
+        if (!store) {
+            return res.status(404).json({
+                ok: false,
+                client_message: "광고를 등록한 점주가 아닙니다.",
+                server_message: "Not found store.",
+                code: 48,
+                more_info: moreInfo
+            })
+        }
+
+        if (store.owner.id !== owner.id) {
+            return res.status(401).json({
+                ok: false,
+                client_message: "광고를 등록한 점주가 아닙니다.",
+                server_message: "Not authenticated owner",
+                code: 49,
+                more_info: moreInfo
+            })
+        }
+
+        await ad.remove()
+
+        return res.json({
+            ok: true,
+            client_message: "삭제에 성공하였습니다.",
+            server_message: "Success to remove advertisement"
+        })
+    } catch (e) {
+        return res.status(500).json({
+            ok: false,
+            client_message: "서버 에러로 삭제에 실패하였습니다.",
+            server_message: e.message,
+            code: 100,
+            more_info: moreInfo
+        })
+    }
 }
