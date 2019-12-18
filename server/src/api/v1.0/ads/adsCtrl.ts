@@ -1,5 +1,6 @@
 import { Request, Response } from "express"
 import Joi from "joi"
+import { Between, getRepository } from "typeorm"
 import { moreInfo } from "../../../constants"
 import Advertisement from "../../../entities/Advertisement"
 import Store from "../../../entities/Store"
@@ -36,11 +37,45 @@ export const read = async (req: Request, res: Response) => {
     }
 }
 
-export const list = (req: Request, res: Response) => {
-    // 그냥 홈으로 접속시 최근 등록순으로 조회
+export const list = async (req: Request, res: Response) => {
     // 위도,경도를 토대로 근처 광고 리스트 조회
     // 카테고리로 광고 리스트 조회
     // 근처를 카테고리로 조회
+    const { category } = req.query
+    const lat = Number(req.query.lat)
+    const lng = Number(req.query.lng)
+    const radius = Number(req.query.radius)
+
+    let query
+    query = category
+        ? {
+              category
+          }
+        : {}
+    query = lat
+        ? {
+              ...query,
+              lat: Between(lat - radius, lat + radius),
+              lng: Between(lng - radius, lng + radius)
+          }
+        : { ...query }
+
+    try {
+        const ads = await getRepository(Advertisement).find(query)
+
+        return res.json({
+            ok: true,
+            data: { ads }
+        })
+    } catch (e) {
+        return res.status(500).json({
+            ok: false,
+            client_message: "서버 에러로 인해 조회에 실패하였습니다.",
+            server_message: e.message,
+            code: 100,
+            more_info: moreInfo
+        })
+    }
 }
 
 export const write = async (req, res: Response) => {
@@ -103,7 +138,8 @@ export const write = async (req, res: Response) => {
             description: Joi.string(),
             startAt: Joi.date().required(),
             endAt: Joi.date().required(),
-            adType: Joi.string().required()
+            adType: Joi.string().required(),
+            category: Joi.string().required()
         })
 
         const validation = Joi.validate(ad, schema)
@@ -125,6 +161,8 @@ export const write = async (req, res: Response) => {
 
         const savedAd = await Advertisement.create({
             ...ad,
+            lat: store.lat,
+            lng: store.lng,
             store
         }).save()
 
@@ -192,7 +230,8 @@ export const update = async (req, res: Response) => {
             description: Joi.string(),
             startAt: Joi.date(),
             endAt: Joi.date(),
-            adType: Joi.string()
+            adType: Joi.string(),
+            category: Joi.string()
         })
 
         const validation = Joi.validate(req.body, schema)

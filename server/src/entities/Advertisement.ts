@@ -41,6 +41,9 @@ class Advertisement extends BaseEntity {
     @Column({ type: "text", enum: [SPECIAL, COUPON] })
     adType: string
 
+    @Column({ type: "text" })
+    category: string
+
     @Column({ type: "text", nullable: true })
     couponNum?: string
 
@@ -55,6 +58,12 @@ class Advertisement extends BaseEntity {
 
     @Column({ type: "int", default: 0 })
     usedCount: number
+
+    @Column({ type: "double precision", default: 0 })
+    lat: number
+
+    @Column({ type: "double precision", default: 0 })
+    lng: number
 
     @ManyToOne(
         type => Store,

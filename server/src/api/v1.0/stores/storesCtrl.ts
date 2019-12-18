@@ -51,8 +51,8 @@ export const write = async (req, res: Response) => {
         detailAddress: Joi.string().required(),
         category: Joi.string().required(),
         webUrl: Joi.string().required(),
-        latitude: Joi.number().required(),
-        longitude: Joi.number().required()
+        lat: Joi.number().required(),
+        lng: Joi.number().required()
     })
 
     const validation = Joi.validate(store, schema)
@@ -112,8 +112,8 @@ export const update = async (req, res: Response) => {
         detailAddress: Joi.string(),
         category: Joi.string(),
         webUrl: Joi.string(),
-        latitude: Joi.number(),
-        longitude: Joi.number()
+        lat: Joi.number(),
+        lng: Joi.number()
     })
 
     const validation = Joi.validate(store, schema)
