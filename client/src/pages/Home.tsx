@@ -1,13 +1,18 @@
 import * as React from "react"
-import CategoryList from "src/components/CategoryList"
 import Header from "src/components/Header"
+import ListLayout from "src/components/ListLayout"
+import CategoryList from "src/containers/CategoryList"
+import RegisterModal from "src/containers/RegisterModal"
 
 const Home: React.SFC = () => {
     return (
-        <div>
+        <>
             <Header />
-            <CategoryList />
-        </div>
+            <ListLayout>
+                <CategoryList />
+            </ListLayout>
+            <RegisterModal />
+        </>
     )
 }
 
