@@ -1,39 +1,50 @@
 import * as React from "react"
 import styled from "styled-components"
+import { FiX } from "react-icons/fi"
 
 interface ModalProps {
     title: string
     show: boolean
-    onClose: () => void
+    onHideModal: () => void
 }
 
-const Modal: React.SFC<ModalProps> = ({ children, title, show, onClose }) => {
+const Modal: React.SFC<ModalProps> = ({
+    children,
+    title,
+    show,
+    onHideModal
+}) => {
     return (
-        <Styled show={show}>
-            <div className={"dark-bg"} />
+        <Container show={show}>
+            <div className={"dark-bg"} onClick={onHideModal} />
             <div className={"modal"}>
                 <div className={"header"}>
                     <h3>{title}</h3>
+                    <div className={"close-button"} onClick={onHideModal}>
+                        <FiX size={24} />
+                    </div>
                 </div>
                 <div className={"main"}>{children}</div>
             </div>
-        </Styled>
+        </Container>
     )
 }
 
 export default Modal
 
-interface StyledProps {
+interface ContainerProps {
     show: boolean
 }
 
-const Styled = styled.div<StyledProps>`
+const Container = styled.div<ContainerProps>`
     display: ${props => (props.show ? "block" : "none")};
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
+    width: 100%;
+    height: 100%;
     z-index: 5;
 
     .dark-bg {
@@ -44,6 +55,12 @@ const Styled = styled.div<StyledProps>`
 
     .header {
         margin: 1em 1em 0 1em;
+        display: flex;
+        justify-content: space-between;
+
+        .close-button {
+            cursor: pointer;
+        }
     }
 
     .modal {

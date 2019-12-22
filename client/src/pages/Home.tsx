@@ -1,8 +1,9 @@
 import * as React from "react"
-import Header from "src/components/Header"
 import ListLayout from "src/components/ListLayout"
 import CategoryList from "src/containers/CategoryList"
 import RegisterModal from "src/containers/RegisterModal"
+import Header from "src/containers/Header"
+import LoginModal from "src/containers/LoginModal"
 
 const Home: React.SFC = () => {
     return (
@@ -12,6 +13,7 @@ const Home: React.SFC = () => {
                 <CategoryList />
             </ListLayout>
             <RegisterModal />
+            <LoginModal />
         </>
     )
 }

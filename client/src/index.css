@@ -1,14 +1,13 @@
+* {
+    box-sizing: border-box;
+}
+
 body {
     margin: 0;
-    box-sizing: border-box;
     font-family: "Roboto", sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
-}
-
-* {
-    box-sizing: inherit;
 }
 
 h1,
@@ -25,13 +24,13 @@ input {
     outline: none;
 }
 
-input[type="text"] {
+/* input[type="text"] {
     all: unset;
-}
+} */
 
-input[type="password"] {
+/* input[type="password"] {
     all: unset;
-}
+} */
 
 ul {
     all: unset;
