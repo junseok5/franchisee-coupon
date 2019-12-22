@@ -9,4 +9,4 @@ export const adType = {
     COUPON: "COUPON"
 }
 
-export const moreInfo = "Show error-code file in server."
+// export const moreInfo = "Show error-code file in server."

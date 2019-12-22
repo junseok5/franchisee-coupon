@@ -1,11 +1,14 @@
-import { Request, Response } from "express"
+import { NextFunction, Request, Response } from "express"
 import Joi from "joi"
-import { moreInfo } from "../../../constants"
 import Owner from "../../../entities/Owner"
 import { RegisterOwnerBody } from "../../../types/types"
 import createJWT from "../../../utils/createJWT"
 
-export const register = async (req: Request, res: Response) => {
+export const register = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
     const { name, id, password, email }: RegisterOwnerBody = req.body
 
     const schema = Joi.object().keys({
@@ -30,13 +33,7 @@ export const register = async (req: Request, res: Response) => {
 
     if (validation.error) {
         console.error(validation.error)
-        return res.status(400).json({
-            ok: false,
-            client_message: "유효하지 않은 입력 값이 존재합니다.",
-            server_message: validation.error,
-            code: 11,
-            more_info: moreInfo
-        })
+        return res.status(400).send("유효하지 않은 입력 값이 존재합니다.")
     }
 
     try {
@@ -45,13 +42,7 @@ export const register = async (req: Request, res: Response) => {
         })
 
         if (existingOwner.length) {
-            return res.status(401).json({
-                ok: false,
-                client_message: "이미 존재하는 계정입니다.",
-                server_message: "Already exist owner.",
-                code: 12,
-                more_info: moreInfo
-            })
+            return res.status(401).send("이미 존재하는 계정입니다.")
         }
 
         const owner = await Owner.create({
@@ -63,27 +54,17 @@ export const register = async (req: Request, res: Response) => {
 
         const token = createJWT(owner.num)
 
-        return res.json({
-            ok: true,
-            data: {
-                owner,
-                token
-            },
-            client_message: "회원가입에 성공하였습니다.",
-            server_message: "Success to register owner"
-        })
+        return res.json({ owner, token })
     } catch (e) {
-        return res.status(500).json({
-            ok: false,
-            client_message: "서버 에러로 인해 회원가입에 실패하였습니다.",
-            server_message: e.message,
-            code: 100,
-            more_info: moreInfo
-        })
+        return next(e)
     }
 }
 
-export const login = async (req: Request, res: Response) => {
+export const login = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
     const { id, password } = req.body
 
     const schema = Joi.object({
@@ -100,74 +81,36 @@ export const login = async (req: Request, res: Response) => {
 
     if (validation.error) {
         console.error(validation.error)
-        return res.status(400).json({
-            ok: false,
-            client_message: "유효하지 않은 입력 값이 존재합니다.",
-            server_message: validation.error,
-            code: 13,
-            more_info: moreInfo
-        })
+        return res.status(400).send("유효하지 않은 입력 값이 존재합니다.")
     }
 
     try {
         const owner = await Owner.findOne({ id })
 
         if (!owner) {
-            return res.status(401).json({
-                ok: false,
-                client_message: "아이디가 존재하지 않습니다.",
-                server_message: "Not found id",
-                code: 14,
-                more_info: moreInfo
-            })
+            return res.status(401).send("아이디가 존재하지 않습니다.")
         }
 
         const isValidPassword = await owner.comparePassword(password)
 
         if (isValidPassword) {
             const token = createJWT(owner.num)
-            return res.json({
-                ok: true,
-                data: { owner, token },
-                client_message: "로그인에 성공하였습니다.",
-                server_message: "Success to login owner"
-            })
+            return res.json({ owner, token })
         } else {
-            return res.status(401).json({
-                ok: false,
-                client_message: "비밀번호가 잘못되었습니다.",
-                server_message: "Not valid password",
-                code: 15,
-                more_info: moreInfo
-            })
+            return res.status(401).send("비밀번호가 잘못되었습니다.")
         }
     } catch (e) {
-        return res.status(500).json({
-            ok: false,
-            client_message: "서버 에러로 인해 로그인에 실패하였습니다.",
-            server_message: e.message,
-            code: 100,
-            more_info: moreInfo
-        })
+        return next(e)
     }
 }
 
-export const check = async (req, res: Response) => {
+export const check = async (req, res: Response, next: NextFunction) => {
     const { owner } = req
 
     if (!owner) {
-        return res.status(401).json({
-            ok: false,
-            client_message: "로그인이 되어있지 않습니다.",
-            server_message: "Not logged owner",
-            code: 16,
-            more_info: moreInfo
-        })
+        return res.status(401).send("로그인이 되어있지 않습니다.")
     }
 
     const token = createJWT(owner.num)
-    return res.json({
-        ok: true,
-        data: { owner, token }
-    })
+    return res.json({ owner, token })
 }
