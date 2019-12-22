@@ -20,5 +20,9 @@ export default function useLoginModal() {
         loginModalVisible,
         onShowLoginModal,
         onHideLoginModal
+    } as {
+        loginModalVisible: boolean
+        onShowLoginModal: typeof onShowLoginModal
+        onHideLoginModal: typeof onHideLoginModal
     }
 }

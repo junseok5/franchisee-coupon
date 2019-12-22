@@ -27,5 +27,10 @@ export default function useRegisterRequest() {
         isRegistered,
         registerErrorMessage,
         register
+    } as {
+        isRegistering: boolean
+        isRegistered: boolean
+        registerErrorMessage: string
+        register: typeof register
     }
 }

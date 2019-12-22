@@ -12,4 +12,6 @@ export default ErrorText
 const Container = styled.div`
     color: #e74c3c;
     font-size: 0.9em;
+    font-weight: bold;
+    text-align: right;
 `

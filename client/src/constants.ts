@@ -1,5 +1,6 @@
 export enum PAGE_PATHS {
-    HOME = "/"
+    HOME = "/",
+    OWNER = "/owners/:id"
 }
 
 export enum COLORS {

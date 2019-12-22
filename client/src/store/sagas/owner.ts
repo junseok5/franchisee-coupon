@@ -12,15 +12,17 @@ import * as userAPI from "../../api/user"
 function* logIn(action: any) {
     try {
         const result = yield call(userAPI.logIn, action.payload)
-        console.log("success")
-        console.log(result)
+        window.sessionStorage.setItem("jwt", result.data.token)
         yield put({
-            type: LOG_IN_SUCCESS
+            type: LOG_IN_SUCCESS,
+            payload: result.data
         })
     } catch (e) {
         console.error(e)
+        window.sessionStorage.removeItem("jwt")
         yield put({
-            type: LOG_IN_FAILURE
+            type: LOG_IN_FAILURE,
+            payload: e.response && e.response.data
         })
     }
 }
@@ -32,15 +34,16 @@ function* watchLogIn() {
 function* register(action: any) {
     try {
         const result = yield call(userAPI.register, action.payload)
-        console.log(result)
+        window.sessionStorage.setItem("jwt", result.data.token)
         yield put({
-            type: REGISTER_SUCCESS
+            type: REGISTER_SUCCESS,
+            payload: result.data
         })
     } catch (e) {
         console.error(e)
         yield put({
             type: REGISTER_FAILURE,
-            payload: e
+            payload: e.response && e.response.data
         })
     }
 }

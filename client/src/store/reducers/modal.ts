@@ -13,7 +13,7 @@ export interface ModalState {
 
 const initialState: ModalState = {
     loginModalVisible: false,
-    registerModalVisible: true
+    registerModalVisible: false
 }
 
 function modal(state: ModalState = initialState, action: any) {

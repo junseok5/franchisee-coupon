@@ -5,7 +5,7 @@ import RegisterModal from "src/containers/RegisterModal"
 import Header from "src/containers/Header"
 import LoginModal from "src/containers/LoginModal"
 
-const Home: React.SFC = () => {
+const HomePage: React.SFC = () => {
     return (
         <>
             <Header />
@@ -18,4 +18,4 @@ const Home: React.SFC = () => {
     )
 }
 
-export default Home
+export default HomePage

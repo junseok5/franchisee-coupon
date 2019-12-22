@@ -1,5 +1,6 @@
 import * as React from "react"
 import styled from "styled-components"
+import { COLORS } from "src/constants"
 
 interface HeaderLayoutProps {}
 
@@ -34,6 +35,11 @@ const Container = styled.div`
 
         @media screen and (max-width: 768px) {
             margin-right: 0.5em;
+        }
+
+        span {
+            color: ${COLORS.main};
+            font-weight: bold;
         }
 
         .text {

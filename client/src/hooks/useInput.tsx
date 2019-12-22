@@ -12,6 +12,13 @@ export default function useInput(defaultValue?: string) {
         },
         []
     )
+    const resetValue = useCallback(() => {
+        setValue(defaultValue)
+    }, [])
 
-    return [value, onChange] as [string, typeof onChange]
+    return [value, onChange, resetValue] as [
+        string,
+        typeof onChange,
+        typeof resetValue
+    ]
 }

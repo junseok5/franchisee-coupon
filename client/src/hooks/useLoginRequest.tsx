@@ -23,5 +23,9 @@ export default function useLoginRequest() {
         isLoggingIn,
         loginErrorMessage,
         logIn
+    } as {
+        isLoggingIn: boolean
+        loginErrorMessage: string
+        logIn: typeof logIn
     }
 }
