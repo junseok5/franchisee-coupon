@@ -53,7 +53,6 @@ export const register = async (
         }).save()
 
         const token = createJWT(owner.num)
-
         return res.json({ owner, token })
     } catch (e) {
         return next(e)
