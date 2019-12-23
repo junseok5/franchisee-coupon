@@ -33,7 +33,7 @@ export const write = async (req, res: Response, next: NextFunction) => {
         description: Joi.string(),
         address: Joi.string().required(),
         detailAddress: Joi.string().required(),
-        category: Joi.string().required(),
+        category: Joi.number().required(),
         webUrl: Joi.string().required(),
         lat: Joi.number().required(),
         lng: Joi.number().required()
@@ -79,7 +79,7 @@ export const update = async (req, res: Response, next: NextFunction) => {
         description: Joi.string(),
         address: Joi.string(),
         detailAddress: Joi.string(),
-        category: Joi.string(),
+        category: Joi.number(),
         webUrl: Joi.string(),
         lat: Joi.number(),
         lng: Joi.number()

@@ -1,13 +1,16 @@
 export enum PAGE_PATHS {
     HOME = "/",
-    OWNER = "/owners/:id"
+    OWNER = "/owners",
+    STORE_EDITOR = "/store-editor"
 }
 
 export enum COLORS {
     main = "#fe8c52",
-    grayLight = "#efefef",
+    grayLight = "#f1f2f6",
+    grayLightHover = "#dfe4ea",
     grayNormal = "#bdc3c7",
-    grayBold = "#7f8c8d"
+    grayBold = "#7f8c8d",
+    blueNormal = "#3498db"
 }
 
 export const regex = {

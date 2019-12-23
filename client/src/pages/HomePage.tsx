@@ -4,6 +4,7 @@ import CategoryList from "src/containers/CategoryList"
 import RegisterModal from "src/containers/RegisterModal"
 import Header from "src/containers/Header"
 import LoginModal from "src/containers/LoginModal"
+import CheckLogged from "src/containers/CheckLogged"
 
 const HomePage: React.SFC = () => {
     return (
@@ -14,6 +15,7 @@ const HomePage: React.SFC = () => {
             </ListLayout>
             <RegisterModal />
             <LoginModal />
+            <CheckLogged />
         </>
     )
 }

@@ -19,3 +19,13 @@ interface RegisterBody {
 }
 
 export const register = (body: RegisterBody) => api.post("/auth/register", body)
+
+export const checkLogged = (token: string) =>
+    api.get("auth/check", {
+        headers: { "X-JWT": token }
+    })
+
+export const getMyStores = ({ id, token }: { id: number; token: string }) =>
+    api.get(`/owners/${id}/stores`, {
+        headers: { "X-JWT": token }
+    })

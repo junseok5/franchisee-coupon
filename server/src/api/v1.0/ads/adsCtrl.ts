@@ -26,17 +26,19 @@ export const list = async (req: Request, res: Response, next: NextFunction) => {
     // 위도,경도를 토대로 근처 광고 리스트 조회
     // 카테고리로 광고 리스트 조회
     // 근처를 카테고리로 조회
-    const { category } = req.query
+    const category = req.query.category ? Number(req.query.category) : undefined
     const lat = Number(req.query.lat)
     const lng = Number(req.query.lng)
     const radius = Number(req.query.radius)
 
+    console.log(category)
     let query
-    query = category
-        ? {
-              category
-          }
-        : {}
+    query =
+        category !== undefined
+            ? {
+                  category
+              }
+            : {}
     query = lat
         ? {
               ...query,
@@ -45,10 +47,16 @@ export const list = async (req: Request, res: Response, next: NextFunction) => {
           }
         : { ...query }
 
+    console.log(query)
     try {
-        const advertisements = await getRepository(Advertisement).find(query)
+        const ads = await getRepository(Advertisement).find({
+            relations: ["store"],
+            where: { store: query }
+        })
+        console.log("here" + ads)
+        // const advertisements = await getRepository(Advertisement).find(query)
 
-        return res.json(advertisements)
+        return res.json(ads)
     } catch (e) {
         console.error(e)
         return next(e)
@@ -90,8 +98,7 @@ export const write = async (req, res: Response, next: NextFunction) => {
             description: Joi.string(),
             startAt: Joi.date().required(),
             endAt: Joi.date().required(),
-            adType: Joi.string().required(),
-            category: Joi.string().required()
+            adType: Joi.string().required()
         })
 
         const validation = Joi.validate(ad, schema)
@@ -107,8 +114,9 @@ export const write = async (req, res: Response, next: NextFunction) => {
 
         const savedAdvertisement = await Advertisement.create({
             ...ad,
-            lat: store.lat,
-            lng: store.lng,
+            // category: store.category,
+            // lat: store.lat,
+            // lng: store.lng,
             store
         }).save()
 
@@ -154,8 +162,7 @@ export const update = async (req, res: Response, next: NextFunction) => {
             description: Joi.string(),
             startAt: Joi.date(),
             endAt: Joi.date(),
-            adType: Joi.string(),
-            category: Joi.string()
+            adType: Joi.string()
         })
 
         const validation = Joi.validate(req.body, schema)

@@ -32,6 +32,7 @@ const Container = styled.div`
         flex: 1;
         justify-content: flex-end;
         margin-right: 5em;
+        font-size: 0.9em;
 
         @media screen and (max-width: 768px) {
             margin-right: 0.5em;
@@ -40,12 +41,12 @@ const Container = styled.div`
         span {
             color: ${COLORS.main};
             font-weight: bold;
+            cursor: pointer;
         }
 
         .text {
             margin-left: 0.5em;
             margin-right: 0.5em;
-            font-size: 0.9em;
             cursor: pointer;
         }
     }

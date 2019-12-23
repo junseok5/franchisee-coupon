@@ -136,7 +136,7 @@ const RegisterModal: React.SFC = () => {
     }, [])
 
     useEffect(() => {
-        if (isRegistered) {
+        if (isRegistered && registerModalVisible) {
             alert("회원가입에 성공하였습니다.")
             onHideRegisterModal()
             resetForm()

@@ -29,8 +29,8 @@ class Store extends BaseEntity {
     @Column({ type: "text" })
     detailAddress: string
 
-    @Column({ type: "text" })
-    category: string
+    @Column({ type: "int" })
+    category: number
 
     @Column({ type: "text", nullable: true })
     webUrl?: string

@@ -48,7 +48,7 @@ const LoginModal: React.SFC<LoginModalProps> = () => {
     }, [id, password])
 
     const submitLoginForm = useCallback(
-        payload => {
+        async payload => {
             const validation = checkLoginValidation()
 
             if (!validation.ok) {
@@ -86,7 +86,7 @@ const LoginModal: React.SFC<LoginModalProps> = () => {
     }, [])
 
     useEffect(() => {
-        if (me) {
+        if (me && loginModalVisible) {
             alert("로그인에 성공하였습니다.")
             onHideLoginModal()
             resetForm()

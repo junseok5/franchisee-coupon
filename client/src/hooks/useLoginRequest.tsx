@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from "react-redux"
 import { RootState } from "src/store/reducers"
 import { useCallback } from "react"
-import { LOG_IN_REQUEST } from "src/store/actions/owner"
+import { LOG_IN_REQUEST, CHECK_LOGGED_REQUEST } from "src/store/actions/owner"
 
 interface LogInPayload {
     id: string
@@ -19,13 +19,20 @@ export default function useLoginRequest() {
         [dispatch]
     )
 
+    const checkLogged = useCallback(
+        (payload: string) => dispatch({ type: CHECK_LOGGED_REQUEST, payload }),
+        [dispatch]
+    )
+
     return {
         isLoggingIn,
         loginErrorMessage,
-        logIn
+        logIn,
+        checkLogged
     } as {
         isLoggingIn: boolean
         loginErrorMessage: string
         logIn: typeof logIn
+        checkLogged: typeof checkLogged
     }
 }
