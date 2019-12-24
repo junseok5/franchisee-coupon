@@ -21,7 +21,7 @@ export const read = async (req: Request, res: Response, next: NextFunction) => {
 }
 
 export const write = async (req, res: Response, next: NextFunction) => {
-    const store = req.body
+    const storeBody = req.body
     const owner = req.owner
     const logoImg = req.file
 
@@ -39,7 +39,7 @@ export const write = async (req, res: Response, next: NextFunction) => {
         lng: Joi.number().required()
     })
 
-    const validation = Joi.validate(store, schema)
+    const validation = Joi.validate(storeBody, schema)
 
     if (validation.error) {
         console.error(validation.error)
@@ -47,63 +47,71 @@ export const write = async (req, res: Response, next: NextFunction) => {
     }
 
     if (logoImg) {
-        store.logoImg = `/${logoImg.path}`
+        storeBody.logoImg = `/${logoImg.path}`
     }
 
     try {
-        const savedStore = await Store.create({
-            ...store,
+        const store = await Store.create({
+            ...storeBody,
             owner
         }).save()
 
         // api test 필요
         await VerificationStore.create({
-            store
+            store: storeBody
         }).save()
 
-        return res.json(savedStore)
+        return res.json(store)
     } catch (e) {
         return next(e)
     }
 }
 
 export const update = async (req, res: Response, next: NextFunction) => {
-    const id = req.params.id
-    const store = req.body
+    const owner = req.owner
+    const storeId = req.params.id
+    const storeBody = req.body
     const logoImg = req.file
 
-    const schema = Joi.object().keys({
-        name: Joi.string()
-            .min(1)
-            .max(30),
-        description: Joi.string(),
-        address: Joi.string(),
-        detailAddress: Joi.string(),
-        category: Joi.number(),
-        webUrl: Joi.string(),
-        lat: Joi.number(),
-        lng: Joi.number()
-    })
-
-    const validation = Joi.validate(store, schema)
-
-    if (validation.error) {
-        console.error(validation.error)
-        return res.status(400).send("유효하지 않은 입력 값이 존재합니다.")
-    }
-
-    if (logoImg) {
-        store.logoImg = `/${logoImg.path}`
-    }
-
     try {
-        const exists = await Store.findOne({ id })
+        const store = await Store.findOne(
+            { id: storeId },
+            { relations: ["owner"] }
+        )
 
-        if (!exists) {
+        if (!store) {
             return res.status(404).send("가맹점이 존재하지 않습니다.")
         }
 
-        await Store.update({ id }, { ...store })
+        if (store.owner.id !== owner.id) {
+            return res.status(401).send("가맹점 점주가 아닙니다.")
+        }
+
+        const schema = Joi.object().keys({
+            name: Joi.string()
+                .min(1)
+                .max(30),
+            description: Joi.string(),
+            address: Joi.string(),
+            detailAddress: Joi.string(),
+            category: Joi.number(),
+            webUrl: Joi.string(),
+            lat: Joi.number(),
+            lng: Joi.number()
+        })
+
+        const validation = Joi.validate(storeBody, schema)
+
+        if (validation.error) {
+            console.error(validation.error)
+            return res.status(400).send("유효하지 않은 입력 값이 존재합니다.")
+        }
+
+        if (logoImg) {
+            storeBody.logoImg = `/${logoImg.path}`
+        }
+
+        await Store.update({ id: storeId }, { ...storeBody })
 
         return res.send("업데이트에 성공하였습니다.")
     } catch (e) {
@@ -111,8 +119,31 @@ export const update = async (req, res: Response, next: NextFunction) => {
     }
 }
 
-export const remove = (req: Request, res: Response) => {
-    // 관련 쿠폰/특가 모두 삭제 (나중에 구현)
+export const remove = async (req, res: Response, next: NextFunction) => {
+    // 관련 쿠폰/특가, 사업자 인증 모두 삭제 (나중에 구현)
+    const owner = req.owner
+    const storeId = req.params.id
+
+    try {
+        const store = await Store.findOne(
+            { id: storeId },
+            { relations: ["owner"] }
+        )
+
+        if (!store) {
+            return res.status(404).send("가맹점이 존재하지 않습니다.")
+        }
+
+        if (store.owner.id !== owner.id) {
+            return res.status(401).send("가맹점 점주가 아닙니다.")
+        }
+
+        await store.remove()
+
+        return res.send("삭제에 성공하였습니다.")
+    } catch (e) {
+        return next(e)
+    }
 }
 
 export const registerBizRegImg = async (

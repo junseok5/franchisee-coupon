@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express"
 import Joi from "joi"
-import { Between, getRepository } from "typeorm"
+import { Between, getRepository, LessThan, MoreThan } from "typeorm"
 import Advertisement from "../../../entities/Advertisement"
 import Store from "../../../entities/Store"
 import VerificationStore from "../../../entities/VerificationStore"
@@ -31,7 +31,6 @@ export const list = async (req: Request, res: Response, next: NextFunction) => {
     const lng = Number(req.query.lng)
     const radius = Number(req.query.radius)
 
-    console.log(category)
     let query
     query =
         category !== undefined
@@ -47,16 +46,17 @@ export const list = async (req: Request, res: Response, next: NextFunction) => {
           }
         : { ...query }
 
-    console.log(query)
-    try {
-        const ads = await getRepository(Advertisement).find({
-            relations: ["store"],
-            where: { store: query }
-        })
-        console.log("here" + ads)
-        // const advertisements = await getRepository(Advertisement).find(query)
+    const now = new Date()
+    query = {
+        ...query,
+        startAt: LessThan(now),
+        endAt: MoreThan(now)
+    }
 
-        return res.json(ads)
+    try {
+        const advertisements = await getRepository(Advertisement).find(query)
+
+        return res.json(advertisements)
     } catch (e) {
         console.error(e)
         return next(e)
@@ -114,9 +114,9 @@ export const write = async (req, res: Response, next: NextFunction) => {
 
         const savedAdvertisement = await Advertisement.create({
             ...ad,
-            // category: store.category,
-            // lat: store.lat,
-            // lng: store.lng,
+            category: store.category,
+            lat: store.lat,
+            lng: store.lng,
             store
         }).save()
 
@@ -135,25 +135,20 @@ export const update = async (req, res: Response, next: NextFunction) => {
     try {
         const advertisement = await Advertisement.findOne(
             { id },
-            { relations: ["store"] }
+            { relations: ["store", "store.owner"] }
         )
 
         if (!advertisement) {
             return res.status(404).json("해당 id의 광고가 존재하지 않습니다.")
         }
 
-        const store = await Store.findOne(
-            { id: advertisement.store.id },
-            { relations: ["owner"] }
-        )
-
-        if (!store) {
+        if (!advertisement.store) {
             return res
                 .status(404)
                 .send("광고를 등록한 가맹점 정보가 존재하지 않습니다.")
         }
 
-        if (store.owner.id !== owner.id) {
+        if (advertisement.store.owner.id !== owner.id) {
             return res.status(401).send("광고를 등록한 점주가 아닙니다.")
         }
 
@@ -194,25 +189,20 @@ export const remove = async (req, res: Response, next: NextFunction) => {
     try {
         const advertisement = await Advertisement.findOne(
             { id },
-            { relations: ["store"] }
+            { relations: ["store", "store.owner"] }
         )
 
         if (!advertisement) {
             return res.status(404).send("해당 id의 광고가 존재하지 않습니다.")
         }
 
-        const store = await Store.findOne(
-            { id: advertisement.store.id },
-            { relations: ["owner"] }
-        )
-
-        if (!store) {
+        if (!advertisement.store) {
             return res
                 .status(404)
                 .send("광고를 등록한 가맹점이 존재하지 않습니다.")
         }
 
-        if (store.owner.id !== owner.id) {
+        if (advertisement.store.owner.id !== owner.id) {
             return res.status(401).send("광고를 등록한 점주가 아닙니다.")
         }
 
