@@ -5,7 +5,7 @@ import { COLORS } from "src/constants"
 interface InputProps {
     type?: string
     placeholder?: string
-    value: string
+    value?: string
     onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
     onKeyPress?: (event: React.KeyboardEvent<HTMLInputElement>) => void
 }

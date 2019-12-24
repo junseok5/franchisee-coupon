@@ -10,7 +10,7 @@ import {
     CHECK_LOGGED_SUCCESS,
     CHECK_LOGGED_REQUEST
 } from "../actions/owner"
-import * as userAPI from "../../api/user"
+import * as ownerAPI from "../../api/owner"
 import {
     GET_MY_STORE_LIST_FAILURE,
     GET_MY_STORE_LIST_SUCCESS,
@@ -19,7 +19,7 @@ import {
 
 function* logIn(action: any) {
     try {
-        const result = yield call(userAPI.logIn, action.payload)
+        const result = yield call(ownerAPI.logIn, action.payload)
         window.sessionStorage.setItem("jwt", result.data.token)
         yield put({
             type: LOG_IN_SUCCESS,
@@ -41,7 +41,7 @@ function* watchLogIn() {
 
 function* register(action: any) {
     try {
-        const result = yield call(userAPI.register, action.payload)
+        const result = yield call(ownerAPI.register, action.payload)
         window.sessionStorage.setItem("jwt", result.data.token)
         yield put({
             type: REGISTER_SUCCESS,
@@ -62,7 +62,7 @@ function* watchRegister() {
 
 function* checkLogged(action: any) {
     try {
-        const result = yield call(userAPI.checkLogged, action.payload)
+        const result = yield call(ownerAPI.checkLogged, action.payload)
         yield put({
             type: CHECK_LOGGED_SUCCESS,
             payload: result.data
@@ -82,7 +82,7 @@ function* watchCheckLogged() {
 
 function* getMyStoreList(action: any) {
     try {
-        const result = yield call(userAPI.getMyStores, action.payload)
+        const result = yield call(ownerAPI.getMyStores, action.payload)
         yield put({
             type: GET_MY_STORE_LIST_SUCCESS,
             payload: result.data

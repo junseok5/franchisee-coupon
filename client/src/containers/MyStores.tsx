@@ -2,7 +2,7 @@ import * as React from "react"
 import { useEffect } from "react"
 import useMyStores from "src/hooks/useMyStores"
 import useOwnerInfo from "src/hooks/useOwnerInfo"
-import MyStoreAddButton from "src/components/MyStoreAddButton"
+import MyStoreAddButton from "src/containers/MyStoreAddButton"
 import MyStore from "../components/MyStore"
 
 interface MyStoresProps {}

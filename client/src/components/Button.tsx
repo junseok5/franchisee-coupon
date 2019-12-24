@@ -40,6 +40,6 @@ const ButtonStyled = styled.div`
     transition: all 0.2s;
 
     &:hover {
-        opacity: 0.9;
+        background-color: ${COLORS.mainHover};
     }
 `

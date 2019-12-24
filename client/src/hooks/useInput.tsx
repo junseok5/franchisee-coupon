@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react"
 
-export default function useInput(defaultValue?: string) {
+export default function useInput(defaultValue?: string | number) {
     const [value, setValue] = useState(defaultValue)
     const onChange = useCallback(
         (
