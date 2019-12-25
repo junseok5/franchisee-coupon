@@ -9,10 +9,10 @@ import {
     CHECK_LOGGED_REQUEST,
     CHECK_LOGGED_SUCCESS,
     CHECK_LOGGED_FAILURE,
-    GET_MY_STORE_LIST_REQUEST,
-    GET_MY_STORE_LIST_SUCCESS,
-    GET_MY_STORE_LIST_FAILURE,
-    LOG_OUT
+    LOG_OUT,
+    LOAD_MY_STORES_REQUEST,
+    LOAD_MY_STORES_FAILURE,
+    LOAD_MY_STORES_SUCCESS
 } from "../actions/owner"
 
 export interface OwnerMetaInfo {
@@ -45,9 +45,9 @@ export interface OwnerState {
     registerErrorMessage: string // 회원가입 실패 메세지
     me: OwnerMetaInfo | null // owner 정보
     token: string | null // 로그인 인증 토큰
-    isGettingMyStores: boolean
+    isLoadingMyStores: boolean
     myStores: StoreInfo[]
-    getMystoresErrorMessage: string
+    loadMystoresErrorMessage: string
 }
 
 const initialState: OwnerState = {
@@ -60,9 +60,9 @@ const initialState: OwnerState = {
     registerErrorMessage: "",
     me: null,
     token: window.sessionStorage.getItem("jwt"),
-    isGettingMyStores: false,
+    isLoadingMyStores: false,
     myStores: [],
-    getMystoresErrorMessage: ""
+    loadMystoresErrorMessage: ""
 }
 
 function owner(state: OwnerState = initialState, action: any) {
@@ -118,18 +118,18 @@ function owner(state: OwnerState = initialState, action: any) {
                 draft.me = null
                 draft.token = null
                 break
-            case GET_MY_STORE_LIST_REQUEST:
+            case LOAD_MY_STORES_REQUEST:
                 draft.myStores = []
-                draft.isGettingMyStores = true
-                draft.getMystoresErrorMessage = ""
+                draft.isLoadingMyStores = true
+                draft.loadMystoresErrorMessage = ""
                 break
-            case GET_MY_STORE_LIST_SUCCESS:
-                draft.isGettingMyStores = false
+            case LOAD_MY_STORES_SUCCESS:
+                draft.isLoadingMyStores = false
                 draft.myStores = action.payload
                 break
-            case GET_MY_STORE_LIST_FAILURE:
-                draft.isGettingMyStores = false
-                draft.getMystoresErrorMessage = action.payload
+            case LOAD_MY_STORES_FAILURE:
+                draft.isLoadingMyStores = false
+                draft.loadMystoresErrorMessage = action.payload
                 break
             default:
                 break

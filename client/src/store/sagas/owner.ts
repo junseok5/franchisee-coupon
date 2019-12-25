@@ -1,4 +1,4 @@
-import { all, call, put, takeLatest, fork } from "redux-saga/effects"
+import { all, call, put, takeLatest, takeEvery, fork } from "redux-saga/effects"
 import {
     LOG_IN_FAILURE,
     LOG_IN_SUCCESS,
@@ -12,9 +12,9 @@ import {
 } from "../actions/owner"
 import * as ownerAPI from "../../api/owner"
 import {
-    GET_MY_STORE_LIST_FAILURE,
-    GET_MY_STORE_LIST_SUCCESS,
-    GET_MY_STORE_LIST_REQUEST
+    LOAD_MY_STORES_SUCCESS,
+    LOAD_MY_STORES_FAILURE,
+    LOAD_MY_STORES_REQUEST
 } from "../actions/owner"
 
 function* logIn(action: any) {
@@ -80,24 +80,24 @@ function* watchCheckLogged() {
     yield takeLatest(CHECK_LOGGED_REQUEST, checkLogged)
 }
 
-function* getMyStoreList(action: any) {
+function* loadStores(action: any) {
     try {
-        const result = yield call(ownerAPI.getMyStores, action.payload)
+        const result = yield call(ownerAPI.loadMyStores, action.payload)
         yield put({
-            type: GET_MY_STORE_LIST_SUCCESS,
+            type: LOAD_MY_STORES_SUCCESS,
             payload: result.data
         })
     } catch (e) {
         console.error(e)
         yield put({
-            type: GET_MY_STORE_LIST_FAILURE,
+            type: LOAD_MY_STORES_FAILURE,
             payload: e.response && e.response.data
         })
     }
 }
 
-function* watchGetMyStoreList() {
-    yield takeLatest(GET_MY_STORE_LIST_REQUEST, getMyStoreList)
+function* watchLoadStores() {
+    yield takeEvery(LOAD_MY_STORES_REQUEST, loadStores)
 }
 
 export default function* ownerSaga() {
@@ -105,6 +105,6 @@ export default function* ownerSaga() {
         fork(watchLogIn),
         fork(watchRegister),
         fork(watchCheckLogged),
-        fork(watchGetMyStoreList)
+        fork(watchLoadStores)
     ])
 }

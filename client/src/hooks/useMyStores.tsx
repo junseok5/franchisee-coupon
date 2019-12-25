@@ -1,8 +1,8 @@
 import { useSelector, useDispatch } from "react-redux"
 import { RootState } from "src/store/reducers"
 import { useCallback } from "react"
-import { GET_MY_STORE_LIST_REQUEST } from "src/store/actions/owner"
 import { StoreInfo } from "src/store/reducers/owner"
+import { LOAD_MY_STORES_REQUEST } from "src/store/actions/owner"
 
 interface GetMyStoresPayload {
     id: number
@@ -12,26 +12,26 @@ interface GetMyStoresPayload {
 export default function useMyStores() {
     const {
         myStores,
-        isGettingMyStores,
-        getMystoresErrorMessage
+        isLoadingMyStores,
+        loadMystoresErrorMessage
     } = useSelector((state: RootState) => state.owner)
     const dispatch = useDispatch()
 
-    const getMyStores = useCallback(
+    const loadMyStores = useCallback(
         (payload: GetMyStoresPayload) =>
-            dispatch({ type: GET_MY_STORE_LIST_REQUEST, payload }),
+            dispatch({ type: LOAD_MY_STORES_REQUEST, payload }),
         [dispatch]
     )
 
     return {
-        isGettingMyStores,
+        isLoadingMyStores,
         myStores,
-        getMystoresErrorMessage,
-        getMyStores
+        loadMystoresErrorMessage,
+        loadMyStores
     } as {
-        isGettingMyStores: boolean
+        isLoadingMyStores: boolean
         myStores: StoreInfo[]
-        getMystoresErrorMessage: string
-        getMyStores: typeof getMyStores
+        loadMystoresErrorMessage: string
+        loadMyStores: typeof loadMyStores
     }
 }

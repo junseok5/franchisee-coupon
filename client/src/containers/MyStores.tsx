@@ -12,19 +12,26 @@ const MyStores: React.SFC<MyStoresProps> = () => {
         me: { num },
         token
     } = useOwnerInfo()
-    const { isGettingMyStores, myStores, getMyStores } = useMyStores()
+    const { isLoadingMyStores, myStores, loadMyStores } = useMyStores()
 
     useEffect(() => {
-        getMyStores({ id: num, token })
+        loadMyStores({ id: num, token })
     }, [])
 
-    console.log(isGettingMyStores)
+    console.log(isLoadingMyStores)
     console.log(myStores)
 
     return (
         <>
             <MyStoreAddButton />
-            <MyStore />
+            {myStores.map(myStore => (
+                <MyStore
+                    logoImg={myStore.logoImg}
+                    name={myStore.name}
+                    category={myStore.category}
+                    description={myStore.description}
+                />
+            ))}
         </>
     )
 }

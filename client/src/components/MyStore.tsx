@@ -4,21 +4,29 @@ import Title from "./Title"
 import { COLORS } from "src/constants"
 import CircleImage from "./CircleImage"
 import RowLayout from "./RowLayout"
+import Text from "./Text"
 
-interface MyStoreProps {}
+interface MyStoreProps {
+    logoImg: string
+    name: string
+    category: string
+    description: string
+}
 
-const MyStore: React.SFC<MyStoreProps> = () => {
+const MyStore: React.SFC<MyStoreProps> = ({
+    logoImg,
+    name,
+    category,
+    description
+}) => {
     return (
         <Container>
             <RowLayout>
-                <CircleImage
-                    src={
-                        "https://media-cdn.tripadvisor.com/media/photo-s/13/49/41/b8/starbucks.jpg"
-                    }
-                />
-                <Title>가맹점 이름</Title>
+                <CircleImage src={logoImg} />
+                <Title>{name}</Title>
             </RowLayout>
-
+            <Text>업종: {category}</Text>
+            <Text>{description}</Text>
         </Container>
     )
 }

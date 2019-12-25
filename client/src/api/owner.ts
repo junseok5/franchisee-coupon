@@ -25,7 +25,7 @@ export const checkLogged = (token: string) =>
         headers: { "X-JWT": token }
     })
 
-export const getMyStores = ({ id, token }: { id: number; token: string }) =>
+export const loadMyStores = ({ id, token }: { id: number; token: string }) =>
     api.get(`/owners/${id}/stores`, {
         headers: { "X-JWT": token }
     })
