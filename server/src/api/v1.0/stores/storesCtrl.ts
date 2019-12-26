@@ -7,7 +7,10 @@ export const read = async (req: Request, res: Response, next: NextFunction) => {
     const id = Number(req.params.id)
 
     try {
-        const store = await Store.findOne({ id })
+        const store = await Store.findOne(
+            { id },
+            { relations: ["verificationStore"] }
+        )
 
         if (!store) {
             return res.status(404).send("가맹점이 존재하지 않습니다.")
@@ -47,18 +50,15 @@ export const write = async (req, res: Response, next: NextFunction) => {
     }
 
     if (logoImg) {
-        storeBody.logoImg = `/${logoImg.path}`
+        storeBody.logoImg = `/${logoImg.filename}`
     }
 
     try {
+        const verificationStore = await VerificationStore.create().save()
         const store = await Store.create({
             ...storeBody,
-            owner
-        }).save()
-
-        // api test 필요
-        await VerificationStore.create({
-            store: storeBody
+            owner,
+            verificationStore
         }).save()
 
         return res.json(store)
@@ -108,7 +108,7 @@ export const update = async (req, res: Response, next: NextFunction) => {
         }
 
         if (logoImg) {
-            storeBody.logoImg = `/${logoImg.path}`
+            storeBody.logoImg = `/${logoImg.filename}`
         }
 
         await Store.update({ id: storeId }, { ...storeBody })
@@ -162,7 +162,7 @@ export const registerBizRegImg = async (
     try {
         const store = await Store.findOne(
             { id: storeId },
-            { relations: ["owner"] }
+            { relations: ["owner", "verificationStore"] }
         )
 
         if (!store) {
@@ -175,9 +175,7 @@ export const registerBizRegImg = async (
             return res.status(401).send("가맹점의 점주가 아닙니다.")
         }
 
-        const verificationStore = await VerificationStore.findOne({ store })
-
-        if (!verificationStore) {
+        if (!store.verificationStore) {
             return res
                 .status(404)
                 .send(
@@ -185,13 +183,11 @@ export const registerBizRegImg = async (
                 )
         }
 
-        verificationStore.bizRegImg = `/${bizRegImg.path}`
-        verificationStore.save()
+        store.verificationStore.bizRegImg = `/${bizRegImg.filename}`
+        store.verificationStore.status = "REQUESTING"
+        store.verificationStore.save()
 
-        return res.json({
-            ok: true,
-            data: { verificationStore }
-        })
+        return res.send("사업자 인증서 제출을 성공하였습니다.")
     } catch (e) {
         console.error(e)
         return next(e)
@@ -207,16 +203,23 @@ export const patchVerificationStore = async (
     const { status } = req.body
 
     try {
-        const verificationStore = await VerificationStore.findOne({
-            store: storeId
-        })
+        const store = await Store.findOne(
+            {
+                id: storeId
+            },
+            { relations: ["verificationStore"] }
+        )
 
-        if (!verificationStore) {
+        if (!store) {
+            return res.status(404).send("가맹점이 존재하지 않습니다.")
+        }
+
+        if (!store.verificationStore) {
             return res.status(404).send("인증한 적이 없는 가맹점입니다.")
         }
 
-        verificationStore.status = status
-        verificationStore.save()
+        store.verificationStore.status = status
+        store.verificationStore.save()
 
         return res.send("사업자 인증 상태 변경에 성공하였습니다.")
     } catch (e) {

@@ -4,6 +4,7 @@ import express from "express"
 import session from "express-session"
 import helmet from "helmet"
 import logger from "morgan"
+import path from "path"
 import api from "./api"
 import jwtAuth from "./middlewares/jwtAuth"
 
@@ -43,6 +44,12 @@ class App {
         }
         this.app.use(helmet())
         this.app.use(bodyParser.json())
+        this.app.use(express.static(path.join(__dirname, "uploads")))
+        this.app.get("/uploads/stores/:fileName", (req, res) => {
+            const fileName = req.params.fileName
+            console.log(fileName)
+            res.sendFile(path.join(__dirname, `../uploads/stores/${fileName}`))
+        })
         this.app.use(session(this.sessionConfig))
         this.app.use(jwtAuth)
         this.app.use("/api", api)

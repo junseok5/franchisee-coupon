@@ -1,4 +1,5 @@
 export const verifStoreStatus = {
+    NOT_VERIFIED: "NOT_VERIFIED",
     REQUESTING: "REQUESTING",
     ACCEPTED: "ACCEPTED",
     REJECTED: "REJECTED"

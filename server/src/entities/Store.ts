@@ -3,6 +3,7 @@ import {
     Column,
     CreateDateColumn,
     Entity,
+    JoinColumn,
     ManyToOne,
     OneToMany,
     OneToOne,
@@ -51,10 +52,8 @@ class Store extends BaseEntity {
     )
     owner: Owner
 
-    @OneToOne(
-        type => VerificationStore,
-        verificationStore => verificationStore.store
-    )
+    @OneToOne(type => VerificationStore)
+    @JoinColumn()
     verificationStore: VerificationStore
 
     @OneToMany(

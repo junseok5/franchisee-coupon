@@ -3,7 +3,6 @@ import Joi from "joi"
 import { Between, getRepository, LessThan, MoreThan } from "typeorm"
 import Advertisement from "../../../entities/Advertisement"
 import Store from "../../../entities/Store"
-import VerificationStore from "../../../entities/VerificationStore"
 
 export const read = async (req: Request, res: Response, next: NextFunction) => {
     const id = Number(req.params.id)
@@ -72,7 +71,7 @@ export const write = async (req, res: Response, next: NextFunction) => {
     try {
         const store = await Store.findOne(
             { id: storeId },
-            { relations: ["owner"] }
+            { relations: ["owner", "verificationStore"] }
         )
 
         if (!store) {
@@ -83,13 +82,11 @@ export const write = async (req, res: Response, next: NextFunction) => {
             return res.status(401).send("해당 가맹점의 점주 계정이 아닙니다.")
         }
 
-        const verificationStore = await VerificationStore.findOne({ store })
-
-        if (!verificationStore) {
+        if (!store.verificationStore) {
             return res.status(404).send("가맹점 인증 정보가 존재하지 않습니다.")
         }
 
-        if (verificationStore.status !== "ACCEPTED") {
+        if (store.verificationStore.status !== "ACCEPTED") {
             return res.status(401).json("사업자 인증을 먼저 진행해주세요.")
         }
 
@@ -109,7 +106,7 @@ export const write = async (req, res: Response, next: NextFunction) => {
         }
 
         if (photo) {
-            ad.photo = `/${photo.path}`
+            ad.photo = `/${photo.filename}`
         }
 
         const savedAdvertisement = await Advertisement.create({
@@ -166,7 +163,7 @@ export const update = async (req, res: Response, next: NextFunction) => {
         }
 
         if (photo) {
-            req.body.photo = `/${photo.path}`
+            req.body.photo = `/${photo.filename}`
         }
 
         await Advertisement.update(

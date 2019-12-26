@@ -3,14 +3,12 @@ import {
     Column,
     CreateDateColumn,
     Entity,
-    OneToOne,
     PrimaryGeneratedColumn,
     UpdateDateColumn
 } from "typeorm"
 import { verifStoreStatus } from "../constants"
-import Store from "./Store"
 
-const { REQUESTING, ACCEPTED, REJECTED } = verifStoreStatus
+const { NOT_VERIFIED, REQUESTING, ACCEPTED, REJECTED } = verifStoreStatus
 
 @Entity()
 class VerificationStore extends BaseEntity {
@@ -18,19 +16,13 @@ class VerificationStore extends BaseEntity {
 
     @Column({
         type: "text",
-        enum: [REQUESTING, ACCEPTED, REJECTED],
-        default: REQUESTING
+        enum: [NOT_VERIFIED, REQUESTING, ACCEPTED, REJECTED],
+        default: NOT_VERIFIED
     })
     status?: string
 
     @Column({ type: "text", nullable: true })
     bizRegImg?: string
-
-    @OneToOne(
-        type => Store,
-        store => store.verificationStore
-    )
-    store: Store
 
     @CreateDateColumn() createdAt: string
     @UpdateDateColumn() updatedAt: string
