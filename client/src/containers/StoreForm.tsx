@@ -1,12 +1,11 @@
 import * as React from "react"
-import { useEffect, useState, useCallback } from "react"
+import { useEffect, useCallback } from "react"
 import Input from "src/components/Input"
 import useInput from "src/hooks/useInput"
 import Select from "src/components/Select"
 import useInputFile from "src/hooks/useInputFile"
-import FileInput from "src/components/FileInput"
+import FileInput from "src/containers/FileInput"
 import Button from "src/components/Button"
-import Image from "src/components/Image"
 import { regex, PAGE_PATHS } from "src/constants"
 import useAddStore from "src/hooks/useAddStore"
 import useOwnerInfo from "src/hooks/useOwnerInfo"
@@ -23,7 +22,6 @@ const StoreForm: React.SFC = () => {
     const [detailAddress, changeDetailAddress] = useInput("")
     const [lat, changeLat] = useInput(0)
     const [lng, changeLng] = useInput(0)
-    const [previewImgUrl, changePreviewImgUrl] = useState("")
     const {
         isAddingStore,
         addStoreErrorMessage,
@@ -35,15 +33,6 @@ const StoreForm: React.SFC = () => {
         me: { num }
     } = useOwnerInfo()
     const history = useHistory()
-
-    useEffect(() => {
-        if (!logoImg) {
-            return
-        }
-
-        const blobUrl = window.URL.createObjectURL(logoImg)
-        changePreviewImgUrl(blobUrl)
-    }, [logoImg])
 
     useEffect(() => {
         if (storeAdded) {
@@ -148,11 +137,11 @@ const StoreForm: React.SFC = () => {
 
     return (
         <>
-            {previewImgUrl ? (
-                <Image src={previewImgUrl} alt={"로고 사진"} />
-            ) : (
-                <FileInput buttonTitle={"로고 사진"} onChange={changeLogoImg} />
-            )}
+            <FileInput
+                buttonTitle={"로고 사진"}
+                file={logoImg}
+                onChange={changeLogoImg}
+            />
             <Input
                 placeholder={"가맹점 이름"}
                 value={name}

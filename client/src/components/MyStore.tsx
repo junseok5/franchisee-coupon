@@ -1,32 +1,36 @@
 import * as React from "react"
+import { useCallback } from "react"
 import styled from "styled-components"
 import Title from "./Title"
-import { COLORS } from "src/constants"
+import { COLORS, PAGE_PATHS } from "src/constants"
 import CircleImage from "./CircleImage"
 import RowLayout from "./RowLayout"
 import Text from "./Text"
+import { IStore } from "src/store/reducers/store"
+import { useHistory } from "react-router-dom"
+import getCategoryName from "src/utils/getCategoryName"
 
 interface MyStoreProps {
-    logoImg: string
-    name: string
-    category: string
-    description: string
+    store: IStore
 }
 
-const MyStore: React.SFC<MyStoreProps> = ({
-    logoImg,
-    name,
-    category,
-    description
-}) => {
+const MyStore: React.SFC<MyStoreProps> = ({ store }) => {
+    const history = useHistory()
+
+    const goToStoreDetail = useCallback(() => {
+        history.push(`${PAGE_PATHS.STORE_DETAIL}/${store.id}`)
+    }, [])
+
     return (
-        <Container>
+        <Container onClick={goToStoreDetail}>
             <RowLayout>
-                <CircleImage src={logoImg} />
-                <Title>{name}</Title>
+                <CircleImage
+                    src={`http://localhost:5000/uploads/stores${store.logoImg}`}
+                />
+                <Title>{store.name}</Title>
             </RowLayout>
-            <Text>업종: {category}</Text>
-            <Text>{description}</Text>
+            <Text>업종: {getCategoryName(store.category)}</Text>
+            <Text>{store.description}</Text>
         </Container>
     )
 }

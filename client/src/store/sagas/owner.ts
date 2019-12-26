@@ -8,7 +8,8 @@ import {
     REGISTER_REQUEST,
     CHECK_LOGGED_FAILURE,
     CHECK_LOGGED_SUCCESS,
-    CHECK_LOGGED_REQUEST
+    CHECK_LOGGED_REQUEST,
+    CHANGE_IS_REGISTERED
 } from "../actions/owner"
 import * as ownerAPI from "../../api/owner"
 import {
@@ -46,6 +47,10 @@ function* register(action: any) {
         yield put({
             type: REGISTER_SUCCESS,
             payload: result.data
+        })
+        yield put({
+            type: CHANGE_IS_REGISTERED,
+            payload: false
         })
     } catch (e) {
         console.error(e)

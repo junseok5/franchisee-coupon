@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from "react-redux"
 import { RootState } from "src/store/reducers"
 import { useCallback } from "react"
-import { StoreInfo } from "src/store/reducers/owner"
+import { IStore } from "src/store/reducers/store"
 import { LOAD_MY_STORES_REQUEST } from "src/store/actions/owner"
 
 interface GetMyStoresPayload {
@@ -30,7 +30,7 @@ export default function useMyStores() {
         loadMyStores
     } as {
         isLoadingMyStores: boolean
-        myStores: StoreInfo[]
+        myStores: IStore[]
         loadMystoresErrorMessage: string
         loadMyStores: typeof loadMyStores
     }

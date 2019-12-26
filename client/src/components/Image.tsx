@@ -4,15 +4,15 @@ import styled from "styled-components"
 interface ImageProps {
     src: string
     alt?: string
-    width?: number
-    height?: number
+    width?: string
+    height?: string
 }
 
 const Image: React.SFC<ImageProps> = ({
     src,
     alt,
-    width = 100,
-    height = 100
+    width = "100px",
+    height = "100px"
 }) => {
     return (
         <Container width={width} height={height}>
@@ -24,13 +24,13 @@ const Image: React.SFC<ImageProps> = ({
 export default Image
 
 interface StyledProps {
-    width: number
-    height: number
+    width: string
+    height: string
 }
 
 const Container = styled.div<StyledProps>`
-    width: ${props => props.width}px;
-    height: ${props => props.height}px;
+    width: ${props => props.width};
+    height: ${props => props.height};
     margin-top: 1em;
     margin-bottom: 1em;
     border-radius: 4px;

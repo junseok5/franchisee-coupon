@@ -5,6 +5,7 @@ import HomePage from "./pages/HomePage"
 import OwnerPage from "./pages/OwnerPage"
 import PrivateRoute from "./components/PrivateRoute"
 import StoreEditor from "./pages/StoreEditor"
+import StoreDetailPage from "./pages/StoreDetailPage"
 
 class App extends React.Component {
     public render() {
@@ -20,6 +21,11 @@ class App extends React.Component {
                         path={`${PAGE_PATHS.STORE_EDITOR}`}
                         redirectTo={PAGE_PATHS.HOME}
                         component={StoreEditor}
+                    />
+                    <PrivateRoute
+                        path={`${PAGE_PATHS.STORE_DETAIL}/:id`}
+                        redirectTo={PAGE_PATHS.HOME}
+                        component={StoreDetailPage}
                     />
                     <Route path={PAGE_PATHS.HOME} component={HomePage} />
                     <Redirect from={"/"} to={PAGE_PATHS.HOME} />

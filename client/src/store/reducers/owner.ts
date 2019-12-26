@@ -12,27 +12,16 @@ import {
     LOG_OUT,
     LOAD_MY_STORES_REQUEST,
     LOAD_MY_STORES_FAILURE,
-    LOAD_MY_STORES_SUCCESS
+    LOAD_MY_STORES_SUCCESS,
+    CHANGE_IS_REGISTERED
 } from "../actions/owner"
+import { IStore } from "./store"
 
 export interface OwnerMetaInfo {
     num: number
     id: string
     email: string
     name: string
-}
-
-export interface StoreInfo {
-    id: number
-    name: string
-    description: string
-    address: string
-    detailAddress: string
-    category: string
-    webUrl?: string
-    logoImg: string
-    lat: number
-    lng: number
 }
 
 export interface OwnerState {
@@ -46,7 +35,7 @@ export interface OwnerState {
     me: OwnerMetaInfo | null // owner 정보
     token: string | null // 로그인 인증 토큰
     isLoadingMyStores: boolean
-    myStores: StoreInfo[]
+    myStores: IStore[]
     loadMystoresErrorMessage: string
 }
 
@@ -112,6 +101,9 @@ function owner(state: OwnerState = initialState, action: any) {
             case REGISTER_FAILURE:
                 draft.isRegistering = false
                 draft.registerErrorMessage = action.payload
+                break
+            case CHANGE_IS_REGISTERED:
+                draft.isRegistered = action.payload
                 break
             case LOG_OUT:
                 draft.isLoggedIn = false

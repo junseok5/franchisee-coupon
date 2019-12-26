@@ -48,7 +48,7 @@ const LoginModal: React.SFC<LoginModalProps> = () => {
     }, [id, password])
 
     const submitLoginForm = useCallback(
-        async payload => {
+        payload => {
             const validation = checkLoginValidation()
 
             if (!validation.ok) {
@@ -113,12 +113,12 @@ const LoginModal: React.SFC<LoginModalProps> = () => {
                 onChange={changePassword}
                 onKeyPress={onPressEnter}
             />
+            <ErrorText>{loginErrorMessage}</ErrorText>
             <Button
                 title={"로그인"}
                 loading={isLoggingIn}
                 onClick={onClickLogInButton}
             />
-            <ErrorText>{loginErrorMessage}</ErrorText>
         </Modal>
     )
 }

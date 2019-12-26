@@ -4,6 +4,7 @@ import useMyStores from "src/hooks/useMyStores"
 import useOwnerInfo from "src/hooks/useOwnerInfo"
 import MyStoreAddButton from "src/containers/MyStoreAddButton"
 import MyStore from "../components/MyStore"
+import Loading from "src/components/Loading"
 
 interface MyStoresProps {}
 
@@ -18,20 +19,18 @@ const MyStores: React.SFC<MyStoresProps> = () => {
         loadMyStores({ id: num, token })
     }, [])
 
-    console.log(isLoadingMyStores)
-    console.log(myStores)
-
     return (
         <>
-            <MyStoreAddButton />
-            {myStores.map(myStore => (
-                <MyStore
-                    logoImg={myStore.logoImg}
-                    name={myStore.name}
-                    category={myStore.category}
-                    description={myStore.description}
-                />
-            ))}
+            {isLoadingMyStores ? (
+                <Loading />
+            ) : (
+                <>
+                    <MyStoreAddButton />
+                    {myStores.map(myStore => (
+                        <MyStore key={myStore.id} store={myStore} />
+                    ))}
+                </>
+            )}
         </>
     )
 }

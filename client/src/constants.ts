@@ -1,7 +1,8 @@
 export enum PAGE_PATHS {
     HOME = "/",
     OWNER = "/owners",
-    STORE_EDITOR = "/store-editor"
+    STORE_EDITOR = "/store-editor",
+    STORE_DETAIL = "/stores"
 }
 
 export enum COLORS {
@@ -19,5 +20,5 @@ export const regex = {
     name: /^[a-zA-Z0-9ㄱ-힣]{2,10}$/,
     email: /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i,
     password: /^[A-Za-z0-9!@#$%^&+=]{6,30}$/,
-    storeName: /^[a-zA-Z0-9ㄱ-힣]{1,30}$/
+    storeName: /^[a-zA-Z0-9ㄱ-힣\s]{1,30}$/
 }

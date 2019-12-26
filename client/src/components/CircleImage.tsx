@@ -1,5 +1,6 @@
 import * as React from "react"
 import styled from "styled-components"
+import { COLORS } from "src/constants"
 
 interface CircleImageProps {
     src: string
@@ -31,6 +32,7 @@ interface StyledProps {
 const Container = styled.div<StyledProps>`
     width: ${props => props.width}px;
     height: ${props => props.height}px;
+    border: 1px solid ${COLORS.grayNormal};
     border-radius: 50%;
     overflow: hidden;
 
