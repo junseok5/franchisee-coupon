@@ -1,12 +1,12 @@
 import * as React from "react"
-import Header from "src/containers/Header"
-import CheckLogged from "src/containers/CheckLogged"
+import Header from "src/containers/boxes/Header"
+import CheckLogged from "src/containers/etc/CheckLogged"
 // import ListLayout from "src/components/ListLayout"
-import Profile from "src/containers/Profile"
-import MyStores from "src/containers/MyStores"
-import Title from "src/components/Title"
-import StoreListLayout from "src/components/StoreListLayout"
-import FlexListLayout from "src/components/FlexListLayout"
+import Profile from "src/containers/boxes/Profile"
+import MyStores from "src/containers/MyStore/MyStores"
+import Title from "src/components/elements/Title"
+import StoreListLayout from "src/components/layout/StoreListLayout"
+import FlexListLayout from "src/components/layout/FlexListLayout"
 
 const OwnerPage: React.SFC = () => {
     return (

@@ -8,11 +8,13 @@ const router = Router()
 const upload = multer({ dest: "../uploads/stores/" })
 
 // authentication 필요
+router.get("/maps-geocoding", authOwner, storesCtrl.readMapGeocoding)
 router.get("/:id", storesCtrl.read)
 router.post("/", authOwner, upload.single("logoImg"), storesCtrl.write)
 router.patch("/:id", authOwner, upload.single("logoImg"), storesCtrl.update)
 router.delete("/:id", authOwner, storesCtrl.remove)
 
+router.get("/:storeId/ads", authOwner, storesCtrl.listStoreAds)
 router.post(
     "/:storeId/verification-stores",
     authOwner,

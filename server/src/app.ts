@@ -47,8 +47,11 @@ class App {
         this.app.use(express.static(path.join(__dirname, "uploads")))
         this.app.get("/uploads/stores/:fileName", (req, res) => {
             const fileName = req.params.fileName
-            console.log(fileName)
             res.sendFile(path.join(__dirname, `../uploads/stores/${fileName}`))
+        })
+        this.app.get("/uploads/ads/:fileName", (req, res) => {
+            const fileName = req.params.fileName
+            res.sendFile(path.join(__dirname, `../uploads/ads/${fileName}`))
         })
         this.app.use(session(this.sessionConfig))
         this.app.use(jwtAuth)

@@ -38,3 +38,47 @@ export const addBizRegImg = ({
     api.post(`/stores/${storeId}/verification-stores`, formData, {
         headers: { "Content-Type": "multipart/form-data", "X-JWT": token }
     })
+
+interface LoadStoreAdvertisementsParams {
+    storeId: number
+    token: string
+}
+
+export const loadStoreAdvertisements = ({
+    storeId,
+    token
+}: LoadStoreAdvertisementsParams) =>
+    api.get(`/stores/${storeId}/ads`, {
+        headers: { "X-JWT": token }
+    })
+
+interface UpdateStoreParams {
+    formData: FormData
+    id: number
+    token: string
+}
+
+export const updateStore = ({ formData, id, token }: UpdateStoreParams) =>
+    api.patch(`/stores/${id}`, formData, {
+        headers: { "X-JWT": token }
+    })
+
+interface RemoveStoreParams {
+    id: number
+    token: string
+}
+
+export const removeStore = ({ id, token }: RemoveStoreParams) =>
+    api.delete(`/stores/${id}`, {
+        headers: { "X-JWT": token }
+    })
+
+interface LoadMapsGeocoding {
+    query: string
+    token: string
+}
+
+export const loadMapsGeocoding = ({ query, token }: LoadMapsGeocoding) =>
+    api.get(`/stores/maps-geocoding/?query=${query}`, {
+        headers: { "X-JWT": token }
+    })

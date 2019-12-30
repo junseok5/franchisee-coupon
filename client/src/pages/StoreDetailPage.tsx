@@ -1,8 +1,9 @@
 import * as React from "react"
-import Header from "src/containers/Header"
-import CheckLogged from "src/containers/CheckLogged"
-import StoreDetail from "src/containers/StoreDetail"
-import BizRegModal from "src/containers/BizRegModal"
+import Header from "src/containers/boxes/Header"
+import CheckLogged from "src/containers/etc/CheckLogged"
+import StoreDetail from "src/containers/store/StoreDetail"
+import BizRegModal from "src/containers/modal/BizRegModal"
+import MyStoreAdvertisements from "src/containers/MyStoreAdvertisement/MyStoreAdvertisements"
 
 interface StoreDetailPageProps {}
 
@@ -12,6 +13,7 @@ const StoreDetailPage: React.SFC<StoreDetailPageProps> = () => {
             <Header />
             <CheckLogged>
                 <StoreDetail />
+                <MyStoreAdvertisements />
                 <BizRegModal />
             </CheckLogged>
         </>

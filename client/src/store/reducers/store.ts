@@ -10,7 +10,24 @@ import {
     ADD_BIZ_REG_IMG_REQUEST,
     ADD_BIZ_REG_IMG_SUCCESS,
     ADD_BIZ_REG_IMG_FAILURE,
-    CHANGE_ADDED_BIZ_REG_IMG
+    CHANGE_ADDED_BIZ_REG_IMG,
+    LOAD_STORE_ADVERTISEMENTS_REQUEST,
+    LOAD_STORE_ADVERTISEMENTS_SUCCESS,
+    LOAD_STORE_ADVERTISEMENTS_FAILURE,
+    UPDATE_STORE_REQUEST,
+    UPDATE_STORE_SUCCESS,
+    UPDATE_STORE_FAILURE,
+    CHANGE_STORE_UPDATED,
+    REMOVE_STORE_REQUEST,
+    REMOVE_STORE_SUCCESS,
+    REMOVE_STORE_FAILURE,
+    CHANGE_STORE_REMOVED,
+    CHANGE_ADDRESS,
+    LOAD_MAPS_GEOCODING_REQUEST,
+    LOAD_MAPS_GEOCODING_FAILURE,
+    LOAD_MAPS_GEOCODING_SUCCESS,
+    CHANGE_LAT,
+    CHANGE_LNG
 } from "../actions/store"
 
 export interface IVerificationStore {
@@ -33,6 +50,25 @@ export interface IStore {
     verificationStore?: IVerificationStore
 }
 
+export interface IAdvertisement {
+    id: number
+    title: string
+    photo: string
+    description: string
+    startAt: string
+    endAt: string
+    isStopped: boolean
+    adType: string
+    category: number
+    couponNum?: string
+    views: number
+    clickNum: number
+    downloadNum: number
+    usedCount: number
+    lat: number
+    lng: number
+}
+
 export interface StoreState {
     isAddingStore: boolean
     addStoreErrorMessage: string
@@ -43,6 +79,21 @@ export interface StoreState {
     isAddingBizRegImg: boolean
     addedBizRegImg: boolean
     addBizRegImgErrorMessage: string
+    isLoadingStoreAdvertisements: boolean
+    storeAdvertisements: IAdvertisement[]
+    loadStoreAdvertisementsErrorMessage: string
+    isUpdatingStore: boolean
+    updateStoreErrorMessage: string
+    storeUpdated: boolean
+    isRemovingStore: boolean
+    storeRemoved: boolean
+    removeStoreErrorMessage: string
+    address: string
+    lat: number
+    lng: number
+    isLoadingMapsGeocoding: boolean
+    mapsGeocoding: any[]
+    loadMapsGeocodingErrorMessage: string
 }
 
 const initialState: StoreState = {
@@ -54,7 +105,22 @@ const initialState: StoreState = {
     loadStoreErrorMessage: "",
     isAddingBizRegImg: false,
     addedBizRegImg: false,
-    addBizRegImgErrorMessage: ""
+    addBizRegImgErrorMessage: "",
+    isLoadingStoreAdvertisements: false,
+    storeAdvertisements: [],
+    loadStoreAdvertisementsErrorMessage: "",
+    isUpdatingStore: false,
+    updateStoreErrorMessage: "",
+    storeUpdated: false,
+    isRemovingStore: false,
+    storeRemoved: false,
+    removeStoreErrorMessage: "",
+    address: "",
+    lat: 0,
+    lng: 0,
+    isLoadingMapsGeocoding: false,
+    mapsGeocoding: [],
+    loadMapsGeocodingErrorMessage: ""
 }
 
 function store(state: StoreState = initialState, action: any) {
@@ -101,6 +167,69 @@ function store(state: StoreState = initialState, action: any) {
                 break
             case CHANGE_ADDED_BIZ_REG_IMG:
                 draft.addedBizRegImg = action.payload
+                break
+            case LOAD_STORE_ADVERTISEMENTS_REQUEST:
+                draft.isLoadingStoreAdvertisements = true
+                draft.loadStoreAdvertisementsErrorMessage = ""
+                break
+            case LOAD_STORE_ADVERTISEMENTS_SUCCESS:
+                draft.isLoadingStoreAdvertisements = false
+                draft.storeAdvertisements = action.payload
+                break
+            case LOAD_STORE_ADVERTISEMENTS_FAILURE:
+                draft.isLoadingStoreAdvertisements = false
+                draft.loadStoreAdvertisementsErrorMessage = action.payload
+                break
+            case UPDATE_STORE_REQUEST:
+                draft.isUpdatingStore = true
+                draft.updateStoreErrorMessage = ""
+                break
+            case UPDATE_STORE_SUCCESS:
+                draft.isUpdatingStore = false
+                draft.storeUpdated = true
+                break
+            case UPDATE_STORE_FAILURE:
+                draft.isUpdatingStore = false
+                draft.updateStoreErrorMessage = action.payload
+                break
+            case CHANGE_STORE_UPDATED:
+                draft.storeUpdated = action.payload
+                break
+            case REMOVE_STORE_REQUEST:
+                draft.isRemovingStore = true
+                draft.removeStoreErrorMessage = ""
+                break
+            case REMOVE_STORE_SUCCESS:
+                draft.isRemovingStore = false
+                draft.storeRemoved = true
+                break
+            case REMOVE_STORE_FAILURE:
+                draft.isRemovingStore = false
+                draft.removeStoreErrorMessage = action.payload
+                break
+            case CHANGE_STORE_REMOVED:
+                draft.storeRemoved = action.payload
+                break
+            case CHANGE_ADDRESS:
+                draft.address = action.payload
+                break
+            case CHANGE_LAT:
+                draft.lat = action.payload
+                break
+            case CHANGE_LNG:
+                draft.lng = action.payload
+                break
+            case LOAD_MAPS_GEOCODING_REQUEST:
+                draft.isLoadingMapsGeocoding = true
+                draft.loadMapsGeocodingErrorMessage = ""
+                break
+            case LOAD_MAPS_GEOCODING_SUCCESS:
+                draft.isLoadingMapsGeocoding = false
+                draft.mapsGeocoding = action.payload
+                break
+            case LOAD_MAPS_GEOCODING_FAILURE:
+                draft.isLoadingMapsGeocoding = false
+                draft.loadMapsGeocodingErrorMessage = action.payload
                 break
             default:
                 break

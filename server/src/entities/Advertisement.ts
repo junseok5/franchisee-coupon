@@ -21,7 +21,7 @@ class Advertisement extends BaseEntity {
     title: string
 
     @Column({ type: "text", nullable: true })
-    photo?: string
+    photo: string
 
     @Column({ type: "text", nullable: true })
     description?: string
@@ -36,7 +36,7 @@ class Advertisement extends BaseEntity {
         type: "boolean",
         default: false
     })
-    isStopped: string
+    isStopped: boolean
 
     @Column({ type: "text", enum: [SPECIAL, COUPON] })
     adType: string

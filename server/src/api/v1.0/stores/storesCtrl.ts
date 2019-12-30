@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express"
 import Joi from "joi"
+import request from "request"
 import Store from "../../../entities/Store"
 import VerificationStore from "../../../entities/VerificationStore"
 
@@ -21,6 +22,32 @@ export const read = async (req: Request, res: Response, next: NextFunction) => {
     } catch (e) {
         return next(e)
     }
+}
+
+export const readMapGeocoding = async (
+    req,
+    res: Response,
+    next: NextFunction
+) => {
+    const query = req.query.query
+    const options = {
+        uri: "https://naveropenapi.apigw.ntruss.com/map-geocode/v2/geocode",
+        qs: {
+            query
+        },
+        headers: {
+            "X-NCP-APIGW-API-KEY-ID": process.env["X-NCP-APIGW-API-KEY-ID"],
+            "X-NCP-APIGW-API-KEY": process.env["X-NCP-APIGW-API-KEY"]
+        }
+    }
+
+    request(options, (err, response, body) => {
+        if (err) {
+            return next(err)
+        }
+
+        return res.json(JSON.parse(body))
+    })
 }
 
 export const write = async (req, res: Response, next: NextFunction) => {
@@ -142,6 +169,33 @@ export const remove = async (req, res: Response, next: NextFunction) => {
 
         return res.send("삭제에 성공하였습니다.")
     } catch (e) {
+        return next(e)
+    }
+}
+
+export const listStoreAds = async (req, res: Response, next: NextFunction) => {
+    const storeId = Number(req.params.storeId)
+    const owner = req.owner
+
+    try {
+        const store = await Store.findOne(
+            { id: storeId },
+            {
+                relations: ["owner", "advertisement"]
+            }
+        )
+
+        if (!store) {
+            return res.status(404).send("가맹점이 존재하지 않습니다.")
+        }
+
+        if (store.owner.id !== owner.id) {
+            return res.status(401).send("가맹점 점주가 아닙니다.")
+        }
+
+        return res.json(store.advertisement)
+    } catch (e) {
+        console.error(e)
         return next(e)
     }
 }

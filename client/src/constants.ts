@@ -2,7 +2,8 @@ export enum PAGE_PATHS {
     HOME = "/",
     OWNER = "/owners",
     STORE_EDITOR = "/store-editor",
-    STORE_DETAIL = "/stores"
+    STORE_DETAIL = "/stores",
+    ADVERTISEMENT_EDITOR = "/advertisement-editor"
 }
 
 export enum COLORS {
@@ -12,7 +13,9 @@ export enum COLORS {
     grayLightHover = "#dfe4ea",
     grayNormal = "#bdc3c7",
     grayBold = "#7f8c8d",
-    blueNormal = "#3498db"
+    blueNormal = "#3498db",
+    greenNormal = "#1dd1a1",
+    redNormal = "#ee5253"
 }
 
 export const regex = {

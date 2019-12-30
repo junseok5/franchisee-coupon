@@ -22,37 +22,55 @@ export const read = async (req: Request, res: Response, next: NextFunction) => {
 }
 
 export const list = async (req: Request, res: Response, next: NextFunction) => {
-    // 위도,경도를 토대로 근처 광고 리스트 조회
-    // 카테고리로 광고 리스트 조회
-    // 근처를 카테고리로 조회
     const category = req.query.category ? Number(req.query.category) : undefined
-    const lat = Number(req.query.lat)
-    const lng = Number(req.query.lng)
+    let lat = Number(req.query.lat)
+    let lng = Number(req.query.lng)
     const radius = Number(req.query.radius)
+    const storeId = req.query.storeId
+    let latRadius
+    let lngRadius
 
-    let query
-    query =
-        category !== undefined
-            ? {
-                  category
-              }
-            : {}
-    query = lat
-        ? {
-              ...query,
-              lat: Between(lat - radius, lat + radius),
-              lng: Between(lng - radius, lng + radius)
-          }
-        : { ...query }
-
-    const now = new Date()
-    query = {
-        ...query,
-        startAt: LessThan(now),
-        endAt: MoreThan(now)
+    if (radius) {
+        latRadius = radius * 0.0000075
+        lngRadius = radius * 0.000009
     }
 
     try {
+        if (storeId) {
+            const store = await Store.findOne({ id: storeId })
+
+            if (store) {
+                lat = store.lat
+                lng = store.lng
+            }
+        }
+
+        let query
+        query =
+            category !== undefined
+                ? {
+                      category
+                  }
+                : {}
+        query = radius
+            ? {
+                  ...query,
+                  lat: Between(lat - latRadius, lat + latRadius),
+                  lng: Between(lng - lngRadius, lng + lngRadius)
+              }
+            : { ...query }
+
+        let now = new Date().toISOString().split("T")[0]
+        now = `${now}T00:00:00`
+
+        query = {
+            ...query,
+            startAt: LessThan(now),
+            endAt: MoreThan(now),
+            isStopped: false
+        }
+
+        console.log(query)
         const advertisements = await getRepository(Advertisement).find(query)
 
         return res.json(advertisements)
@@ -154,7 +172,8 @@ export const update = async (req, res: Response, next: NextFunction) => {
             description: Joi.string(),
             startAt: Joi.date(),
             endAt: Joi.date(),
-            adType: Joi.string()
+            adType: Joi.string(),
+            isStopped: Joi.boolean()
         })
 
         const validation = Joi.validate(req.body, schema)
