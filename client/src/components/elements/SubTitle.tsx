@@ -1,29 +1,21 @@
 import * as React from "react"
 import styled from "styled-components"
+import { COLORS } from "src/constants"
 
 interface SubTitleProps {
     noHorizontalMargin?: boolean
 }
 
-const SubTitle: React.SFC<SubTitleProps> = ({
-    children,
-    noHorizontalMargin = false
-}) => {
-    return (
-        <Container noHorizontalMargin={noHorizontalMargin}>
-            {children}
-        </Container>
-    )
+const SubTitle: React.SFC<SubTitleProps> = ({ children }) => {
+    return <Container>{children}</Container>
 }
 
 export default SubTitle
 
-interface StyledProps {
-    noHorizontalMargin: boolean
-}
-
-const Container = styled.div<StyledProps>`
+const Container = styled.div`
+    color: ${COLORS.grayTitle};
     font-weight: bold;
     font-size: 1em;
-    margin: 0.5em ${props => (props.noHorizontalMargin ? 0 : 14)}px;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
 `

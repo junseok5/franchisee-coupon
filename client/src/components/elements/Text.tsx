@@ -1,5 +1,6 @@
 import * as React from "react"
 import styled from "styled-components"
+import { COLORS } from "src/constants"
 
 interface TextProps {
     color?: string
@@ -9,7 +10,7 @@ interface TextProps {
 
 const Text: React.SFC<TextProps> = ({
     children,
-    color = "#000",
+    color = COLORS.grayTitle,
     size = 15,
     noMargin = true
 }) => {

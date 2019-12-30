@@ -73,7 +73,7 @@ const Container = styled.div<ContainerProps>`
         margin: 0.5em;
         background: white;
         border-radius: 4px;
-        overflow-y: scroll;
+        overflow-y: auto;
 
         .main {
             padding: 14px;

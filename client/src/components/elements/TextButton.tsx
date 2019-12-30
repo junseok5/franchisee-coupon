@@ -12,8 +12,8 @@ interface TextButtonProps {
 const TextButton: React.SFC<TextButtonProps> = ({
     children,
     noMargin = false,
-    color = COLORS.grayNormal,
-    size = 13,
+    color = COLORS.grayBold,
+    size = 15,
     onClick
 }) => {
     return (
@@ -36,8 +36,8 @@ interface StyledProps {
 }
 
 const Container = styled.div<StyledProps>`
-    margin-left: ${props => (props.noMargin ? 0 : "1em")};
-    margin-right: ${props => (props.noMargin ? 0 : "1em")};
+    margin-left: ${props => (props.noMargin ? 0 : "0.7em")};
+    margin-right: ${props => (props.noMargin ? 0 : "0.7em")};
     color: ${props => props.color};
     font-size: ${props => props.size}px;
     cursor: pointer;

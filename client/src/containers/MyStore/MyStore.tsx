@@ -1,17 +1,16 @@
 import * as React from "react"
 import { useCallback } from "react"
 import styled from "styled-components"
-import Title from "../../components/elements/Title"
 import { COLORS, PAGE_PATHS } from "src/constants"
 import CircleImage from "../../components/elements/CircleImage"
 import RowLayout from "../../components/layout/RowLayout"
 import { IStore } from "src/store/reducers/store"
 import { useHistory } from "react-router-dom"
 import getCategoryName from "src/utils/getCategoryName"
-import TextButton from "src/components/elements/TextButton"
-import useRemoveStore from "src/hooks/store/useRemoveStore"
-import useOwnerInfo from "src/hooks/owners/useOwnerInfo"
-import useMyStores from "src/hooks/owners/useMyStores"
+import Button from "src/components/elements/Button"
+import SubTitle from "src/components/elements/SubTitle"
+import ColumnWrap from "src/components/wrap/ColumnWrap"
+import RowWrap from "src/components/wrap/RowWrap"
 
 interface MyStoreProps {
     store: IStore
@@ -19,30 +18,30 @@ interface MyStoreProps {
 
 const MyStore: React.SFC<MyStoreProps> = ({ store }) => {
     const history = useHistory()
-    const {
-        token,
-        me: { num }
-    } = useOwnerInfo()
-    const { loadMyStores } = useMyStores()
-    const { storeRemoved, removeStore } = useRemoveStore()
+    // const {
+    //     token,
+    //     me: { num }
+    // } = useOwnerInfo()
+    // const { loadMyStores } = useMyStores()
+    // const { storeRemoved, removeStore } = useRemoveStore()
 
-    React.useEffect(() => {
-        if (storeRemoved) {
-            loadMyStores({ token, id: num })
-        }
-    }, [storeRemoved])
+    // React.useEffect(() => {
+    //     if (storeRemoved) {
+    //         loadMyStores({ token, id: num })
+    //     }
+    // }, [storeRemoved])
 
     const goToStoreDetail = useCallback(() => {
         history.push(`${PAGE_PATHS.STORE_DETAIL}/${store.id}`)
     }, [])
 
-    const onClickStoreRemoveButton = useCallback(() => {
-        const confirmRemove = confirm("정말로 가맹점을 삭제하시겠습니까?")
+    // const onClickStoreRemoveButton = useCallback(() => {
+    //     const confirmRemove = confirm("정말로 가맹점을 삭제하시겠습니까?")
 
-        if (confirmRemove) {
-            removeStore({ token, id: store.id })
-        }
-    }, [])
+    //     if (confirmRemove) {
+    //         removeStore({ token, id: store.id })
+    //     }
+    // }, [])
 
     return (
         <Container>
@@ -50,34 +49,30 @@ const MyStore: React.SFC<MyStoreProps> = ({ store }) => {
                 <CircleImage
                     src={`http://localhost:5000/uploads/stores${store.logoImg}`}
                 />
-                <Title>{store.name}</Title>
+                <RowWrap>
+                    <SubTitle>{store.name}</SubTitle>
+                </RowWrap>
             </RowLayout>
-            <div className={"text"}>
-                업종: <span>{getCategoryName(store.category)}</span>
-            </div>
-            <div className={"text"}>
-                설명: <span>{store.description}</span>
-            </div>
-            <div className={"text"}>
-                주소: <span>{store.address}</span>
-            </div>
+            <ColumnWrap>
+                <div className={"row"}>
+                    <div className={"field"}>업종</div>
+                    {getCategoryName(store.category)}
+                </div>
+            </ColumnWrap>
+            <ColumnWrap>
+                <div className={"row"}>
+                    <div className={"field"}>설명</div>
+                    {store.description}
+                </div>
+            </ColumnWrap>
+            <ColumnWrap>
+                <div className={"row"}>
+                    <div className={"field"}>주소</div>
+                    {store.address}
+                </div>
+            </ColumnWrap>
             <div className={"button-wrap"}>
-                <TextButton
-                    noMargin={true}
-                    color={COLORS.main}
-                    onClick={goToStoreDetail}
-                >
-                    상세보기
-                </TextButton>
-            </div>
-            <div className={"button-wrap"}>
-                <TextButton
-                    noMargin={true}
-                    color={COLORS.redNormal}
-                    onClick={onClickStoreRemoveButton}
-                >
-                    가맹점 삭제
-                </TextButton>
+                <Button title={"상세보기"} onClick={goToStoreDetail} />
             </div>
         </Container>
     )
@@ -88,24 +83,26 @@ export default MyStore
 const Container = styled.div`
     width: 238px;
     height: auto;
-    padding: 0.5em;
-    margin: 14px;
-    border: 1px solid ${COLORS.grayNormal};
+    padding: 1em;
+    margin: 14px 14px 14px 0;
+    border: 1px solid ${COLORS.grayLight};
+    border-bottom: 2px solid ${COLORS.grayLight};
+    color: ${COLORS.grayTitle};
     transition: all 0.2s;
 
     @media screen and (max-width: 768px) {
         width: 100%;
         height: auto;
+        margin: 0;
     }
 
-    .text {
-        margin-top: 0.2em;
-        margin-bottom: 0.2em;
+    .row {
+        display: flex;
+    }
 
-        span {
-            color: ${COLORS.grayBold};
-            font-size: 0.9em;
-        }
+    .field {
+        width: 40px;
+        font-weight: bold;
     }
 
     .button-wrap {

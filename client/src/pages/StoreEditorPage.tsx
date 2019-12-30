@@ -14,9 +14,7 @@ const StoreEditorPage: React.SFC = () => {
             <Header />
             <CheckLogged>
                 <EditorLayout>
-                    <Title noHorizontalMargin={true}>
-                        가맹점 {id ? "수정하기" : "등록하기"}
-                    </Title>
+                    <Title>가맹점 {id ? "수정하기" : "등록하기"}</Title>
                     <StoreForm />
                 </EditorLayout>
                 <MapsGeocodingModal />

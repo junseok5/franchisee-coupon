@@ -1,9 +1,9 @@
 import * as React from "react"
 import styled from "styled-components"
 
-interface StoreListLayoutProps {}
+interface InfoLayoutProps {}
 
-const StoreListLayout: React.SFC<StoreListLayoutProps> = ({ children }) => {
+const InfoLayout: React.SFC<InfoLayoutProps> = ({ children }) => {
     return (
         <Container>
             <div className={"container-wrap"}>{children}</div>
@@ -11,7 +11,7 @@ const StoreListLayout: React.SFC<StoreListLayoutProps> = ({ children }) => {
     )
 }
 
-export default StoreListLayout
+export default InfoLayout
 
 const Container = styled.div`
     display: flex;
@@ -19,5 +19,10 @@ const Container = styled.div`
 
     .container-wrap {
         width: 800px;
+        margin-top: 1em;
+
+        @media screen and (max-width: 768px) {
+            width: 100%;
+        }
     }
 `

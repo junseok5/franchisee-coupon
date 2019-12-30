@@ -5,49 +5,78 @@ import { COLORS } from "src/constants"
 interface HeaderLayoutProps {}
 
 const HeaderLayout: React.SFC<HeaderLayoutProps> = ({ children }) => {
-    return <Container>{children}</Container>
+    return (
+        <Container>
+            <div className={"header-wrap"}>{children}</div>
+        </Container>
+    )
 }
 
 export default HeaderLayout
 
 const Container = styled.div`
-    height: 5em;
-    border-bottom: 1px solid gray;
+    height: 4em;
     display: flex;
     align-items: center;
+    border-bottom: 1px solid ${COLORS.grayNormal};
+    background-color: #fff;
 
-    .left {
+    .header-wrap {
+        width: 1080px;
+        margin: 0 auto;
         display: flex;
-        flex: 1;
-        justify-content: flex-start;
-        margin-left: 5em;
+        align-items: center;
 
-        @media screen and (max-width: 768px) {
-            margin-left: 0.5em;
-        }
-    }
-
-    .right {
-        display: flex;
-        flex: 1;
-        justify-content: flex-end;
-        margin-right: 5em;
-        font-size: 0.9em;
-
-        @media screen and (max-width: 768px) {
-            margin-right: 0.5em;
-        }
-
-        span {
-            color: ${COLORS.main};
+        .left {
+            display: flex;
+            flex: 1;
+            justify-content: flex-start;
             font-weight: bold;
-            cursor: pointer;
+            font-size: 1.4em;
+
+            a {
+                span {
+                    user-select: none;
+                    cursor: pointer;
+                }
+            }
+
+            @media screen and (max-width: 768px) {
+                margin-left: 1em;
+            }
         }
 
-        .text {
-            margin-left: 0.5em;
-            margin-right: 0.5em;
-            cursor: pointer;
+        .right {
+            display: flex;
+            flex: 1;
+            justify-content: flex-end;
+
+            @media screen and (max-width: 768px) {
+                margin-right: 0.5em;
+                flex: 2;
+            }
+
+            span {
+                font-weight: bold;
+                color: ${COLORS.main};
+                cursor: pointer;
+            }
+
+            .pc-auth {
+                display: flex;
+
+                @media screen and (max-width: 768px) {
+                    display: none;
+                }
+            }
+
+            .mobile-auth {
+                display: none;
+
+                @media screen and (max-width: 768px) {
+                    display: flex;
+                }
+            }
         }
     }
 `

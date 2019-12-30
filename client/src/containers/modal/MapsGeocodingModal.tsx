@@ -32,6 +32,10 @@ const MapsGeocodingModal: React.SFC = () => {
     const onClickSearchButton = React.useCallback(
         event => {
             event.preventDefault()
+            
+            if (!keyword) {
+                return
+            }
 
             loadMapsGeocoding({ token, query: keyword })
         },

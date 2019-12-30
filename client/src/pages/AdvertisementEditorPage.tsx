@@ -11,7 +11,7 @@ const AdvertisementEditorPage: React.SFC = () => {
             <Header />
             <CheckLogged>
                 <EditorLayout>
-                    <Title noHorizontalMargin={true}>광고 등록하기</Title>
+                    <Title>광고 등록하기</Title>
                     <AdvertisementForm />
                 </EditorLayout>
             </CheckLogged>

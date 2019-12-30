@@ -7,23 +7,46 @@ import RowLayout from "src/components/layout/RowLayout"
 import Text from "src/components/elements/Text"
 import { COLORS } from "src/constants"
 import BoxContainer from "src/components/boxes/BoxContainer"
+import useLogOut from "src/hooks/owners/useLogOut"
+import TextButton from "src/components/elements/TextButton"
+import RowBetweenLayout from "src/components/layout/RowBetweenLayout"
+import SmallButton from "src/components/elements/SmallButton"
+import RowWrap from "src/components/wrap/RowWrap"
 
-interface ProfileProps {}
-
-const Profile: React.SFC<ProfileProps> = () => {
+const Profile: React.SFC = () => {
     const { me } = useOwnerInfo()
+    const { logOut } = useLogOut()
 
     return (
         <BoxContainer>
             <ColumnLayout>
-                <Title>점주 정보</Title>
+                <RowBetweenLayout>
+                    <Title>점주 정보</Title>
+                    <RowLayout>
+                        <SmallButton
+                            title={"수정하기"}
+                            bgColor={COLORS.grayButton}
+                        />
+                        <TextButton onClick={logOut}>로그아웃</TextButton>
+                    </RowLayout>
+                </RowBetweenLayout>
+                <RowLayout>
+                    <SubTitle>아이디</SubTitle>
+                    <RowWrap>
+                        <Text>{me.id}</Text>
+                    </RowWrap>
+                </RowLayout>
                 <RowLayout>
                     <SubTitle>이름</SubTitle>
-                    <Text color={COLORS.blueNormal}>{me.name}</Text>
+                    <RowWrap>
+                        <Text>{me.name}</Text>
+                    </RowWrap>
                 </RowLayout>
                 <RowLayout>
                     <SubTitle>이메일</SubTitle>
-                    <Text color={COLORS.blueNormal}>{me.email}</Text>
+                    <RowWrap>
+                        <Text>{me.email}</Text>
+                    </RowWrap>
                 </RowLayout>
             </ColumnLayout>
         </BoxContainer>

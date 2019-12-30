@@ -1,29 +1,19 @@
 import * as React from "react"
 import styled from "styled-components"
+import { COLORS } from "src/constants"
 
-interface TitleProps {
-    noHorizontalMargin?: boolean
-}
+interface TitleProps {}
 
-const Title: React.SFC<TitleProps> = ({
-    children,
-    noHorizontalMargin = false
-}) => {
-    return (
-        <Container noHorizontalMargin={noHorizontalMargin}>
-            {children}
-        </Container>
-    )
+const Title: React.SFC<TitleProps> = ({ children }) => {
+    return <Container>{children}</Container>
 }
 
 export default Title
 
-interface StyledProps {
-    noHorizontalMargin: boolean
-}
-
-const Container = styled.div<StyledProps>`
+const Container = styled.div`
+    color: ${COLORS.grayTitle};
     font-weight: bold;
-    font-size: 1.2em;
-    margin: 0.5em ${props => (props.noHorizontalMargin ? 0 : 14)}px;
+    font-size: 1.4em;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
 `

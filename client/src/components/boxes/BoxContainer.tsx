@@ -20,10 +20,12 @@ interface StyledProps {
 }
 
 const Container = styled.div<StyledProps>`
+    width: 100%;
     height: ${props => props.height}px;
-    padding: 1em;
-    margin-top: 1em;
-    margin-bottom: 1em;
+    padding: 1.5em;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
     border: 1px solid ${COLORS.grayNormal};
     border-radius: 4px;
+    background-color: #fff;
 `

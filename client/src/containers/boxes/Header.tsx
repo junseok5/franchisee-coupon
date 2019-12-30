@@ -7,7 +7,7 @@ import { Link } from "react-router-dom"
 import { PAGE_PATHS, COLORS } from "src/constants"
 import RowLayout from "src/components/layout/RowLayout"
 import TextButton from "src/components/elements/TextButton"
-import useLogOut from "src/hooks/owners/useLogOut"
+import SmallButton from "src/components/elements/SmallButton"
 
 interface HeaderProps {}
 
@@ -15,38 +15,39 @@ const Header: React.SFC<HeaderProps> = () => {
     const { onShowRegisterModal } = useRegisterModal()
     const { onShowLoginModal } = useLoginModal()
     const { me } = useOwnerInfo()
-    const { logOut } = useLogOut()
 
     return (
         <HeaderLayout>
-            <div
-                className="left"
-                style={{
-                    color: COLORS.main,
-                    fontWeight: "bold",
-                    cursor: "pointer"
-                }}
-            >
-                <Link to={PAGE_PATHS.HOME}>In500m</Link>
+            <div className="left">
+                <Link to={PAGE_PATHS.HOME}>
+                    <span>In500m</span>
+                </Link>
             </div>
             <div className="right">
                 {me ? (
                     <RowLayout>
                         <div className={"name"}>
                             <Link to={`${PAGE_PATHS.OWNER}/${me.num}`}>
-                                <span>{me.name}</span>
+                                <span>내 가맹점 관리</span>
                             </Link>
-                            님 환영합니다.
                         </div>
-                        <TextButton onClick={logOut}>로그아웃</TextButton>
                     </RowLayout>
                 ) : (
                     <>
-                        <div className="text" onClick={onShowLoginModal}>
-                            로그인
+                        <div className={"pc-auth"}>
+                            <SmallButton
+                                title={"로그인"}
+                                bgColor={COLORS.grayButton}
+                                onClick={onShowLoginModal}
+                            />
+                            <SmallButton
+                                title={"회원가입"}
+                                onClick={onShowRegisterModal}
+                            />
                         </div>
-                        <div className="text" onClick={onShowRegisterModal}>
-                            회원가입
+                        <div className={"mobile-auth"}>
+                            <TextButton>로그인</TextButton>
+                            <TextButton>회원가입</TextButton>
                         </div>
                     </>
                 )}

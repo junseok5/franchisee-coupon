@@ -7,15 +7,18 @@ export enum PAGE_PATHS {
 }
 
 export enum COLORS {
-    main = "#fe8c52",
-    mainHover = "#FE7B3D",
-    grayLight = "#f1f2f6",
+    main = "#2099BB",
+    mainHover = "#24ABD1",
+    grayLight = "#DFDFDF",
     grayLightHover = "#dfe4ea",
     grayNormal = "#bdc3c7",
     grayBold = "#7f8c8d",
+    grayTitle = "#555555",
+    grayButton = "#A1A6AD",
     blueNormal = "#3498db",
     greenNormal = "#1dd1a1",
-    redNormal = "#ee5253"
+    redNormal = "#ee5253",
+    background = "#F5F5F5"
 }
 
 export const regex = {
