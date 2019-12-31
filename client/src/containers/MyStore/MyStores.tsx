@@ -10,6 +10,8 @@ import TextButton from "src/components/elements/TextButton"
 import RowBetweenLayout from "src/components/layout/RowBetweenLayout"
 import { useHistory } from "react-router-dom"
 import { PAGE_PATHS } from "src/constants"
+import ErrorNotice from "src/components/boxes/ErrorNotice"
+import FlexListLayout from "src/components/layout/FlexListLayout"
 
 interface MyStoresProps {}
 
@@ -40,12 +42,14 @@ const MyStores: React.SFC<MyStoresProps> = () => {
 
             {isLoadingMyStores ? (
                 <Loading />
-            ) : (
-                <>
+            ) : myStores.length ? (
+                <FlexListLayout>
                     {myStores.map(myStore => (
                         <MyStore key={myStore.id} store={myStore} />
                     ))}
-                </>
+                </FlexListLayout>
+            ) : (
+                <ErrorNotice>현재 등록된 가맹점이 없습니다.</ErrorNotice>
             )}
         </BoxContainer>
     )

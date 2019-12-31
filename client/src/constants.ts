@@ -16,9 +16,10 @@ export enum COLORS {
     grayTitle = "#555555",
     grayButton = "#A1A6AD",
     blueNormal = "#3498db",
-    greenNormal = "#1dd1a1",
+    greenNormal = "#07B481",
     redNormal = "#ee5253",
-    background = "#F5F5F5"
+    background = "#F5F5F5",
+    border = "#E0E0E0"
 }
 
 export const regex = {

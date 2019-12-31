@@ -4,6 +4,7 @@ import CheckLogged from "src/containers/etc/CheckLogged"
 import StoreDetail from "src/containers/store/StoreDetail"
 import BizRegModal from "src/containers/modal/BizRegModal"
 import MyStoreAdvertisements from "src/containers/MyStoreAdvertisement/MyStoreAdvertisements"
+import InfoLayout from "src/components/layout/InfoLayout"
 
 interface StoreDetailPageProps {}
 
@@ -12,8 +13,10 @@ const StoreDetailPage: React.SFC<StoreDetailPageProps> = () => {
         <>
             <Header />
             <CheckLogged>
-                <StoreDetail />
-                <MyStoreAdvertisements />
+                <InfoLayout>
+                    <StoreDetail />
+                    <MyStoreAdvertisements />
+                </InfoLayout>
                 <BizRegModal />
             </CheckLogged>
         </>

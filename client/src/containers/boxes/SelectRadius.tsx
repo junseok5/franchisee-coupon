@@ -10,6 +10,7 @@ const SelectRadius: React.SFC<SelectRadiusProps> = () => {
 
     return (
         <Container>
+            주변
             <Select value={radius} onChange={changeRadius}>
                 <option value={1000}>1km</option>
                 <option value={500}>500m</option>

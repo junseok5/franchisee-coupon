@@ -3,11 +3,13 @@ import styled from "styled-components"
 import { ClipLoader } from "react-spinners"
 import { COLORS } from "src/constants"
 
-interface LoadingProps {}
+interface LoadingProps {
+    minHeight?: number
+}
 
-const Loading: React.SFC<LoadingProps> = () => {
+const Loading: React.SFC<LoadingProps> = ({ minHeight = 0 }) => {
     return (
-        <Container>
+        <Container minHeight={minHeight}>
             <ClipLoader size={50} color={COLORS.main} />
         </Container>
     )
@@ -15,10 +17,15 @@ const Loading: React.SFC<LoadingProps> = () => {
 
 export default Loading
 
-const Container = styled.div`
+interface StyledProps {
+    minHeight: number
+}
+
+const Container = styled.div<StyledProps>`
     display: flex;
     justify-content: center;
     align-items: center;
     width: 100%;
     height: 100%;
+    min-height: ${props => props.minHeight}px;
 `

@@ -10,24 +10,26 @@ import SelectRadius from "src/containers/boxes/SelectRadius"
 import { useParams } from "react-router-dom"
 import SpecialDetailModal from "src/containers/modal/SpecialDetailModal"
 import CouponDetailModal from "src/containers/modal/CouponDetailModal"
+import MainLayout from "src/components/layout/MainLayout"
 
 const HomePage: React.SFC = () => {
     const { storeId } = useParams()
     return (
         <>
             <Header />
-
-            {storeId && (
+            <MainLayout>
                 <ListLayout>
-                    <SelectRadius />
+                    <CategoryList />
                 </ListLayout>
-            )}
-            <ListLayout>
-                <CategoryList />
-            </ListLayout>
-            <ListLayout>
-                <Advertisements />
-            </ListLayout>
+                {storeId && (
+                    <ListLayout>
+                        <SelectRadius />
+                    </ListLayout>
+                )}
+                <ListLayout>
+                    <Advertisements />
+                </ListLayout>
+            </MainLayout>
             <RegisterModal />
             <LoginModal />
             <SpecialDetailModal />

@@ -14,12 +14,12 @@ class App extends React.Component {
             <BrowserRouter>
                 <Switch>
                     <PrivateRoute
-                        path={`${PAGE_PATHS.OWNER}/:id`}
+                        path={`${PAGE_PATHS.OWNER}/:ownerId`}
                         redirectTo={PAGE_PATHS.HOME}
                         component={OwnerPage}
                     />
                     <PrivateRoute
-                        path={`${PAGE_PATHS.STORE_EDITOR}/:id`}
+                        path={`${PAGE_PATHS.STORE_EDITOR}/:storeId`}
                         redirectTo={PAGE_PATHS.HOME}
                         component={StoreEditorPage}
                     />
@@ -29,12 +29,12 @@ class App extends React.Component {
                         component={StoreEditorPage}
                     />
                     <PrivateRoute
-                        path={`${PAGE_PATHS.STORE_DETAIL}/:id`}
+                        path={`${PAGE_PATHS.STORE_DETAIL}/:storeId`}
                         redirectTo={PAGE_PATHS.HOME}
                         component={StoreDetailPage}
                     />
                     <PrivateRoute
-                        path={`${PAGE_PATHS.ADVERTISEMENT_EDITOR}/stores/:storeId/ads/:id`}
+                        path={`${PAGE_PATHS.ADVERTISEMENT_EDITOR}/:adId/stores/:storeId`}
                         redirectTo={PAGE_PATHS.HOME}
                         component={AdvertisementEditorPage}
                     />

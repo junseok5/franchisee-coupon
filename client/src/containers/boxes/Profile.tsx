@@ -5,20 +5,29 @@ import SubTitle from "src/components/elements/SubTitle"
 import ColumnLayout from "src/components/layout/ColumnLayout"
 import RowLayout from "src/components/layout/RowLayout"
 import Text from "src/components/elements/Text"
-import { COLORS } from "src/constants"
+import { COLORS, PAGE_PATHS } from "src/constants"
 import BoxContainer from "src/components/boxes/BoxContainer"
 import useLogOut from "src/hooks/owners/useLogOut"
 import TextButton from "src/components/elements/TextButton"
 import RowBetweenLayout from "src/components/layout/RowBetweenLayout"
 import SmallButton from "src/components/elements/SmallButton"
 import RowWrap from "src/components/wrap/RowWrap"
+import { useParams, useHistory } from "react-router-dom"
 
 const Profile: React.SFC = () => {
     const { me } = useOwnerInfo()
     const { logOut } = useLogOut()
+    const { ownerId } = useParams()
+    const history = useHistory()
+
+    React.useEffect(() => {
+        if (me.num !== Number(ownerId)) {
+            history.push(`${PAGE_PATHS.OWNER}/${me.num}`)
+        }
+    }, [])
 
     return (
-        <BoxContainer>
+        <BoxContainer minHeight={200}>
             <ColumnLayout>
                 <RowBetweenLayout>
                     <Title>점주 정보</Title>

@@ -17,6 +17,8 @@ import useMapsGeocodingModal from "src/hooks/modal/useMapsGeocodingModal"
 import useAddress from "src/hooks/etc/useAddress"
 import useLat from "src/hooks/etc/useLat"
 import useLng from "src/hooks/etc/useLng"
+import BoxContainer from "src/components/boxes/BoxContainer"
+import Title from "src/components/elements/Title"
 
 const StoreForm: React.SFC = () => {
     const [name, changeName, , setName] = useInput("")
@@ -41,7 +43,7 @@ const StoreForm: React.SFC = () => {
         me: { num }
     } = useOwnerInfo()
     const history = useHistory()
-    const { id } = useParams()
+    const { storeId } = useParams()
     const { store } = useLoadStore()
     const {
         isUpdatingStore,
@@ -61,12 +63,12 @@ const StoreForm: React.SFC = () => {
     useEffect(() => {
         if (storeUpdated) {
             alert("가맹점 정보 수정에 성공하였습니다.")
-            history.push(`${PAGE_PATHS.STORE_DETAIL}/${id}`)
+            history.push(`${PAGE_PATHS.STORE_DETAIL}/${storeId}`)
         }
     }, [storeUpdated])
 
     useEffect(() => {
-        if (id && store && Number(id) === store.id) {
+        if (storeId && store && Number(storeId) === store.id) {
             setName(store.name)
             setDescription(store.description)
             setCategory(store.category)
@@ -75,7 +77,7 @@ const StoreForm: React.SFC = () => {
             setDetailAddress(store.detailAddress)
             changeLat(store.lat)
             changeLng(store.lng)
-        } else if (id && !store) {
+        } else if (storeId && !store) {
             history.push(PAGE_PATHS.HOME)
         }
     }, [])
@@ -157,7 +159,7 @@ const StoreForm: React.SFC = () => {
             formData.append("logoImg", logoImg)
         }
 
-        updateStore({ id, formData, token })
+        updateStore({ id: storeId, formData, token })
     }, [
         name,
         description,
@@ -211,7 +213,8 @@ const StoreForm: React.SFC = () => {
     )
 
     return (
-        <>
+        <BoxContainer>
+            <Title>가맹점 {storeId ? "수정하기" : "등록하기"}</Title>
             <FileInput
                 buttonTitle={"로고 사진"}
                 file={logoImg}
@@ -269,7 +272,7 @@ const StoreForm: React.SFC = () => {
                 value={detailAddress}
                 onChange={changeDetailAddress}
             />
-            {id ? (
+            {storeId ? (
                 <>
                     <ErrorText>{updateStoreErrorMessage}</ErrorText>
                     <Button
@@ -288,7 +291,7 @@ const StoreForm: React.SFC = () => {
                     />
                 </>
             )}
-        </>
+        </BoxContainer>
     )
 }
 

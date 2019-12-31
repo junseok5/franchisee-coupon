@@ -9,7 +9,7 @@ import useAddBizRegImg from "src/hooks/store/useAddBizRegImg"
 import useLoadStore from "src/hooks/store/useLoadStore"
 import useOwnerInfo from "src/hooks/owners/useOwnerInfo"
 import ErrorText from "src/components/elements/ErrorText"
-import { useParams } from 'react-router-dom'
+import { useParams } from "react-router-dom"
 
 interface BizRegModalProps {}
 
@@ -22,7 +22,7 @@ const BizRegModal: React.SFC<BizRegModalProps> = () => {
         addBizRegImgErrorMessage,
         addBizRegImg
     } = useAddBizRegImg()
-    const { id } = useParams()
+    const { storeId } = useParams()
     const { store } = useLoadStore()
     const { token } = useOwnerInfo()
     const { loadStore } = useLoadStore()
@@ -31,7 +31,7 @@ const BizRegModal: React.SFC<BizRegModalProps> = () => {
         if (addedBizRegImg) {
             alert("사업자 인증서 제출에 성공하였습니다.")
             onHideBizRegModal()
-            loadStore({ id, token })
+            loadStore({ id: storeId, token })
         }
     }, [addedBizRegImg])
 
@@ -43,8 +43,6 @@ const BizRegModal: React.SFC<BizRegModalProps> = () => {
             alert("오류가 발생했습니다. 다시 한번 시도해주세요.")
             return
         }
-
-        const storeId = store.id
 
         const formData = new FormData()
         formData.append("bizRegImg", bizRegImg)

@@ -1,9 +1,10 @@
 import * as React from "react"
 import Advertisement from "./Advertisement"
 import useLoadAdvertisements from "src/hooks/advertisement/useLoadAdvertisements"
-import Loading from "src/components/etc/Loading"
 import { useParams } from "react-router-dom"
 import useRadius from "src/hooks/etc/useRadius"
+import ErrorNotice from "src/components/boxes/ErrorNotice"
+import HomeLoading from "src/components/etc/HomeLoading"
 
 interface AdvertisementsProps {}
 
@@ -40,9 +41,11 @@ const Advertisements: React.SFC<AdvertisementsProps> = () => {
     return (
         <>
             {isLoadingAdvertisements ? (
-                <Loading />
-            ) : (
+                <HomeLoading />
+            ) : advertisements.length ? (
                 advertisements.map(ad => <Advertisement key={ad.id} ad={ad} />)
+            ) : (
+                <ErrorNotice>주변에 등록된 광고가 없습니다.</ErrorNotice>
             )}
         </>
     )

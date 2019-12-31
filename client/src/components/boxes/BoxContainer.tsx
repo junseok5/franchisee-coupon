@@ -3,25 +3,25 @@ import styled from "styled-components"
 import { COLORS } from "src/constants"
 
 interface BoxContainerProps {
-    height?: number | string
+    minHeight?: number | string
 }
 
 const BoxContainer: React.SFC<BoxContainerProps> = ({
     children,
-    height = "auto"
+    minHeight = 300
 }) => {
-    return <Container height={height}>{children}</Container>
+    return <Container minHeight={minHeight}>{children}</Container>
 }
 
 export default BoxContainer
 
 interface StyledProps {
-    height: number | string
+    minHeight: number | string
 }
 
 const Container = styled.div<StyledProps>`
     width: 100%;
-    height: ${props => props.height}px;
+    min-height: ${props => props.minHeight}px;
     padding: 1.5em;
     margin-top: 0.5em;
     margin-bottom: 0.5em;

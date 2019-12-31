@@ -14,6 +14,7 @@ import ErrorText from "src/components/elements/ErrorText"
 import { PAGE_PATHS } from "src/constants"
 import useLoadStoreAdvertisements from "src/hooks/advertisement/useLoadStoreAdvertisements"
 import useUpdateAdvertisement from "src/hooks/advertisement/useUpdateAdvertisement"
+import BoxContainer from "src/components/boxes/BoxContainer"
 
 const AdvertisementForm: React.SFC = () => {
     const { file: photo, onChange: changePhoto } = useInputFile()
@@ -29,7 +30,7 @@ const AdvertisementForm: React.SFC = () => {
         addAdvertisement
     } = useAddAdvertisement()
     const { token } = useOwnerInfo()
-    const { storeId, id } = useParams()
+    const { storeId, adId } = useParams()
     const history = useHistory()
     const { storeAdvertisements } = useLoadStoreAdvertisements()
     const {
@@ -54,15 +55,15 @@ const AdvertisementForm: React.SFC = () => {
     }, [advertisementUpdated])
 
     useEffect(() => {
-        const foundAd = storeAdvertisements.find(ad => ad.id === Number(id))
+        const foundAd = storeAdvertisements.find(ad => ad.id === Number(adId))
 
-        if (id && foundAd) {
+        if (adId && foundAd) {
             setTitle(foundAd.title)
             setDescription(foundAd.description)
             setStartAt(foundAd.startAt)
             setEndAt(foundAd.endAt)
             setAdType(foundAd.adType)
-        } else if (id && !foundAd) {
+        } else if (adId && !foundAd) {
             history.push(PAGE_PATHS.HOME)
         }
     }, [])
@@ -133,7 +134,7 @@ const AdvertisementForm: React.SFC = () => {
             formData.append("photo", photo)
         }
 
-        updateAdvertisement({ formData, token, id })
+        updateAdvertisement({ formData, token, adId })
     }, [title, description, startAt, endAt, photo, adType])
 
     const onClickSubmitButton = useCallback(
@@ -157,7 +158,7 @@ const AdvertisementForm: React.SFC = () => {
     )
 
     return (
-        <>
+        <BoxContainer>
             <FileInput
                 width={"160px"}
                 height={"240px"}
@@ -182,7 +183,7 @@ const AdvertisementForm: React.SFC = () => {
                 <option value={"COUPON"}>쿠폰</option>
                 <option value={"SPECIAL"}>특가</option>
             </Select>
-            {id ? (
+            {adId ? (
                 <>
                     <ErrorText>{updateAdvertisementErrorMessage}</ErrorText>
                     <Button
@@ -201,7 +202,7 @@ const AdvertisementForm: React.SFC = () => {
                     />
                 </>
             )}
-        </>
+        </BoxContainer>
     )
 }
 

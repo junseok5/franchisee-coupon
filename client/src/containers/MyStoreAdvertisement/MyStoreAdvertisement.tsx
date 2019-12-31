@@ -16,6 +16,7 @@ import ErrorText from "src/components/elements/ErrorText"
 import TextButton from "src/components/elements/TextButton"
 import useRemoveAdvertisement from "src/hooks/advertisement/useRemoveAdvertisement"
 import NotifyText from "src/components/elements/NotifyText"
+import RowWrap from "src/components/wrap/RowWrap"
 
 interface MyStoreAdvertisementProps {
     advertisement: IAdvertisement
@@ -24,7 +25,7 @@ interface MyStoreAdvertisementProps {
 const MyStoreAdvertisement: React.SFC<MyStoreAdvertisementProps> = ({
     advertisement
 }) => {
-    const { id } = useParams()
+    const { storeId } = useParams()
     const history = useHistory()
     const {
         isUpdatingAdvertisement,
@@ -40,19 +41,19 @@ const MyStoreAdvertisement: React.SFC<MyStoreAdvertisementProps> = ({
 
     React.useEffect(() => {
         if (advertisementUpdated) {
-            loadStoreAdvertisements({ storeId: id, token })
+            loadStoreAdvertisements({ storeId, token })
         }
     }, [advertisementUpdated])
 
     React.useEffect(() => {
         if (advertisementRemoved) {
-            loadStoreAdvertisements({ storeId: id, token })
+            loadStoreAdvertisements({ storeId, token })
         }
     }, [advertisementRemoved])
 
     const goToAdvertisementFormPage = React.useCallback(() => {
         history.push(
-            `${PAGE_PATHS.ADVERTISEMENT_EDITOR}/stores/${id}/ads/${advertisement.id}`
+            `${PAGE_PATHS.ADVERTISEMENT_EDITOR}/${advertisement.id}/stores/${storeId}`
         )
     }, [])
 
@@ -69,12 +70,17 @@ const MyStoreAdvertisement: React.SFC<MyStoreAdvertisementProps> = ({
     }, [])
 
     const onClickRemoveAdButton = React.useCallback(() => {
-        removeAdvertisement({ id: advertisement.id, token })
+        const confirmRemove = confirm("정말로 해당 광고를 삭제하시겠습니까?")
+
+        if (confirmRemove) {
+            removeAdvertisement({ id: advertisement.id, token })
+        }
     }, [])
 
     const now = new Date()
     const startAt = new Date(`${advertisement.startAt}T00:00:00`)
     const endAt = new Date(`${advertisement.endAt}T00:00:00`)
+
     return (
         <Container>
             {advertisement.isStopped ? (
@@ -108,52 +114,72 @@ const MyStoreAdvertisement: React.SFC<MyStoreAdvertisementProps> = ({
                         />
                     )}
                     <ColumnLayout>
-                        <SubTitle>제목</SubTitle>
-                        <Text size={12} noMargin={false}>
-                            {advertisement.title}
-                        </Text>
+                        <RowWrap>
+                            <SubTitle>제목</SubTitle>
+                        </RowWrap>
+                        <RowWrap>
+                            <Text size={12}>{advertisement.title}</Text>
+                        </RowWrap>
                         {advertisement.description && (
                             <>
-                                <SubTitle>설명</SubTitle>
-                                <Text size={12} noMargin={false}>
-                                    {advertisement.description}
-                                </Text>
+                                <RowWrap>
+                                    <SubTitle>설명</SubTitle>
+                                </RowWrap>
+                                <RowWrap>
+                                    <Text size={12}>
+                                        {advertisement.description}
+                                    </Text>
+                                </RowWrap>
                             </>
                         )}
-                        <SubTitle>광고 시작일</SubTitle>
-                        <Text size={12} noMargin={false}>
-                            {advertisement.startAt}
-                        </Text>
-                        <SubTitle>광고 마감일</SubTitle>
-                        <Text size={12} noMargin={false}>
-                            {advertisement.endAt}
-                        </Text>
+                        <RowWrap>
+                            <SubTitle>광고 시작일</SubTitle>
+                        </RowWrap>
+                        <RowWrap>
+                            <Text size={12}>{advertisement.startAt}</Text>
+                        </RowWrap>
+                        <RowWrap>
+                            <SubTitle>광고 마감일</SubTitle>
+                        </RowWrap>
+                        <RowWrap>
+                            <Text size={12}>{advertisement.endAt}</Text>
+                        </RowWrap>
                     </ColumnLayout>
                 </RowLayout>
             </ColumnLayout>
             <ColumnLayout>
                 <RowLayout>
-                    <SubTitle>광고 유형: </SubTitle>
+                    <RowWrap>
+                        <SubTitle>광고 유형</SubTitle>
+                    </RowWrap>
                     <Text>
                         {advertisement.adType === "COUPON" ? "쿠폰" : "특가"}
                     </Text>
                 </RowLayout>
-                {/* {advertisement.adType === "COUPON" && (
+                {advertisement.adType === "COUPON" && (
                     <RowLayout>
-                        <SubTitle>쿠폰 번호: </SubTitle>
+                        <RowWrap>
+                            <SubTitle>쿠폰 번호</SubTitle>
+                        </RowWrap>
                         <Text>{advertisement.couponNum}</Text>
                     </RowLayout>
-                )} */}
+                )}
                 <RowLayout>
-                    <SubTitle>조회수: </SubTitle>
+                    <RowWrap>
+                        <SubTitle>조회수</SubTitle>
+                    </RowWrap>
                     <Text>{advertisement.views}회</Text>
                 </RowLayout>
                 <RowLayout>
-                    <SubTitle>클릭수: </SubTitle>
+                    <RowWrap>
+                        <SubTitle>클릭수</SubTitle>
+                    </RowWrap>
                     <Text>{advertisement.clickNum}회</Text>
                 </RowLayout>
                 <RowLayout>
-                    <SubTitle>다운로드수: </SubTitle>
+                    <RowWrap>
+                        <SubTitle>다운로드수</SubTitle>
+                    </RowWrap>
                     <Text>{advertisement.downloadNum}회</Text>
                 </RowLayout>
             </ColumnLayout>
@@ -193,11 +219,13 @@ const MyStoreAdvertisement: React.SFC<MyStoreAdvertisementProps> = ({
 export default MyStoreAdvertisement
 
 const Container = styled.div`
+    position: relative;
     width: 320px;
     height: auto;
-    padding: 0.5em;
-    margin: 14px;
+    padding: 0.5em 0.5em 8em 0.5em;
+    margin: 14px 14px 14px 0;
     border: 1px solid ${COLORS.grayNormal};
+    border-bottom-width: 2px;
     border-radius: 4px;
 
     @media screen and (max-width: 768px) {
@@ -208,13 +236,11 @@ const Container = styled.div`
     .remove-ad {
         display: flex;
         justify-content: flex-end;
-        margin-top: 14px;
     }
 
     .bottom {
-        /* display: flex;
-        flex-direction: column;
-        flex: 1;
-        align-items: flex-end; */
+        position: absolute;
+        width: calc(100% - 1em);
+        bottom: 0.5em;
     }
 `

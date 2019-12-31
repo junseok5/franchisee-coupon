@@ -81,12 +81,13 @@ const MyStore: React.SFC<MyStoreProps> = ({ store }) => {
 export default MyStore
 
 const Container = styled.div`
+    position: relative;
     width: 238px;
     height: auto;
-    padding: 1em;
+    padding: 1em 1em 3em 1em;
     margin: 14px 14px 14px 0;
     border: 1px solid ${COLORS.grayLight};
-    border-bottom: 2px solid ${COLORS.grayLight};
+    border-bottom-width: 2px;
     color: ${COLORS.grayTitle};
     transition: all 0.2s;
 
@@ -106,8 +107,11 @@ const Container = styled.div`
     }
 
     .button-wrap {
+        position: absolute;
+        bottom: 1em;
         display: flex;
         justify-content: flex-end;
+        width: calc(100% - 2em);
         margin-top: 14px;
         font-weight: bold;
     }
