@@ -1,14 +1,12 @@
 import { ConnectionOptions } from "typeorm"
 
-console.log(process.env.DB_ENDPOINT)
-
 const connectionOptions: ConnectionOptions = {
     type: "postgres",
     host: process.env.DB_ENDPOINT,
     port: Number(process.env.DB_PORT) || 5432,
     username: process.env.DB_USERNAME,
     password: process.env.DB_PASSWORD,
-    database: "outsourcing",
+    database: process.env.DB_NAME,
     entities: ["entities/**/*.*"],
     synchronize: true,
     logging: true
