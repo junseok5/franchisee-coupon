@@ -1,8 +1,9 @@
 import axios from "axios"
 import * as queryString from "query-string"
+import { apiBaseURL } from "src/constants"
 
 const api = axios.create({
-    baseURL: "http://localhost:5000/api/v1.0"
+    baseURL: apiBaseURL
 })
 
 export interface AddAdvertisementParams {
@@ -16,7 +17,7 @@ export const addAdvertisement = ({
     token,
     storeId
 }: AddAdvertisementParams) =>
-    api.post(`/ads/stores/${storeId}`, formData, {
+    api.post(`/v1.0/ads/stores/${storeId}`, formData, {
         headers: { "Content-Type": "multipart/form-data", "X-JWT": token }
     })
 
@@ -31,7 +32,7 @@ export const updateAdvertisement = ({
     token,
     adId
 }: UpdateAdvertisementParams) =>
-    api.patch(`/ads/${adId}`, formData, {
+    api.patch(`/v1.0/ads/${adId}`, formData, {
         headers: { "Content-Type": "multipart/form-data", "X-JWT": token }
     })
 
@@ -41,7 +42,7 @@ export interface RemoveAdvertisementParams {
 }
 
 export const removeAdvertisement = ({ id, token }: RemoveAdvertisementParams) =>
-    api.delete(`/ads/${id}`, {
+    api.delete(`/v1.0/ads/${id}`, {
         headers: { "X-JWT": token }
     })
 
@@ -61,7 +62,7 @@ export const loadAdvertisements = ({
     storeId
 }: LoadAdvertisementsParams) =>
     api.get(
-        `/ads/?${queryString.stringify({
+        `/v1.0/ads/?${queryString.stringify({
             category,
             lat,
             lng,

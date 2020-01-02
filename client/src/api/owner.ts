@@ -1,7 +1,8 @@
 import axios from "axios"
+import { apiBaseURL } from 'src/constants'
 
 const api = axios.create({
-    baseURL: "http://localhost:5000/api/v1.0"
+    baseURL: apiBaseURL
 })
 
 export interface LogInBody {
@@ -9,7 +10,7 @@ export interface LogInBody {
     password: string
 }
 
-export const logIn = (body: LogInBody) => api.post(`/auth/login`, body)
+export const logIn = (body: LogInBody) => api.post(`/v1.0/auth/login`, body)
 
 export interface RegisterBody {
     id: string
@@ -18,7 +19,7 @@ export interface RegisterBody {
     name: string
 }
 
-export const register = (body: RegisterBody) => api.post("/auth/register", body)
+export const register = (body: RegisterBody) => api.post("/v1.0/auth/register", body)
 
 export const checkLogged = (token: string) =>
     api.get("auth/check", {
@@ -31,7 +32,7 @@ export interface LoadMyStoresParams {
 }
 
 export const loadMyStores = ({ id, token }: LoadMyStoresParams) =>
-    api.get(`/owners/${id}/stores`, {
+    api.get(`/v1.0/owners/${id}/stores`, {
         headers: { "X-JWT": token }
     })
 
@@ -46,7 +47,7 @@ export interface UpdateOwnerInfoParams {
 }
 
 export const updateOwnerInfo = ({ id, token, body }: UpdateOwnerInfoParams) =>
-    api.patch(`/owners/${id}`, body, {
+    api.patch(`/v1.0/owners/${id}`, body, {
         headers: { "X-JWT": token }
     })
 
@@ -64,6 +65,6 @@ export const updateOwnerPassword = ({
     token,
     body
 }: UpdateOwnerPasswordParams) =>
-    api.patch(`/owners/${id}/password`, body, {
+    api.patch(`/v1.0/owners/${id}/password`, body, {
         headers: { "X-JWT": token }
     })

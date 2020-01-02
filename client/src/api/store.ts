@@ -1,7 +1,8 @@
 import axios from "axios"
+import { apiBaseURL } from "src/constants"
 
 const api = axios.create({
-    baseURL: "http://localhost:5000/api/v1.0"
+    baseURL: apiBaseURL
 })
 
 export interface AddStoreParams {
@@ -10,7 +11,7 @@ export interface AddStoreParams {
 }
 
 export const addStore = ({ formData, token }: AddStoreParams) =>
-    api.post("/stores", formData, {
+    api.post("/v1.0/stores", formData, {
         headers: { "Content-Type": "multipart/form-data", "X-JWT": token }
     })
 
@@ -20,7 +21,7 @@ export interface LoadStoreParams {
 }
 
 export const loadStore = ({ id, token }: LoadStoreParams) =>
-    api.get(`/stores/${id}`, {
+    api.get(`/v1.0/stores/${id}`, {
         headers: { "X-JWT": token }
     })
 
@@ -35,7 +36,7 @@ export const addBizRegImg = ({
     formData,
     token
 }: AddBizRegImgParams) =>
-    api.post(`/stores/${storeId}/verification-stores`, formData, {
+    api.post(`/v1.0/stores/${storeId}/verification-stores`, formData, {
         headers: { "Content-Type": "multipart/form-data", "X-JWT": token }
     })
 
@@ -48,7 +49,7 @@ export const loadStoreAdvertisements = ({
     storeId,
     token
 }: LoadStoreAdvertisementsParams) =>
-    api.get(`/stores/${storeId}/ads`, {
+    api.get(`/v1.0/stores/${storeId}/ads`, {
         headers: { "X-JWT": token }
     })
 
@@ -59,7 +60,7 @@ export interface UpdateStoreParams {
 }
 
 export const updateStore = ({ formData, id, token }: UpdateStoreParams) =>
-    api.patch(`/stores/${id}`, formData, {
+    api.patch(`/v1.0/stores/${id}`, formData, {
         headers: { "X-JWT": token }
     })
 
@@ -69,7 +70,7 @@ export interface RemoveStoreParams {
 }
 
 export const removeStore = ({ id, token }: RemoveStoreParams) =>
-    api.delete(`/stores/${id}`, {
+    api.delete(`/v1.0/stores/${id}`, {
         headers: { "X-JWT": token }
     })
 
@@ -79,6 +80,6 @@ export interface LoadMapsGeocodingParams {
 }
 
 export const loadMapsGeocoding = ({ query, token }: LoadMapsGeocodingParams) =>
-    api.get(`/stores/maps-geocoding/?query=${query}`, {
+    api.get(`/v1.0/stores/maps-geocoding/?query=${query}`, {
         headers: { "X-JWT": token }
     })
