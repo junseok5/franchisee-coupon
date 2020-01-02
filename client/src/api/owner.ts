@@ -1,5 +1,5 @@
 import axios from "axios"
-import { apiBaseURL } from 'src/constants'
+import { apiBaseURL } from "src/constants"
 
 const api = axios.create({
     baseURL: apiBaseURL
@@ -19,7 +19,8 @@ export interface RegisterBody {
     name: string
 }
 
-export const register = (body: RegisterBody) => api.post("/v1.0/auth/register", body)
+export const register = (body: RegisterBody) =>
+    api.post("/v1.0/auth/register", body)
 
 export const checkLogged = (token: string) =>
     api.get("auth/check", {
@@ -66,5 +67,15 @@ export const updateOwnerPassword = ({
     body
 }: UpdateOwnerPasswordParams) =>
     api.patch(`/v1.0/owners/${id}/password`, body, {
+        headers: { "X-JWT": token }
+    })
+
+export interface LoadOwnerInfoParams {
+    id: number | string
+    token: string
+}
+
+export const loadOwnerInfo = ({ id, token }: LoadOwnerInfoParams) =>
+    api.get(`/v1.0/owners/${id}`, {
         headers: { "X-JWT": token }
     })

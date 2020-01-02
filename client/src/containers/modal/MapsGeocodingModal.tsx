@@ -32,7 +32,7 @@ const MapsGeocodingModal: React.SFC = () => {
     const onClickSearchButton = React.useCallback(
         event => {
             event.preventDefault()
-            
+
             if (!keyword) {
                 return
             }
@@ -92,20 +92,21 @@ const MapsGeocodingModal: React.SFC = () => {
                     </div>
                 </RowLayout>
                 <div className={"address-list"}>
-                    {mapsGeocoding.map((addressItem, key) => (
-                        <div
-                            key={key}
-                            className={"address-item"}
-                            onClick={() => onClickAddressItem(key)}
-                        >
-                            <div className={"jibun-address"}>
-                                {addressItem.jibunAddress}
+                    {mapsGeocoding &&
+                        mapsGeocoding.map((addressItem, key) => (
+                            <div
+                                key={key}
+                                className={"address-item"}
+                                onClick={() => onClickAddressItem(key)}
+                            >
+                                <div className={"jibun-address"}>
+                                    {addressItem.jibunAddress}
+                                </div>
+                                <div className={"en-address"}>
+                                    {addressItem.englishAddress}
+                                </div>
                             </div>
-                            <div className={"en-address"}>
-                                {addressItem.englishAddress}
-                            </div>
-                        </div>
-                    ))}
+                        ))}
                 </div>
             </Container>
         </Modal>

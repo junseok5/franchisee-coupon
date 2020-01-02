@@ -18,8 +18,8 @@ import Input from "src/components/elements/Input"
 import useInput from "src/hooks/elements/useInput"
 import Button from "src/components/elements/Button"
 import useUpdateOwnerInfo from "src/hooks/owners/useUpdateOwnerInfo"
-import useLogin from "src/hooks/owners/useLogin"
 import usePasswordChangeModal from "src/hooks/modal/usePasswordChangeModal"
+import useLoadOwnerInfo from "src/hooks/owners/useLoadOwnerInfo"
 
 const Profile: React.SFC = () => {
     const { me, token } = useOwnerInfo()
@@ -35,8 +35,8 @@ const Profile: React.SFC = () => {
         updateOwnerInfoErrorMessage,
         updateOwnerInfo
     } = useUpdateOwnerInfo()
-    const { checkLogged } = useLogin()
     const { onShowPasswordChangeModal } = usePasswordChangeModal()
+    const { loadOwnerInfo } = useLoadOwnerInfo()
 
     React.useEffect(() => {
         if (me.num !== Number(ownerId)) {
@@ -55,7 +55,7 @@ const Profile: React.SFC = () => {
         if (isUpdatedOwnerInfo) {
             alert("정보 수정에 성공하였습니다.")
             changeIsUpdateMode(false)
-            checkLogged(token)
+            loadOwnerInfo({ id: me.num, token })
         }
     }, [isUpdatedOwnerInfo])
 

@@ -17,7 +17,10 @@ import {
     UPDATE_OWNER_PASSWORD_FAILURE,
     UPDATE_OWNER_PASSWORD_SUCCESS,
     CHANGE_IS_UPDATED_OWNER_PASSWORD,
-    UPDATE_OWNER_PASSWORD_REQUEST
+    UPDATE_OWNER_PASSWORD_REQUEST,
+    LOAD_OWNER_INFO_FAILURE,
+    LOAD_OWNER_INFO_SUCCESS,
+    LOAD_OWNER_INFO_REQUEST
 } from "../actions/owner"
 import * as ownerAPI from "../../api/owner"
 import {
@@ -158,6 +161,26 @@ function* watchUpdateOwnerPassword() {
     yield takeLatest(UPDATE_OWNER_PASSWORD_REQUEST, updateOwnerPassword)
 }
 
+function* loadOwnerInfo(action: any) {
+    try {
+        const result = yield call(ownerAPI.loadOwnerInfo, action.payload)
+        yield put({
+            type: LOAD_OWNER_INFO_SUCCESS,
+            payload: result.data
+        })
+    } catch (e) {
+        console.error(e)
+        yield put({
+            type: LOAD_OWNER_INFO_FAILURE,
+            payload: e.response && e.response.data
+        })
+    }
+}
+
+function* watchLoadOwnerInfo() {
+    yield takeEvery(LOAD_OWNER_INFO_REQUEST, loadOwnerInfo)
+}
+
 export default function* ownerSaga() {
     yield all([
         fork(watchLogIn),
@@ -165,6 +188,7 @@ export default function* ownerSaga() {
         fork(watchCheckLogged),
         fork(watchLoadStores),
         fork(watchUpdateOwnerInfo),
-        fork(watchUpdateOwnerPassword)
+        fork(watchUpdateOwnerPassword),
+        fork(watchLoadOwnerInfo)
     ])
 }

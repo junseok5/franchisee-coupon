@@ -21,7 +21,10 @@ import {
     UPDATE_OWNER_PASSWORD_REQUEST,
     UPDATE_OWNER_PASSWORD_SUCCESS,
     UPDATE_OWNER_PASSWORD_FAILURE,
-    CHANGE_IS_UPDATED_OWNER_PASSWORD
+    CHANGE_IS_UPDATED_OWNER_PASSWORD,
+    LOAD_OWNER_INFO_REQUEST,
+    LOAD_OWNER_INFO_SUCCESS,
+    LOAD_OWNER_INFO_FAILURE
 } from "../actions/owner"
 import { IStore } from "./store"
 
@@ -40,6 +43,8 @@ export interface OwnerState {
     isRegistering: boolean // 회원가입 시도중
     isRegistered: boolean // 회원가입 성공
     registerErrorMessage: string // 회원가입 실패 메세지
+    isLoadingOwnerInfo: boolean
+    loadOwnerInfoErrorMessage: string
     me: OwnerMetaInfo | null // owner 정보
     token: string | null // 로그인 인증 토큰
     isLoadingMyStores: boolean
@@ -61,6 +66,8 @@ const initialState: OwnerState = {
     isRegistering: false,
     isRegistered: false,
     registerErrorMessage: "",
+    isLoadingOwnerInfo: false,
+    loadOwnerInfoErrorMessage: "",
     me: null,
     token: window.sessionStorage.getItem("jwt"),
     isLoadingMyStores: false,
@@ -172,6 +179,18 @@ function owner(state: OwnerState = initialState, action: any) {
                 break
             case CHANGE_IS_UPDATED_OWNER_PASSWORD:
                 draft.isUpdatedOwnerPassword = action.payload
+                break
+            case LOAD_OWNER_INFO_REQUEST:
+                draft.isLoadingOwnerInfo = true
+                draft.loadOwnerInfoErrorMessage = ""
+                break
+            case LOAD_OWNER_INFO_SUCCESS:
+                draft.isLoadingOwnerInfo = false
+                draft.me = action.payload
+                break
+            case LOAD_OWNER_INFO_FAILURE:
+                draft.isLoadingOwnerInfo = false
+                draft.loadOwnerInfoErrorMessage = action.payload
                 break
             default:
                 break
