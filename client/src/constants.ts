@@ -1,3 +1,4 @@
+export const storageURL = "http://in500m.com/uploads"
 export const apiBaseURL = "http://in500m.com/api"
 
 export enum PAGE_PATHS {

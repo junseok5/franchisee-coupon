@@ -1,6 +1,6 @@
 import * as React from "react"
 import styled from "styled-components"
-import { COLORS, PAGE_PATHS } from "src/constants"
+import { COLORS, PAGE_PATHS, storageURL } from "src/constants"
 import Image from "../../components/elements/Image"
 import { IAdvertisement } from "src/store/reducers/store"
 import RowLayout from "../../components/layout/RowLayout"
@@ -113,7 +113,7 @@ const MyStoreAdvertisement: React.SFC<MyStoreAdvertisementProps> = ({
                 <RowLayout>
                     {advertisement.photo && (
                         <Image
-                            src={`http://localhost:5000/uploads/ads${advertisement.photo}`}
+                            src={`${storageURL}/ads${advertisement.photo}`}
                             width={"160px"}
                             height={"240px"}
                         />

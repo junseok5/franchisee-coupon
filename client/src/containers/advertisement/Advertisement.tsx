@@ -5,6 +5,7 @@ import useAdvertisementInModal from "src/hooks/modal/useAdvertisementInModal"
 import { IAdvertisement } from "src/store/reducers/store"
 import useCouponDetailModal from "src/hooks/modal/useCouponDetailModal"
 import useSpecialDetailModal from "src/hooks/modal/useSpecialDetailModal"
+import { storageURL } from "src/constants"
 
 interface AdvertisementProps {
     ad: IAdvertisement
@@ -28,7 +29,7 @@ const Advertisement: React.SFC<AdvertisementProps> = ({ ad }) => {
     return (
         <Container onClick={onClickAdvertisement}>
             <Image
-                src={`http://localhost:5000/uploads/ads${ad.photo}`}
+                src={`${storageURL}/uploads/ads${ad.photo}`}
                 width={"280px"}
                 height={"420px"}
             />

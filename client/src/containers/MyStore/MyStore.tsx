@@ -1,7 +1,7 @@
 import * as React from "react"
 import { useCallback } from "react"
 import styled from "styled-components"
-import { COLORS, PAGE_PATHS } from "src/constants"
+import { COLORS, PAGE_PATHS, storageURL } from "src/constants"
 import CircleImage from "../../components/elements/CircleImage"
 import RowLayout from "../../components/layout/RowLayout"
 import { IStore } from "src/store/reducers/store"
@@ -27,7 +27,7 @@ const MyStore: React.SFC<MyStoreProps> = ({ store }) => {
         <Container>
             <RowLayout>
                 <CircleImage
-                    src={`http://localhost:5000/uploads/stores${store.logoImg}`}
+                    src={`${storageURL}/stores${store.logoImg}`}
                 />
                 <RowWrap>
                     <SubTitle>{store.name}</SubTitle>

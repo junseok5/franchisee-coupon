@@ -10,6 +10,7 @@ import Button from "src/components/elements/Button"
 import Barcode from "react-barcode"
 // @ts-ignore
 import domtoimage from "dom-to-image"
+import { storageURL } from 'src/constants'
 
 interface CouponDetailModalProps {}
 
@@ -38,7 +39,7 @@ const CouponDetailModal: React.SFC<CouponDetailModalProps> = () => {
             onHideModal={onHideCouponDetailModal}
         >
             <Image
-                src={`http://localhost:5000/uploads/ads${ad.photo}`}
+                src={`${storageURL}/ads${ad.photo}`}
                 width={"292px"}
                 height={"auto"}
             />

@@ -70,9 +70,7 @@ export const list = async (req: Request, res: Response, next: NextFunction) => {
             isStopped: false
         }
 
-        console.log(query)
         const advertisements = await getRepository(Advertisement).find(query)
-
         return res.json(advertisements)
     } catch (e) {
         console.error(e)

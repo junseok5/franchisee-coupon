@@ -46,6 +46,9 @@ class App {
         this.app.use(bodyParser.json())
         this.app.use(express.static(path.join(__dirname, "uploads")))
         this.app.use(express.static(path.join(__dirname, "../../client/build")))
+        this.app.use(session(this.sessionConfig))
+        this.app.use(jwtAuth)
+        this.app.use("/api", api)
         this.app.get("/uploads/stores/:fileName", (req, res) => {
             const fileName = req.params.fileName
             res.sendFile(path.join(__dirname, `../uploads/stores/${fileName}`))
@@ -57,9 +60,6 @@ class App {
         this.app.get("*", (req, res) => {
             res.sendFile(path.join(__dirname, "../../client/build/index.html"))
         })
-        this.app.use(session(this.sessionConfig))
-        this.app.use(jwtAuth)
-        this.app.use("/api", api)
     }
 }
 

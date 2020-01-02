@@ -5,6 +5,7 @@ import Image from "src/components/elements/Image"
 import useAdvertisementInModal from "src/hooks/modal/useAdvertisementInModal"
 import Text from "src/components/elements/Text"
 import SubTitle from "src/components/elements/SubTitle"
+import { storageURL } from "src/constants"
 
 const SpecialDetailModal: React.SFC = () => {
     const {
@@ -20,7 +21,7 @@ const SpecialDetailModal: React.SFC = () => {
             onHideModal={onHideSpecialDetailModal}
         >
             <Image
-                src={`http://localhost:5000/uploads/ads${ad.photo}`}
+                src={`${storageURL}/ads${ad.photo}`}
                 width={"292px"}
                 height={"auto"}
             />
