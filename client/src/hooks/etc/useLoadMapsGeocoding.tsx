@@ -2,6 +2,7 @@ import { useSelector, useDispatch } from "react-redux"
 import { RootState } from "src/store/reducers"
 import { useCallback } from "react"
 import { LOAD_MAPS_GEOCODING_REQUEST } from "src/store/actions/store"
+import { LoadMapsGeocodingParams } from "src/api/store"
 
 export default function useLoadMapsGeocoding() {
     const {
@@ -12,7 +13,8 @@ export default function useLoadMapsGeocoding() {
     const dispatch = useDispatch()
 
     const loadMapsGeocoding = useCallback(
-        payload => dispatch({ type: LOAD_MAPS_GEOCODING_REQUEST, payload }),
+        (payload: LoadMapsGeocodingParams) =>
+            dispatch({ type: LOAD_MAPS_GEOCODING_REQUEST, payload }),
         [dispatch]
     )
 
@@ -21,10 +23,5 @@ export default function useLoadMapsGeocoding() {
         mapsGeocoding,
         loadMapsGeocodingErrorMessage,
         loadMapsGeocoding
-    } as {
-        isLoadingMapsGeocoding: boolean
-        mapsGeocoding: any[]
-        loadMapsGeocodingErrorMessage: string
-        loadMapsGeocoding: typeof loadMapsGeocoding
     }
 }

@@ -5,6 +5,8 @@ import Owner from "../../../entities/Owner"
 export const read = (req, res: Response) => {
     // 점주 정보 조회
     const owner = req.owner
+    
+    delete owner.password
     return res.json(owner)
 }
 
@@ -59,6 +61,46 @@ export const update = async (req, res: Response, next: NextFunction) => {
     try {
         await Owner.update({ id: owner.id }, { ...ownerBody })
         return res.send("업데이트에 성공하였습니다.")
+    } catch (e) {
+        return next(e)
+    }
+}
+
+export const updatePassword = async (
+    req,
+    res: Response,
+    next: NextFunction
+) => {
+    const owner: Owner = req.owner
+    const body = req.body
+
+    const schema = Joi.object().keys({
+        currentPassword: Joi.string().required(),
+        newPassword: Joi.string()
+            .min(6)
+            .max(30)
+            .required()
+    })
+
+    const validation = Joi.validate(body, schema)
+
+    if (validation.error) {
+        return res.status(400).send("유효하지 않은 값이 입력되었습니다.")
+    }
+
+    try {
+        const isValidPassword = await owner.comparePassword(
+            body.currentPassword
+        )
+
+        if (isValidPassword) {
+            owner.password = body.newPassword
+            owner.save()
+
+            return res.send("비밀번호 변경에 성공하였습니다.")
+        } else {
+            return res.status(401).send("비밀번호가 틀렸습니다.")
+        }
     } catch (e) {
         return next(e)
     }

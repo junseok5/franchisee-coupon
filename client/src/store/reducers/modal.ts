@@ -13,7 +13,9 @@ import {
     SHOW_SPECIAL_DETAIL_MODAL,
     HIDE_SPECIAL_DETAIL_MODAL,
     SHOW_COUPON_DETAIL_MODAL,
-    HIDE_COUPON_DETAIL_MODAL
+    HIDE_COUPON_DETAIL_MODAL,
+    SHOW_PASSWORD_CHANGE_MODAL,
+    HIDE_PASSWORD_CHANGE_MODAL
 } from "../actions/modal"
 
 export interface ModalState {
@@ -24,6 +26,7 @@ export interface ModalState {
     geocodingModalVisible: boolean
     specialDetailModalVisible: boolean
     couponDetailModalVisible: boolean
+    passwordChangeModalVisible: boolean
 }
 
 const initialState: ModalState = {
@@ -33,7 +36,8 @@ const initialState: ModalState = {
     advertisementAddModalVisible: false,
     geocodingModalVisible: false,
     specialDetailModalVisible: false,
-    couponDetailModalVisible: false
+    couponDetailModalVisible: false,
+    passwordChangeModalVisible: false
 }
 
 function modal(state: ModalState = initialState, action: any) {
@@ -80,6 +84,12 @@ function modal(state: ModalState = initialState, action: any) {
                 break
             case HIDE_COUPON_DETAIL_MODAL:
                 draft.couponDetailModalVisible = false
+                break
+            case SHOW_PASSWORD_CHANGE_MODAL:
+                draft.passwordChangeModalVisible = true
+                break
+            case HIDE_PASSWORD_CHANGE_MODAL:
+                draft.passwordChangeModalVisible = false
                 break
             default:
                 break

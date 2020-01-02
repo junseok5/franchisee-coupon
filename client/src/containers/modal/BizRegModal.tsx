@@ -31,7 +31,9 @@ const BizRegModal: React.SFC<BizRegModalProps> = () => {
         if (addedBizRegImg) {
             alert("사업자 인증서 제출에 성공하였습니다.")
             onHideBizRegModal()
-            loadStore({ id: storeId, token })
+            if (storeId) {
+                loadStore({ id: storeId, token })
+            }
         }
     }, [addedBizRegImg])
 
@@ -47,7 +49,9 @@ const BizRegModal: React.SFC<BizRegModalProps> = () => {
         const formData = new FormData()
         formData.append("bizRegImg", bizRegImg)
 
-        addBizRegImg({ storeId, formData, token })
+        if (storeId) {
+            addBizRegImg({ storeId, formData, token })
+        }
     }, [bizRegImg])
 
     const onClickUploadButton = useCallback(

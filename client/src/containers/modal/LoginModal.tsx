@@ -35,11 +35,6 @@ const LoginModal: React.SFC<LoginModalProps> = () => {
                 ok: false,
                 alertMessage: "비밀번호를 입력해주세요."
             }
-        } else if (!regex.password.test(password)) {
-            return {
-                ok: false,
-                alertMessage: "비밀번호 형식이 잘못되었습니다."
-            }
         } else {
             return {
                 ok: true

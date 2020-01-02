@@ -2,11 +2,7 @@ import { useSelector, useDispatch } from "react-redux"
 import { RootState } from "src/store/reducers"
 import { useCallback } from "react"
 import { LOG_IN_REQUEST, CHECK_LOGGED_REQUEST } from "src/store/actions/owner"
-
-interface LogInPayload {
-    id: string
-    password: string
-}
+import { LogInBody } from "src/api/owner"
 
 export default function useLogin() {
     const { isLoggingIn, loginErrorMessage } = useSelector(
@@ -15,7 +11,7 @@ export default function useLogin() {
     const dispatch = useDispatch()
 
     const logIn = useCallback(
-        (payload: LogInPayload) => dispatch({ type: LOG_IN_REQUEST, payload }),
+        (payload: LogInBody) => dispatch({ type: LOG_IN_REQUEST, payload }),
         [dispatch]
     )
 
@@ -29,10 +25,5 @@ export default function useLogin() {
         loginErrorMessage,
         logIn,
         checkLogged
-    } as {
-        isLoggingIn: boolean
-        loginErrorMessage: string
-        logIn: typeof logIn
-        checkLogged: typeof checkLogged
     }
 }

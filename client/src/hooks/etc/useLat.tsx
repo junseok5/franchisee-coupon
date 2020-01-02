@@ -15,8 +15,5 @@ export default function useLat() {
     return {
         lat,
         changeLat
-    } as {
-        lat: number
-        changeLat: typeof changeLat
     }
 }

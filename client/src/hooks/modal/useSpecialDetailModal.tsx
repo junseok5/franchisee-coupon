@@ -25,9 +25,5 @@ export default function useSpecialDetailModal() {
         specialDetailModalVisible,
         onShowSpecialDetailModal,
         onHideSpecialDetailModal
-    } as {
-        specialDetailModalVisible: boolean
-        onShowSpecialDetailModal: typeof onShowSpecialDetailModal
-        onHideSpecialDetailModal: typeof onHideSpecialDetailModal
     }
 }

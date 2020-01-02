@@ -45,6 +45,7 @@ class App {
         this.app.use(helmet())
         this.app.use(bodyParser.json())
         this.app.use(express.static(path.join(__dirname, "uploads")))
+        this.app.use(express.static(path.join(__dirname, "../../client/build")))
         this.app.get("/uploads/stores/:fileName", (req, res) => {
             const fileName = req.params.fileName
             res.sendFile(path.join(__dirname, `../uploads/stores/${fileName}`))
@@ -52,6 +53,9 @@ class App {
         this.app.get("/uploads/ads/:fileName", (req, res) => {
             const fileName = req.params.fileName
             res.sendFile(path.join(__dirname, `../uploads/ads/${fileName}`))
+        })
+        this.app.get("*", (req, res) => {
+            res.sendFile(path.join(__dirname, "../../client/build/index.html"))
         })
         this.app.use(session(this.sessionConfig))
         this.app.use(jwtAuth)

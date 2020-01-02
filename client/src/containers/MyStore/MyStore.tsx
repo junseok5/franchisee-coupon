@@ -18,30 +18,10 @@ interface MyStoreProps {
 
 const MyStore: React.SFC<MyStoreProps> = ({ store }) => {
     const history = useHistory()
-    // const {
-    //     token,
-    //     me: { num }
-    // } = useOwnerInfo()
-    // const { loadMyStores } = useMyStores()
-    // const { storeRemoved, removeStore } = useRemoveStore()
-
-    // React.useEffect(() => {
-    //     if (storeRemoved) {
-    //         loadMyStores({ token, id: num })
-    //     }
-    // }, [storeRemoved])
 
     const goToStoreDetail = useCallback(() => {
         history.push(`${PAGE_PATHS.STORE_DETAIL}/${store.id}`)
     }, [])
-
-    // const onClickStoreRemoveButton = useCallback(() => {
-    //     const confirmRemove = confirm("정말로 가맹점을 삭제하시겠습니까?")
-
-    //     if (confirmRemove) {
-    //         removeStore({ token, id: store.id })
-    //     }
-    // }, [])
 
     return (
         <Container>
@@ -94,7 +74,7 @@ const Container = styled.div`
     @media screen and (max-width: 768px) {
         width: 100%;
         height: auto;
-        margin: 0;
+        margin: 0 0 1em 0;
     }
 
     .row {

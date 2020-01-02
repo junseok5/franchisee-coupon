@@ -2,6 +2,7 @@ import { useSelector, useDispatch } from "react-redux"
 import { RootState } from "src/store/reducers"
 import { useCallback } from "react"
 import { REMOVE_STORE_REQUEST } from "src/store/actions/store"
+import { RemoveStoreParams } from "src/api/store"
 
 export default function useRemoveStore() {
     const {
@@ -12,7 +13,8 @@ export default function useRemoveStore() {
     const dispatch = useDispatch()
 
     const removeStore = useCallback(
-        payload => dispatch({ type: REMOVE_STORE_REQUEST, payload }),
+        (payload: RemoveStoreParams) =>
+            dispatch({ type: REMOVE_STORE_REQUEST, payload }),
         [dispatch]
     )
 
@@ -21,10 +23,5 @@ export default function useRemoveStore() {
         storeRemoved,
         removeStoreErrorMessage,
         removeStore
-    } as {
-        isRemovingStore: boolean
-        storeRemoved: boolean
-        removeStoreErrorMessage: string
-        removeStore: typeof removeStore
     }
 }

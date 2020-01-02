@@ -25,9 +25,5 @@ export default function useMapsGeocodingModal() {
         geocodingModalVisible,
         onShowGeocodingModal,
         onHideGeocodingModal
-    } as {
-        geocodingModalVisible: boolean
-        onShowGeocodingModal: typeof onShowGeocodingModal
-        onHideGeocodingModal: typeof onHideGeocodingModal
     }
 }

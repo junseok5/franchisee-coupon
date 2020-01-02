@@ -17,7 +17,5 @@ export default function useLogOut() {
 
     return {
         logOut
-    } as {
-        logOut: typeof logOut
     }
 }

@@ -2,7 +2,7 @@ import { useSelector, useDispatch } from "react-redux"
 import { RootState } from "src/store/reducers"
 import { useCallback } from "react"
 import { LOAD_STORE_REQUEST } from "src/store/actions/store"
-import { IStore } from "src/store/reducers/store"
+import { LoadStoreParams } from "src/api/store"
 
 export default function useLoadStore() {
     const { isLoadingStore, loadStoreErrorMessage, store } = useSelector(
@@ -11,7 +11,8 @@ export default function useLoadStore() {
     const dispatch = useDispatch()
 
     const loadStore = useCallback(
-        payload => dispatch({ type: LOAD_STORE_REQUEST, payload }),
+        (payload: LoadStoreParams) =>
+            dispatch({ type: LOAD_STORE_REQUEST, payload }),
         [dispatch]
     )
 
@@ -20,10 +21,5 @@ export default function useLoadStore() {
         loadStoreErrorMessage,
         store,
         loadStore
-    } as {
-        isLoadingStore: boolean
-        loadStoreErrorMessage: string
-        store: IStore | null
-        loadStore: typeof loadStore
     }
 }

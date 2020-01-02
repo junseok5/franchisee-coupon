@@ -1,5 +1,6 @@
 import * as React from "react"
 import { useCallback, useEffect } from "react"
+import { Helmet } from "react-helmet"
 import useInputFile from "src/hooks/elements/useInputFile"
 import FileInput from "../elements/FileInput"
 import useInput from "src/hooks/elements/useInput"
@@ -112,7 +113,9 @@ const AdvertisementForm: React.SFC = () => {
         formData.append("adType", adType)
         formData.append("photo", photo)
 
-        addAdvertisement({ formData, token, storeId })
+        if (storeId) {
+            addAdvertisement({ formData, token, storeId })
+        }
     }, [title, description, startAt, endAt, photo, adType])
 
     const submitUpdatedForm = useCallback(() => {
@@ -134,7 +137,9 @@ const AdvertisementForm: React.SFC = () => {
             formData.append("photo", photo)
         }
 
-        updateAdvertisement({ formData, token, adId })
+        if (adId) {
+            updateAdvertisement({ formData, token, adId })
+        }
     }, [title, description, startAt, endAt, photo, adType])
 
     const onClickSubmitButton = useCallback(
@@ -202,6 +207,9 @@ const AdvertisementForm: React.SFC = () => {
                     />
                 </>
             )}
+            <Helmet>
+                <title>{adId ? "광고 수정" : "광고 등록"}</title>
+            </Helmet>
         </BoxContainer>
     )
 }

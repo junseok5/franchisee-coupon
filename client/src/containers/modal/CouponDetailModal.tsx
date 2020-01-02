@@ -20,18 +20,16 @@ const CouponDetailModal: React.SFC<CouponDetailModalProps> = () => {
     } = useCouponDetailModal()
     const { advertisementInModal: ad } = useAdvertisementInModal()
 
-    const modalDom = document.getElementById("modal")
-
     const onClickDownloadButton = React.useCallback(() => {
+        const modalDom = document.getElementById("modal")
         domtoimage
-            .toPng(modalDom, { width: 640, height: 960 })
-            .then((dataUrl: any) => {
-                const link = document.createElement("a")
-                link.download = "my-image-name.jpeg"
-                link.href = dataUrl
-                link.click()
+            .toSvg(modalDom, {
+                filter: (node: HTMLElement) => node.tagName !== "i"
             })
-    }, [modalDom])
+            .then((dataUrl: string) => {
+                console.log(dataUrl)
+            })
+    }, [])
 
     return (
         <Modal

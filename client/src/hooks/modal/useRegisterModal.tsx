@@ -25,9 +25,5 @@ export default function useRegisterModal() {
         registerModalVisible,
         onHideRegisterModal,
         onShowRegisterModal
-    } as {
-        registerModalVisible: boolean
-        onHideRegisterModal: typeof onHideRegisterModal
-        onShowRegisterModal: typeof onShowRegisterModal
     }
 }

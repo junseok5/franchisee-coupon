@@ -13,7 +13,15 @@ import {
     LOAD_MY_STORES_REQUEST,
     LOAD_MY_STORES_FAILURE,
     LOAD_MY_STORES_SUCCESS,
-    CHANGE_IS_REGISTERED
+    CHANGE_IS_REGISTERED,
+    UPDATE_OWNER_INFO_REQUEST,
+    UPDATE_OWNER_INFO_SUCCESS,
+    UPDATE_OWNER_INFO_FAILURE,
+    CHANGE_IS_UPDATED_OWNER_INFO,
+    UPDATE_OWNER_PASSWORD_REQUEST,
+    UPDATE_OWNER_PASSWORD_SUCCESS,
+    UPDATE_OWNER_PASSWORD_FAILURE,
+    CHANGE_IS_UPDATED_OWNER_PASSWORD
 } from "../actions/owner"
 import { IStore } from "./store"
 
@@ -37,6 +45,12 @@ export interface OwnerState {
     isLoadingMyStores: boolean
     myStores: IStore[]
     loadMystoresErrorMessage: string
+    isUpdatingOwnerInfo: boolean
+    isUpdatedOwnerInfo: boolean
+    updateOwnerInfoErrorMessage: string
+    isUpdatingOwnerPassword: boolean
+    isUpdatedOwnerPassword: boolean
+    updateOwnerPasswordErrorMessage: string
 }
 
 const initialState: OwnerState = {
@@ -51,7 +65,13 @@ const initialState: OwnerState = {
     token: window.sessionStorage.getItem("jwt"),
     isLoadingMyStores: false,
     myStores: [],
-    loadMystoresErrorMessage: ""
+    loadMystoresErrorMessage: "",
+    isUpdatingOwnerInfo: false,
+    isUpdatedOwnerInfo: false,
+    updateOwnerInfoErrorMessage: "",
+    isUpdatingOwnerPassword: false,
+    isUpdatedOwnerPassword: false,
+    updateOwnerPasswordErrorMessage: ""
 }
 
 function owner(state: OwnerState = initialState, action: any) {
@@ -122,6 +142,36 @@ function owner(state: OwnerState = initialState, action: any) {
             case LOAD_MY_STORES_FAILURE:
                 draft.isLoadingMyStores = false
                 draft.loadMystoresErrorMessage = action.payload
+                break
+            case UPDATE_OWNER_INFO_REQUEST:
+                draft.isUpdatingOwnerInfo = true
+                draft.updateOwnerInfoErrorMessage = ""
+                break
+            case UPDATE_OWNER_INFO_SUCCESS:
+                draft.isUpdatingOwnerInfo = false
+                draft.isUpdatedOwnerInfo = true
+                break
+            case UPDATE_OWNER_INFO_FAILURE:
+                draft.isUpdatingOwnerInfo = false
+                draft.updateOwnerInfoErrorMessage = action.payload
+                break
+            case CHANGE_IS_UPDATED_OWNER_INFO:
+                draft.isUpdatedOwnerInfo = action.payload
+                break
+            case UPDATE_OWNER_PASSWORD_REQUEST:
+                draft.isUpdatingOwnerPassword = true
+                draft.updateOwnerPasswordErrorMessage = ""
+                break
+            case UPDATE_OWNER_PASSWORD_SUCCESS:
+                draft.isUpdatingOwnerPassword = false
+                draft.isUpdatedOwnerPassword = true
+                break
+            case UPDATE_OWNER_PASSWORD_FAILURE:
+                draft.isUpdatingOwnerPassword = false
+                draft.updateOwnerPasswordErrorMessage = action.payload
+                break
+            case CHANGE_IS_UPDATED_OWNER_PASSWORD:
+                draft.isUpdatedOwnerPassword = action.payload
                 break
             default:
                 break

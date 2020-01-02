@@ -53,6 +53,7 @@ export const register = async (
         }).save()
 
         const token = createJWT(owner.num)
+        delete owner.password
         return res.json({ owner, token })
     } catch (e) {
         return next(e)
@@ -94,6 +95,7 @@ export const login = async (
 
         if (isValidPassword) {
             const token = createJWT(owner.num)
+            delete owner.password
             return res.json({ owner, token })
         } else {
             return res.status(401).send("비밀번호가 잘못되었습니다.")
@@ -104,12 +106,13 @@ export const login = async (
 }
 
 export const check = async (req, res: Response, next: NextFunction) => {
-    const { owner } = req
+    const owner = req.owner
 
     if (!owner) {
         return res.status(401).send("로그인이 되어있지 않습니다.")
     }
 
     const token = createJWT(owner.num)
+    delete owner.password
     return res.json({ owner, token })
 }

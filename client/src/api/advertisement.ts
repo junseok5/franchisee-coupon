@@ -5,10 +5,10 @@ const api = axios.create({
     baseURL: "http://localhost:5000/api/v1.0"
 })
 
-interface AddAdvertisementParams {
+export interface AddAdvertisementParams {
     formData: FormData
     token: string
-    storeId: string
+    storeId: number | string
 }
 
 export const addAdvertisement = ({
@@ -20,37 +20,37 @@ export const addAdvertisement = ({
         headers: { "Content-Type": "multipart/form-data", "X-JWT": token }
     })
 
-interface UpdateAdvertisementParams {
+export interface UpdateAdvertisementParams {
     formData: FormData
     token: string
-    id: number
+    adId: number | string
 }
 
 export const updateAdvertisement = ({
     formData,
     token,
-    id
+    adId
 }: UpdateAdvertisementParams) =>
-    api.patch(`/ads/${id}`, formData, {
+    api.patch(`/ads/${adId}`, formData, {
         headers: { "Content-Type": "multipart/form-data", "X-JWT": token }
     })
 
-interface RemoveAdvertisement {
-    id: number
+export interface RemoveAdvertisementParams {
+    id: number | string
     token: string
 }
 
-export const removeAdvertisement = ({ id, token }: RemoveAdvertisement) =>
+export const removeAdvertisement = ({ id, token }: RemoveAdvertisementParams) =>
     api.delete(`/ads/${id}`, {
         headers: { "X-JWT": token }
     })
 
-interface LoadAdvertisementsParams {
+export interface LoadAdvertisementsParams {
     category?: string
     lat?: number
     lng?: number
     radius?: number
-    storeId?: number
+    storeId?: number | string
 }
 
 export const loadAdvertisements = ({

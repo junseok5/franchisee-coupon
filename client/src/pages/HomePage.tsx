@@ -1,4 +1,5 @@
 import * as React from "react"
+import { Helmet } from "react-helmet"
 import ListLayout from "src/components/layout/ListLayout"
 import CategoryList from "src/containers/boxes/CategoryList"
 import RegisterModal from "src/containers/modal/RegisterModal"
@@ -35,6 +36,9 @@ const HomePage: React.SFC = () => {
             <SpecialDetailModal />
             <CouponDetailModal />
             <CheckLogged />
+            <Helmet>
+                <title>In500m</title>
+            </Helmet>
         </>
     )
 }

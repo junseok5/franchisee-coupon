@@ -5,9 +5,6 @@ import Image from "src/components/elements/Image"
 import useAdvertisementInModal from "src/hooks/modal/useAdvertisementInModal"
 import Text from "src/components/elements/Text"
 import SubTitle from "src/components/elements/SubTitle"
-import Button from "src/components/elements/Button"
-// @ts-ignore
-import domtoimage from "dom-to-image"
 
 const SpecialDetailModal: React.SFC = () => {
     const {
@@ -15,18 +12,6 @@ const SpecialDetailModal: React.SFC = () => {
         onHideSpecialDetailModal
     } = useSpecialDetailModal()
     const { advertisementInModal: ad } = useAdvertisementInModal()
-    const modalDom = document.getElementById("modal")
-
-    const onClickDownloadButton = React.useCallback(() => {
-        domtoimage
-            .toPng(modalDom, { width: 640, height: 960 })
-            .then((dataUrl: any) => {
-                const link = document.createElement("a")
-                link.download = "my-image-name.jpeg"
-                link.href = dataUrl
-                link.click()
-            })
-    }, [modalDom])
 
     return (
         <Modal
@@ -44,7 +29,6 @@ const SpecialDetailModal: React.SFC = () => {
             <SubTitle noHorizontalMargin={true}>
                 {ad.startAt} ~ {ad.endAt}
             </SubTitle>
-            <Button title={"다운받기"} onClick={onClickDownloadButton} />
         </Modal>
     )
 }

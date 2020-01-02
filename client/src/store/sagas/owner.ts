@@ -9,7 +9,15 @@ import {
     CHECK_LOGGED_FAILURE,
     CHECK_LOGGED_SUCCESS,
     CHECK_LOGGED_REQUEST,
-    CHANGE_IS_REGISTERED
+    CHANGE_IS_REGISTERED,
+    UPDATE_OWNER_INFO_FAILURE,
+    UPDATE_OWNER_INFO_SUCCESS,
+    CHANGE_IS_UPDATED_OWNER_INFO,
+    UPDATE_OWNER_INFO_REQUEST,
+    UPDATE_OWNER_PASSWORD_FAILURE,
+    UPDATE_OWNER_PASSWORD_SUCCESS,
+    CHANGE_IS_UPDATED_OWNER_PASSWORD,
+    UPDATE_OWNER_PASSWORD_REQUEST
 } from "../actions/owner"
 import * as ownerAPI from "../../api/owner"
 import {
@@ -105,11 +113,58 @@ function* watchLoadStores() {
     yield takeEvery(LOAD_MY_STORES_REQUEST, loadStores)
 }
 
+function* updateOwnerInfo(action: any) {
+    try {
+        yield call(ownerAPI.updateOwnerInfo, action.payload)
+        yield put({
+            type: UPDATE_OWNER_INFO_SUCCESS
+        })
+        yield put({
+            type: CHANGE_IS_UPDATED_OWNER_INFO,
+            payload: false
+        })
+    } catch (e) {
+        console.error(e)
+        yield put({
+            type: UPDATE_OWNER_INFO_FAILURE,
+            payload: e.response && e.response.data
+        })
+    }
+}
+
+function* watchUpdateOwnerInfo() {
+    yield takeLatest(UPDATE_OWNER_INFO_REQUEST, updateOwnerInfo)
+}
+
+function* updateOwnerPassword(action: any) {
+    try {
+        yield call(ownerAPI.updateOwnerPassword, action.payload)
+        yield put({
+            type: UPDATE_OWNER_PASSWORD_SUCCESS
+        })
+        yield put({
+            type: CHANGE_IS_UPDATED_OWNER_PASSWORD
+        })
+    } catch (e) {
+        console.error(e)
+        yield put({
+            type: UPDATE_OWNER_PASSWORD_FAILURE,
+            payload: e.response && e.response.data
+        })
+    }
+}
+
+function* watchUpdateOwnerPassword() {
+    yield takeLatest(UPDATE_OWNER_PASSWORD_REQUEST, updateOwnerPassword)
+}
+
 export default function* ownerSaga() {
     yield all([
         fork(watchLogIn),
         fork(watchRegister),
         fork(watchCheckLogged),
-        fork(watchLoadStores)
+        fork(watchLoadStores),
+        fork(watchUpdateOwnerInfo),
+        fork(watchUpdateOwnerPassword)
     ])
 }

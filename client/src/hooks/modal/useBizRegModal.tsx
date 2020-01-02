@@ -22,9 +22,5 @@ export default function useBizRegModal() {
         bizRegModalVisible,
         onShowBizRegModal,
         onHideBizRegModal
-    } as {
-        bizRegModalVisible: boolean
-        onShowBizRegModal: typeof onShowBizRegModal
-        onHideBizRegModal: typeof onHideBizRegModal
     }
 }

@@ -12,6 +12,7 @@ import { useHistory } from "react-router-dom"
 import { PAGE_PATHS } from "src/constants"
 import ErrorNotice from "src/components/boxes/ErrorNotice"
 import FlexListLayout from "src/components/layout/FlexListLayout"
+import ColumnWrap from "src/components/wrap/ColumnWrap"
 
 interface MyStoresProps {}
 
@@ -35,9 +36,11 @@ const MyStores: React.SFC<MyStoresProps> = () => {
         <BoxContainer>
             <RowBetweenLayout>
                 <Title>내 가맹점</Title>
-                <TextButton onClick={onClickStoreAddButton}>
-                    + 가맹점 추가
-                </TextButton>
+                <ColumnWrap>
+                    <TextButton onClick={onClickStoreAddButton}>
+                        + 가맹점 추가
+                    </TextButton>
+                </ColumnWrap>
             </RowBetweenLayout>
 
             {isLoadingMyStores ? (

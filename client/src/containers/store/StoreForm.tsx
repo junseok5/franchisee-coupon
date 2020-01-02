@@ -1,5 +1,6 @@
 import * as React from "react"
 import { useEffect, useCallback } from "react"
+import { Helmet } from "react-helmet"
 import Input from "src/components/elements/Input"
 import useInput from "src/hooks/elements/useInput"
 import Select from "src/components/elements/Select"
@@ -21,6 +22,7 @@ import BoxContainer from "src/components/boxes/BoxContainer"
 import Title from "src/components/elements/Title"
 
 const StoreForm: React.SFC = () => {
+    const { storeId } = useParams()
     const [name, changeName, , setName] = useInput("")
     const [description, changeDescription, , setDescription] = useInput("")
     const [category, changeCategory, , setCategory] = useInput(0)
@@ -43,7 +45,6 @@ const StoreForm: React.SFC = () => {
         me: { num }
     } = useOwnerInfo()
     const history = useHistory()
-    const { storeId } = useParams()
     const { store } = useLoadStore()
     const {
         isUpdatingStore,
@@ -159,7 +160,9 @@ const StoreForm: React.SFC = () => {
             formData.append("logoImg", logoImg)
         }
 
-        updateStore({ id: storeId, formData, token })
+        if (storeId) {
+            updateStore({ id: storeId, formData, token })
+        }
     }, [
         name,
         description,
@@ -291,6 +294,9 @@ const StoreForm: React.SFC = () => {
                     />
                 </>
             )}
+            <Helmet>
+                <title>{storeId ? "가맹점 수정" : "가맹점 등록"}</title>
+            </Helmet>
         </BoxContainer>
     )
 }

@@ -2,7 +2,7 @@ import { useSelector, useDispatch } from "react-redux"
 import { RootState } from "src/store/reducers"
 import { useCallback } from "react"
 import { LOAD_STORE_ADVERTISEMENTS_REQUEST } from "src/store/actions/store"
-import { IAdvertisement } from "src/store/reducers/store"
+import { LoadStoreAdvertisementsParams } from "src/api/store"
 
 export default function useLoadStoreAdvertisements() {
     const {
@@ -13,7 +13,7 @@ export default function useLoadStoreAdvertisements() {
     const dispatch = useDispatch()
 
     const loadStoreAdvertisements = useCallback(
-        payload =>
+        (payload: LoadStoreAdvertisementsParams) =>
             dispatch({ type: LOAD_STORE_ADVERTISEMENTS_REQUEST, payload }),
         [dispatch]
     )
@@ -23,10 +23,5 @@ export default function useLoadStoreAdvertisements() {
         storeAdvertisements,
         loadStoreAdvertisementsErrorMessage,
         loadStoreAdvertisements
-    } as {
-        isLoadingStoreAdvertisements: boolean
-        storeAdvertisements: IAdvertisement[]
-        loadStoreAdvertisementsErrorMessage: string
-        loadStoreAdvertisements: typeof loadStoreAdvertisements
     }
 }

@@ -25,9 +25,5 @@ export default function useCouponDetailModal() {
         couponDetailModalVisible,
         onShowCouponDetailModal,
         onHideCouponDetailModal
-    } as {
-        couponDetailModalVisible: boolean
-        onShowCouponDetailModal: typeof onShowCouponDetailModal
-        onHideCouponDetailModal: typeof onHideCouponDetailModal
     }
 }

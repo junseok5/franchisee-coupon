@@ -15,8 +15,5 @@ export default function useLng() {
     return {
         lng,
         changeLng
-    } as {
-        lng: number
-        changeLng: typeof changeLng
     }
 }

@@ -34,7 +34,7 @@ export interface AdvertisementState {
     advertisements: IAdvertisement[]
     loadAdvertisementsErrorMessage: string
     radius: number
-    advertisementInModal: IAdvertisement | null
+    advertisementInModal: IAdvertisement
 }
 
 const initialState: AdvertisementState = {

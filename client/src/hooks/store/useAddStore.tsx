@@ -2,6 +2,7 @@ import { useSelector, useDispatch } from "react-redux"
 import { RootState } from "src/store/reducers"
 import { useCallback } from "react"
 import { ADD_STORE_REQUEST } from "src/store/actions/store"
+import { AddStoreParams } from "src/api/store"
 
 export default function useAddStore() {
     const { isAddingStore, addStoreErrorMessage, storeAdded } = useSelector(
@@ -10,7 +11,8 @@ export default function useAddStore() {
     const dispatch = useDispatch()
 
     const addStore = useCallback(
-        payload => dispatch({ type: ADD_STORE_REQUEST, payload }),
+        (payload: AddStoreParams) =>
+            dispatch({ type: ADD_STORE_REQUEST, payload }),
         [dispatch]
     )
 
@@ -19,10 +21,5 @@ export default function useAddStore() {
         addStoreErrorMessage,
         addStore,
         storeAdded
-    } as {
-        isAddingStore: boolean
-        addStoreErrorMessage: string
-        addStore: typeof addStore
-        storeAdded: boolean
     }
 }

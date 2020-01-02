@@ -2,6 +2,7 @@ import { useSelector, useDispatch } from "react-redux"
 import { RootState } from "src/store/reducers"
 import { useCallback } from "react"
 import { UPDATE_STORE_REQUEST } from "src/store/actions/store"
+import { UpdateStoreParams } from "src/api/store"
 
 export default function useUpdateStore() {
     const {
@@ -12,7 +13,8 @@ export default function useUpdateStore() {
     const dispatch = useDispatch()
 
     const updateStore = useCallback(
-        payload => dispatch({ type: UPDATE_STORE_REQUEST, payload }),
+        (payload: UpdateStoreParams) =>
+            dispatch({ type: UPDATE_STORE_REQUEST, payload }),
         [dispatch]
     )
 
@@ -21,10 +23,5 @@ export default function useUpdateStore() {
         updateStoreErrorMessage,
         storeUpdated,
         updateStore
-    } as {
-        isUpdatingStore: boolean
-        updateStoreErrorMessage: string
-        storeUpdated: boolean
-        updateStore: typeof updateStore
     }
 }

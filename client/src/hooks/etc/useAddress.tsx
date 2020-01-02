@@ -15,8 +15,5 @@ export default function useAddress() {
     return {
         address,
         changeAddress
-    } as {
-        address: string
-        changeAddress: typeof changeAddress
     }
 }

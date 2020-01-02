@@ -2,6 +2,7 @@ import { useSelector, useDispatch } from "react-redux"
 import { RootState } from "src/store/reducers"
 import { useCallback } from "react"
 import { ADD_ADVERTISEMENT_REQUEST } from "src/store/actions/advertisement"
+import { AddAdvertisementParams } from "src/api/advertisement"
 
 export default function useAddAdvertisement() {
     const {
@@ -12,7 +13,8 @@ export default function useAddAdvertisement() {
     const dispatch = useDispatch()
 
     const addAdvertisement = useCallback(
-        payload => dispatch({ type: ADD_ADVERTISEMENT_REQUEST, payload }),
+        (payload: AddAdvertisementParams) =>
+            dispatch({ type: ADD_ADVERTISEMENT_REQUEST, payload }),
         [dispatch]
     )
 
@@ -21,10 +23,5 @@ export default function useAddAdvertisement() {
         addAdvertisementErrorMessage,
         advertisementAdded,
         addAdvertisement
-    } as {
-        isAddingAdvertisement: boolean
-        addAdvertisementErrorMessage: string
-        advertisementAdded: boolean
-        addAdvertisement: typeof addAdvertisement
     }
 }

@@ -26,7 +26,9 @@ const MyStoreAdvertisements: React.SFC = () => {
     const history = useHistory()
 
     useEffect(() => {
-        loadStoreAdvertisements({ storeId, token })
+        if (storeId) {
+            loadStoreAdvertisements({ storeId, token })
+        }
     }, [])
 
     const goToAdvertisementEditor = React.useCallback(() => {

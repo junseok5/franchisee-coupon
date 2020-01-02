@@ -2,6 +2,7 @@ import { useSelector, useDispatch } from "react-redux"
 import { RootState } from "src/store/reducers"
 import { useCallback } from "react"
 import { REMOVE_ADVERTISEMENT_REQUEST } from "src/store/actions/advertisement"
+import { RemoveAdvertisementParams } from "src/api/advertisement"
 
 export default function useRemoveAdvertisement() {
     const {
@@ -12,7 +13,8 @@ export default function useRemoveAdvertisement() {
     const dispatch = useDispatch()
 
     const removeAdvertisement = useCallback(
-        payload => dispatch({ type: REMOVE_ADVERTISEMENT_REQUEST, payload }),
+        (payload: RemoveAdvertisementParams) =>
+            dispatch({ type: REMOVE_ADVERTISEMENT_REQUEST, payload }),
         [dispatch]
     )
 
@@ -21,10 +23,5 @@ export default function useRemoveAdvertisement() {
         advertisementRemoved,
         removeAdvertisementErrorMessage,
         removeAdvertisement
-    } as {
-        isRemovingAdvertisement: boolean
-        advertisementRemoved: boolean
-        removeAdvertisementErrorMessage: string
-        removeAdvertisement: typeof removeAdvertisement
     }
 }

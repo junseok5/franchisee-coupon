@@ -1,6 +1,7 @@
 import * as React from "react"
 import styled from "styled-components"
 import { FiX } from "react-icons/fi"
+import { COLORS } from "src/constants"
 
 interface ModalProps {
     title: string
@@ -15,7 +16,7 @@ const Modal: React.SFC<ModalProps> = ({
     onHideModal
 }) => {
     return (
-        <Container show={show} id={"modal"}>
+        <Container show={show}>
             <div className={"dark-bg"} onClick={onHideModal} />
             <div className={"modal"}>
                 <div className={"header"}>
@@ -24,7 +25,9 @@ const Modal: React.SFC<ModalProps> = ({
                         <FiX size={24} />
                     </div>
                 </div>
-                <div className={"main"}>{children}</div>
+                <div className={"main"} id={"modal"}>
+                    {children}
+                </div>
             </div>
         </Container>
     )
@@ -54,9 +57,12 @@ const Container = styled.div<ContainerProps>`
     }
 
     .header {
-        margin: 1em 1em 0 1em;
+        margin: 0 1em 0 1em;
+        padding-top: 1em;
+        padding-bottom: 0.5em;
         display: flex;
         justify-content: space-between;
+        border-bottom: 1px dotted ${COLORS.border};
 
         .close-button {
             cursor: pointer;

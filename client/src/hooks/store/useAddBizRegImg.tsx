@@ -2,6 +2,7 @@ import { useSelector, useDispatch } from "react-redux"
 import { RootState } from "src/store/reducers"
 import { useCallback } from "react"
 import { ADD_BIZ_REG_IMG_REQUEST } from "src/store/actions/store"
+import { AddBizRegImgParams } from "src/api/store"
 
 export default function useAddBizRegImg() {
     const {
@@ -12,7 +13,8 @@ export default function useAddBizRegImg() {
     const dispatch = useDispatch()
 
     const addBizRegImg = useCallback(
-        payload => dispatch({ type: ADD_BIZ_REG_IMG_REQUEST, payload }),
+        (payload: AddBizRegImgParams) =>
+            dispatch({ type: ADD_BIZ_REG_IMG_REQUEST, payload }),
         [dispatch]
     )
 
@@ -21,10 +23,5 @@ export default function useAddBizRegImg() {
         addedBizRegImg,
         addBizRegImgErrorMessage,
         addBizRegImg
-    } as {
-        isAddingBizRegImg: boolean
-        addedBizRegImg: boolean
-        addBizRegImgErrorMessage: string
-        addBizRegImg: typeof addBizRegImg
     }
 }

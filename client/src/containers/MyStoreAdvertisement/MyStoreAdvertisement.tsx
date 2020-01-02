@@ -41,13 +41,17 @@ const MyStoreAdvertisement: React.SFC<MyStoreAdvertisementProps> = ({
 
     React.useEffect(() => {
         if (advertisementUpdated) {
-            loadStoreAdvertisements({ storeId, token })
+            if (storeId) {
+                loadStoreAdvertisements({ storeId, token })
+            }
         }
     }, [advertisementUpdated])
 
     React.useEffect(() => {
         if (advertisementRemoved) {
-            loadStoreAdvertisements({ storeId, token })
+            if (storeId) {
+                loadStoreAdvertisements({ storeId, token })
+            }
         }
     }, [advertisementRemoved])
 
@@ -66,7 +70,8 @@ const MyStoreAdvertisement: React.SFC<MyStoreAdvertisementProps> = ({
         const formData = new FormData()
 
         formData.append("isStopped", NotisStopped)
-        updateAdvertisement({ formData, token, id: advertisement.id })
+
+        updateAdvertisement({ formData, token, adId: advertisement.id })
     }, [])
 
     const onClickRemoveAdButton = React.useCallback(() => {
@@ -231,6 +236,7 @@ const Container = styled.div`
     @media screen and (max-width: 768px) {
         width: 100%;
         height: auto;
+        margin-left: 14px;
     }
 
     .remove-ad {

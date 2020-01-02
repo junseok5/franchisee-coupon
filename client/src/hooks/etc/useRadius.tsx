@@ -16,8 +16,5 @@ export default function useRadius() {
     return {
         radius,
         changeRadius
-    } as {
-        radius: number
-        changeRadius: typeof changeRadius
     }
 }
