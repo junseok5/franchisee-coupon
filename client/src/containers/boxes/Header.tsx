@@ -46,8 +46,12 @@ const Header: React.SFC<HeaderProps> = () => {
                             />
                         </div>
                         <div className={"mobile-auth"}>
-                            <TextButton>로그인</TextButton>
-                            <TextButton>회원가입</TextButton>
+                            <TextButton onClick={onShowLoginModal}>
+                                로그인
+                            </TextButton>
+                            <TextButton onClick={onShowRegisterModal}>
+                                회원가입
+                            </TextButton>
                         </div>
                     </>
                 )}
