@@ -6,7 +6,7 @@ import ColumnLayout from "src/components/layout/ColumnLayout"
 import Title from "src/components/elements/Title"
 import RowLayout from "src/components/layout/RowLayout"
 import SubTitle from "src/components/elements/SubTitle"
-import { COLORS, PAGE_PATHS } from "src/constants"
+import { COLORS, PAGE_PATHS, storageURL } from "src/constants"
 import Text from "src/components/elements/Text"
 import useLoadStore from "src/hooks/store/useLoadStore"
 import Loading from "src/components/etc/Loading"
@@ -76,7 +76,7 @@ const StoreDetail: React.SFC<StoreDetailProps> = () => {
                     <RowBetweenLayout>
                         <RowLayout>
                             <CircleImage
-                                src={`http://localhost:5000/uploads/stores${store?.logoImg}`}
+                                src={`${storageURL}/stores${store?.logoImg}`}
                             />
                             <RowWrap>
                                 <Title>{store?.name}</Title>

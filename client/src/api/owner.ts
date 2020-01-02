@@ -23,7 +23,7 @@ export const register = (body: RegisterBody) =>
     api.post("/v1.0/auth/register", body)
 
 export const checkLogged = (token: string) =>
-    api.get("auth/check", {
+    api.get("/v1.0/auth/check", {
         headers: { "X-JWT": token }
     })
 

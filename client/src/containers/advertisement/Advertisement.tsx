@@ -29,7 +29,7 @@ const Advertisement: React.SFC<AdvertisementProps> = ({ ad }) => {
     return (
         <Container onClick={onClickAdvertisement}>
             <Image
-                src={`${storageURL}/uploads/ads${ad.photo}`}
+                src={`${storageURL}/ads${ad.photo}`}
                 width={"280px"}
                 height={"420px"}
             />

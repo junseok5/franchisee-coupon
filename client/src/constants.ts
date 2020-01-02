@@ -1,5 +1,11 @@
-export const storageURL = "http://in500m.com/uploads"
-export const apiBaseURL = "http://in500m.com/api"
+export const storageURL =
+    process.env.NODE_ENV === "production"
+        ? "http://in500m.com/uploads"
+        : "http://localhost:5000/uploads"
+export const apiBaseURL =
+    process.env.NODE_ENV === "production"
+        ? "http://in500m.com/api"
+        : "http://localhost:5000/api"
 
 export enum PAGE_PATHS {
     HOME = "/",
