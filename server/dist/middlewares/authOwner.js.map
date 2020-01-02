@@ -1,0 +1,1 @@
+{"version":3,"file":"authOwner.js","sourceRoot":"","sources":["../../src/middlewares/authOwner.ts"],"names":[],"mappings":";;AAEA,kBAAe,CAAC,GAAG,EAAE,GAAa,EAAE,IAAI,EAAE,EAAE;IACxC,MAAM,KAAK,GAAG,GAAG,CAAC,KAAK,CAAA;IAEvB,IAAI,CAAC,KAAK,EAAE;QACR,OAAO,GAAG,CAAC,MAAM,CAAC,GAAG,CAAC,CAAC,IAAI,CAAC,aAAa,CAAC,CAAA;KAC7C;IAED,OAAO,IAAI,EAAE,CAAA;AACjB,CAAC,CAAA"}

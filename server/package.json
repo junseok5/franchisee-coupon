@@ -6,7 +6,10 @@
     "author": "Junseok Oh",
     "license": "MIT",
     "scripts": {
-        "dev": "cd src && cross-env NODE_PATH=src nodemon --exec ts-node index.ts -e ts"
+        "dev": "cd src && cross-env NODE_PATH=src nodemon --exec ts-node index.ts -e ts",
+        "prebuild": "rm -rf dist",
+        "build": "tsc",
+        "start": "cd ./dist && cross-env NODE_ENV=production pm2 start index.js"
     },
     "dependencies": {
         "body-parser": "^1.19.0",
