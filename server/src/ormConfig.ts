@@ -1,5 +1,7 @@
 import { ConnectionOptions } from "typeorm"
 
+console.log(process.env.DB_ENDPOINT)
+
 const connectionOptions: ConnectionOptions = {
     type: "postgres",
     host: process.env.DB_ENDPOINT,

@@ -28,7 +28,7 @@ class App {
         if (this.isProduction) {
             this.app.use(
                 cors({
-                    origin: "url",
+                    origin: /in500m\.com$/,
                     credentials: true
                 })
             )
