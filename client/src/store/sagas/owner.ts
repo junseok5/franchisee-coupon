@@ -79,7 +79,6 @@ function* watchRegister() {
 function* checkLogged(action: any) {
     try {
         const result = yield call(ownerAPI.checkLogged, action.payload)
-        console.log(result.data)
         yield put({
             type: CHECK_LOGGED_SUCCESS,
             payload: result.data

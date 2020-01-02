@@ -10,7 +10,6 @@ const CheckLogged: React.SFC<CheckLoggedProps> = ({ children }) => {
     const { checkLogged } = useLoginRequest()
 
     useEffect(() => {
-        console.log(token, isLoggedIn, me)
         if (isLoggedIn && !me) {
             checkLogged(token)
         }
