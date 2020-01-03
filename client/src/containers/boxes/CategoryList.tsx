@@ -6,11 +6,12 @@ import {
     MdLocalCafe,
     MdLocalGroceryStore,
     MdLocalHospital,
-    MdRestaurant
+    MdRestaurant,
+    MdHome
 } from "react-icons/md"
 import Category from "../../components/boxes/Category"
 import { useParams, useHistory } from "react-router-dom"
-import { PAGE_PATHS } from "src/constants"
+import { PAGE_PATHS, COLORS } from "src/constants"
 
 const CategoryList: React.SFC = () => {
     const { storeId } = useParams()
@@ -19,9 +20,18 @@ const CategoryList: React.SFC = () => {
     const onClickCategory = React.useCallback((category: number) => {
         let uri = ""
         if (storeId) {
-            uri = `${PAGE_PATHS.HOME}${storeId}/categories/${category}`
+            if (category === -1) {
+                // 홈으로 이동
+                uri = `${PAGE_PATHS.HOME}${storeId}`
+            } else {
+                uri = `${PAGE_PATHS.HOME}${storeId}/categories/${category}`
+            }
         } else {
-            uri = `${PAGE_PATHS.HOME}categories/${category}`
+            if (category === -1) {
+                uri = `${PAGE_PATHS.HOME}`
+            } else {
+                uri = `${PAGE_PATHS.HOME}categories/${category}`
+            }
         }
 
         history.push(uri)
@@ -29,6 +39,12 @@ const CategoryList: React.SFC = () => {
 
     return (
         <>
+            <Category
+                icon={<MdHome />}
+                name={"홈"}
+                bgColor={COLORS.main}
+                onClick={() => onClickCategory(-1)}
+            />
             <Category
                 icon={<MdRestaurant />}
                 name={"음식점"}
