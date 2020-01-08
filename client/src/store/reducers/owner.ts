@@ -91,13 +91,11 @@ function owner(state: OwnerState = initialState, action: any) {
             case LOG_IN_SUCCESS:
                 draft.isLoggingIn = false
                 draft.isLoggedIn = true
-                draft.loginErrorMessage = ""
                 draft.me = action.payload.owner
                 draft.token = action.payload.token
                 break
             case LOG_IN_FAILURE:
                 draft.isLoggingIn = false
-                draft.isLoggedIn = false
                 draft.loginErrorMessage = action.payload
                 draft.me = null
                 draft.token = null

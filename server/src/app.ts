@@ -18,7 +18,9 @@ class App {
         this.sessionConfig = {
             secret: process.env.SESSION_SECRET || "",
             resave: false,
-            saveUninitialized: true
+            saveUninitialized: true,
+            cookie: { secure: false, maxAge: 86400000 },
+            httpOnly: false
         }
         this.isProduction = process.env.NODE_ENV === "production" ? true : false
         this.runMiddlewares()

@@ -7,6 +7,7 @@ import PrivateRoute from "./components/etc/PrivateRoute"
 import StoreEditorPage from "./pages/StoreEditorPage"
 import StoreDetailPage from "./pages/StoreDetailPage"
 import AdvertisementEditorPage from "./pages/AdvertisementEditorPage"
+import AdminPage from "./pages/AdminPage"
 
 class App extends React.Component {
     public render() {
@@ -51,6 +52,7 @@ class App extends React.Component {
                         path={`${PAGE_PATHS.HOME}categories/:category`}
                         component={HomePage}
                     />
+                    <Route path={PAGE_PATHS.ADMIN} component={AdminPage} />
                     <Route
                         path={`${PAGE_PATHS.HOME}:storeId`}
                         component={HomePage}

@@ -12,7 +12,8 @@ export enum PAGE_PATHS {
     OWNER = "/owners",
     STORE_EDITOR = "/store-editor",
     STORE_DETAIL = "/stores",
-    ADVERTISEMENT_EDITOR = "/advertisement-editor"
+    ADVERTISEMENT_EDITOR = "/advertisement-editor",
+    ADMIN = "/admin"
 }
 
 export enum COLORS {
