@@ -62,7 +62,7 @@ export default MyStore
 
 const Container = styled.div`
     position: relative;
-    width: 238px;
+    width: 230px;
     height: auto;
     padding: 1em 1em 3em 1em;
     margin: 14px 14px 14px 0;

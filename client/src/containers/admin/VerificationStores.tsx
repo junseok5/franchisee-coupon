@@ -31,11 +31,11 @@ const VerificationStores: React.SFC<VerificationStoresProps> = () => {
             {isLoadingVerificationStores ? (
                 <Loading />
             ) : verificationStores.length ? (
-                verificationStores.map(store => (
-                    <FlexListLayout key={store.id}>
-                        <VerificationStore store={store} />
-                    </FlexListLayout>
-                ))
+                <FlexListLayout>
+                    {verificationStores.map(store => (
+                        <VerificationStore key={store.id} store={store} />
+                    ))}
+                </FlexListLayout>
             ) : (
                 <ErrorNotice>인증 요청 중인 가맹점이 없습니다.</ErrorNotice>
             )}

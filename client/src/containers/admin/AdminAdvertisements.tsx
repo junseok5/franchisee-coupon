@@ -31,11 +31,14 @@ const AdminAdvertisements: React.SFC<AdminAdvertisementsProps> = () => {
             {isLoadingAdvertisements ? (
                 <Loading />
             ) : advertisements.length ? (
-                advertisements.map(advertisement => (
-                    <FlexListLayout key={advertisement.id}>
-                        <AdminAdvertisement advertisement={advertisement} />
-                    </FlexListLayout>
-                ))
+                <FlexListLayout>
+                    {advertisements.map(advertisement => (
+                        <AdminAdvertisement
+                            key={advertisement.id}
+                            advertisement={advertisement}
+                        />
+                    ))}
+                </FlexListLayout>
             ) : (
                 <ErrorNotice>등록된 광고가 없습니다.</ErrorNotice>
             )}
