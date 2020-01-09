@@ -41,7 +41,7 @@ const Container = styled.div`
                 }
             }
 
-            @media screen and (max-width: 768px) {
+            @media screen and (max-width: 1088px) {
                 margin-left: 1em;
             }
         }
@@ -51,7 +51,7 @@ const Container = styled.div`
             flex: 1;
             justify-content: flex-end;
 
-            @media screen and (max-width: 768px) {
+            @media screen and (max-width: 1088px) {
                 margin-right: 0.5em;
                 flex: 2;
             }

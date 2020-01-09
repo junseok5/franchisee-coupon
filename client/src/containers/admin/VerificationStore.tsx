@@ -19,21 +19,13 @@ interface VerificationStoreProps {
 const VerificationStore: React.SFC<VerificationStoreProps> = ({ store }) => {
     const {
         isUpdatedVerificationStore,
-        updateVerificationStoreErrorMessage,
         updateVerificationStore
     } = useUpdateVerificationStore()
     const { adminToken } = useAdminLogin()
     const { loadVerificationStores } = useLoadVerificationStores()
 
     React.useEffect(() => {
-        if (updateVerificationStoreErrorMessage) {
-            alert(updateVerificationStoreErrorMessage)
-        }
-    }, [updateVerificationStoreErrorMessage])
-
-    React.useEffect(() => {
         if (isUpdatedVerificationStore && adminToken) {
-            alert("인증 수락에 성공하였습니다.")
             loadVerificationStores(adminToken)
         }
     }, [isUpdatedVerificationStore])
@@ -65,10 +57,7 @@ const VerificationStore: React.SFC<VerificationStoreProps> = ({ store }) => {
                     height={"auto"}
                 />
             </div>
-            <Button
-                title={"인증 수락"}
-                onClick={onClickAcceptButton}
-            />
+            <Button title={"인증 수락"} onClick={onClickAcceptButton} />
         </Container>
     )
 }

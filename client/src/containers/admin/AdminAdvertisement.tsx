@@ -38,7 +38,6 @@ const AdminAdvertisement: React.SFC<AdminAdvertisementProps> = ({
 
     React.useEffect(() => {
         if (isRemovedAdvertisement && adminToken) {
-            alert("삭제에 성공하였습니다.")
             loadAdvertisements(adminToken)
         }
     }, [isRemovedAdvertisement])
