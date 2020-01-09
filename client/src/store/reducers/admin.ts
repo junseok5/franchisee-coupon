@@ -39,11 +39,12 @@ export interface AdminState {
     isRemovingAdvertisement: boolean
     isRemovedAdvertisement: boolean
     removeAdvertisementErrorMessage: string
+    adminToken: string | null
 }
 
 const initialState: AdminState = {
     isAdminLoggingIn: false,
-    isAdminLoggedIn: false,
+    isAdminLoggedIn: window.sessionStorage.getItem("a-jwt") !== null,
     adminLoginErrorMessage: "",
     isCheckingAdminLogged: false,
     isLoadingAdvertisements: false,
@@ -55,7 +56,8 @@ const initialState: AdminState = {
     isUpdatedVerificationStore: false,
     isRemovingAdvertisement: false,
     isRemovedAdvertisement: false,
-    removeAdvertisementErrorMessage: ""
+    removeAdvertisementErrorMessage: "",
+    adminToken: window.sessionStorage.getItem("a-jwt")
 }
 
 function admin(state: AdminState = initialState, action: any) {
@@ -68,6 +70,7 @@ function admin(state: AdminState = initialState, action: any) {
             case ADMIN_LOG_IN_SUCCESS:
                 draft.isAdminLoggingIn = false
                 draft.isAdminLoggedIn = true
+                draft.adminToken = action.payload
                 break
             case ADMIN_LOG_IN_FAILURE:
                 draft.isAdminLoggingIn = false

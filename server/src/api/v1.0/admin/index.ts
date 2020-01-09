@@ -5,8 +5,8 @@ import * as adminCtrl from "./adminCtrl"
 const router = Router()
 
 router.post("/login", adminCtrl.login)
-router.post("logout", adminCtrl.logout)
-router.get("/check", adminCtrl.check)
+router.post("/logout", adminCtrl.logout)
+router.get("/check", authAdmin, adminCtrl.check)
 router.get("/verification-stores", authAdmin, adminCtrl.readVerificationStores)
 router.patch(
     "/verification-stores/:id",

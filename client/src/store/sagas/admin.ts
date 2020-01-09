@@ -25,9 +25,11 @@ import {
 
 function* adminLogIn(action: any) {
     try {
-        yield call(adminAPI.adminLogIn, action.payload)
+        const result = yield call(adminAPI.adminLogIn, action.payload)
+        window.sessionStorage.setItem("a-jwt", result.data)
         yield put({
-            type: ADMIN_LOG_IN_SUCCESS
+            type: ADMIN_LOG_IN_SUCCESS,
+            payload: result.data
         })
     } catch (e) {
         console.error(e)
@@ -42,9 +44,9 @@ function* watchAdminLogIn() {
     yield takeLatest(ADMIN_LOG_IN_REQUEST, adminLogIn)
 }
 
-function* adminCheckLogged() {
+function* adminCheckLogged(action: any) {
     try {
-        yield call(adminAPI.adminCheckLogged)
+        yield call(adminAPI.adminCheckLogged, action.payload)
         yield put({
             type: CHECK_ADMIN_LOGGED_SUCCESS
         })
@@ -60,9 +62,12 @@ function* watchAdminCheckLogged() {
     yield takeLatest(CHECK_ADMIN_LOGGED_REQUEST, adminCheckLogged)
 }
 
-function* loadVerificationStores() {
+function* loadVerificationStores(action: any) {
     try {
-        const result = yield call(adminAPI.loadVerificationStores)
+        const result = yield call(
+            adminAPI.loadVerificationStores,
+            action.payload
+        )
         yield put({
             type: LOAD_VERIFICATION_STORES_SUCCESS,
             payload: result.data
@@ -106,9 +111,9 @@ function* watchUpdateVerificationSTore() {
     yield takeLatest(UPDATE_VERIFICATION_STORE_REQUEST, updateVerificationStore)
 }
 
-function* loadAdvertisements() {
+function* loadAdvertisements(action: any) {
     try {
-        const result = yield call(adminAPI.loadAdvertisements)
+        const result = yield call(adminAPI.loadAdvertisements, action.payload)
         yield put({
             type: LOAD_ADMIN_ADVERTISEMENTS_SUCCESS,
             payload: result.data

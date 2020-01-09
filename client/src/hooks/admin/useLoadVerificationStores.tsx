@@ -10,7 +10,8 @@ export default function useLoadVerificationStores() {
     const dispatch = useDispatch()
 
     const loadVerificationStores = useCallback(
-        () => dispatch({ type: LOAD_VERIFICATION_STORES_REQUEST }),
+        (payload: string) =>
+            dispatch({ type: LOAD_VERIFICATION_STORES_REQUEST, payload }),
         [dispatch]
     )
 

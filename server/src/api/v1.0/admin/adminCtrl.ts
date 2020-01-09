@@ -2,32 +2,41 @@ import { getRepository } from "typeorm"
 import Advertisement from "../../../entities/Advertisement"
 import Store from "../../../entities/Store"
 import VerificationStore from "../../../entities/VerificationStore"
+import Admin from "../../../entities/Admin"
+import createJWT from "../../../utils/createJWT"
 
-export const login = async (req, res) => {
+export const login = async (req, res, next) => {
     const { id, password } = req.body
-    const adminPwd = process.env.ADMIN_PWD
-    const adminId = process.env.ADMIN_ID
 
-    if (id !== adminId) {
-        return res.status(401).send("존재하지 않는 아이디입니다.")
+    try {
+        const admin = await Admin.findOne({ id })
+
+        if (!admin) {
+            return res.status(401).send("아이디가 존재하지 않습니다.")
+        }
+
+        const isValidPassword = password === admin.password
+
+        if (!isValidPassword) {
+            return res.status(401).send("비밀번호가 잘못되었습니다.")
+        }
+
+        const token = createJWT(admin.num)
+        return res.send(token)
+    } catch (e) {
+        console.error(e)
+        return next(e)
     }
-
-    if (password !== adminPwd) {
-        return res.status(401).send("비밀번호가 틀렸습니다.")
-    }
-
-    req.session.logged = true
-    req.session.save()
-    return res.send("관리자 로그인에 성공하였습니다.")
 }
 
 export const check = async (req, res) => {
-    console.log(req.session)
-    if (!req.session.logged) {
-        return res.send(401).send("로그인되어 있지 않습니다.")
+    const admin = req.admin
+
+    if (!admin) {
+        return res.status(401).send("로그인이 되어있지 않습니다.")
     }
 
-    return res.send("로그인 된 유저입니다.")
+    return res.send("로그인인 유저입니다.")
 }
 
 export const logout = async (req, res) => {
@@ -37,7 +46,7 @@ export const logout = async (req, res) => {
 
 export const readVerificationStores = async (req, res, next) => {
     try {
-        const stores = await getRepository(Store)
+        let stores = await getRepository(Store)
             .createQueryBuilder("store")
             .leftJoinAndSelect(
                 "store.verificationStore",
@@ -45,7 +54,9 @@ export const readVerificationStores = async (req, res, next) => {
                 "verificationStore.status = 'REQUESTING'"
             )
             .getMany()
+        console.log(stores)
 
+        stores = stores.filter(store => store.verificationStore !== null)
         return res.json(stores)
     } catch (e) {
         console.error(e)

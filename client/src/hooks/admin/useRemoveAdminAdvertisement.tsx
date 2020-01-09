@@ -2,8 +2,9 @@ import { useSelector, useDispatch } from "react-redux"
 import { RootState } from "src/store/reducers"
 import { useCallback } from "react"
 import { REMOVE_ADMIN_ADVERTISEMENT_REQUEST } from "src/store/actions/admin"
+import { RemoveAdvertisementBody } from "src/api/admin"
 
-export default function useRemoveAdvertisements() {
+export default function useRemoveAdminAdvertisement() {
     const {
         isRemovedAdvertisement,
         isRemovingAdvertisement,
@@ -11,8 +12,8 @@ export default function useRemoveAdvertisements() {
     } = useSelector((state: RootState) => state.admin)
     const dispatch = useDispatch()
 
-    const removeAdvertisements = useCallback(
-        (payload: number | string) =>
+    const removeAdvertisement = useCallback(
+        (payload: RemoveAdvertisementBody) =>
             dispatch({ type: REMOVE_ADMIN_ADVERTISEMENT_REQUEST, payload }),
         [dispatch]
     )
@@ -21,6 +22,6 @@ export default function useRemoveAdvertisements() {
         isRemovedAdvertisement,
         isRemovingAdvertisement,
         removeAdvertisementErrorMessage,
-        removeAdvertisements
+        removeAdvertisement
     }
 }

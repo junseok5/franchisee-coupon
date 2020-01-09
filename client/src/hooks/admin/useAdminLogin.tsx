@@ -12,7 +12,8 @@ export default function useAdminLogin() {
         isAdminLoggingIn,
         isAdminLoggedIn,
         isCheckingAdminLogged,
-        adminLoginErrorMessage
+        adminLoginErrorMessage,
+        adminToken
     } = useSelector((state: RootState) => state.admin)
     const dispatch = useDispatch()
 
@@ -23,7 +24,7 @@ export default function useAdminLogin() {
     )
 
     const checkAdminLogged = useCallback(
-        () => dispatch({ type: CHECK_ADMIN_LOGGED_REQUEST }),
+        (payload: string) => dispatch({ type: CHECK_ADMIN_LOGGED_REQUEST, payload }),
         [dispatch]
     )
 
@@ -32,6 +33,7 @@ export default function useAdminLogin() {
         isAdminLoggedIn,
         isCheckingAdminLogged,
         adminLoginErrorMessage,
+        adminToken,
         adminLogIn,
         checkAdminLogged
     }

@@ -4,26 +4,35 @@ import AdminHeader from "src/components/boxes/AdminHeader"
 import CenterLayout from "src/components/layout/CenterLayout"
 import useAdminLogin from "src/hooks/admin/useAdminLogin"
 import VerificationStores from "src/containers/admin/VerificationStores"
+import InfoLayout from "src/components/layout/InfoLayout"
+import AdminAdvertisements from "src/containers/admin/AdminAdvertisements"
 
 const AdminPage: React.SFC = () => {
-    const { isAdminLoggedIn, checkAdminLogged } = useAdminLogin()
+    const { isAdminLoggedIn, checkAdminLogged, adminToken } = useAdminLogin()
 
     React.useEffect(() => {
-        checkAdminLogged()
+        if (adminToken) {
+            checkAdminLogged(adminToken)
+        }
     }, [])
-    
+
     return (
         <>
             <AdminHeader />
-            <CenterLayout>
-                {isAdminLoggedIn ? (
-                    <>
+            {isAdminLoggedIn ? (
+                <>
+                    <InfoLayout>
                         <VerificationStores />
-                    </>
-                ) : (
+                    </InfoLayout>
+                    <InfoLayout>
+                        <AdminAdvertisements />
+                    </InfoLayout>
+                </>
+            ) : (
+                <CenterLayout>
                     <AdminLoginForm />
-                )}
-            </CenterLayout>
+                </CenterLayout>
+            )}
         </>
     )
 }
