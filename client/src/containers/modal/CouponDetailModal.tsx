@@ -1,4 +1,5 @@
 import * as React from "react"
+import styled from "styled-components"
 import useCouponDetailModal from "src/hooks/modal/useCouponDetailModal"
 import useAdvertisementInModal from "src/hooks/modal/useAdvertisementInModal"
 import Modal from "src/components/boxes/Modal"
@@ -10,7 +11,7 @@ import Button from "src/components/elements/Button"
 import Barcode from "react-barcode"
 // @ts-ignore
 import domtoimage from "dom-to-image"
-import { storageURL } from 'src/constants'
+import { storageURL } from "src/constants"
 
 interface CouponDetailModalProps {}
 
@@ -43,7 +44,9 @@ const CouponDetailModal: React.SFC<CouponDetailModalProps> = () => {
                 width={"292px"}
                 height={"auto"}
             />
-            <Barcode value={ad.couponNum} width={2.4} height={80} />
+            <BarcodeWrap>
+                <Barcode value={ad.couponNum} width={2.4} height={80} />
+            </BarcodeWrap>
             <Text>{ad.description}</Text>
             <SubTitle noHorizontalMargin={true}>
                 {ad.startAt} ~ {ad.endAt}
@@ -54,3 +57,8 @@ const CouponDetailModal: React.SFC<CouponDetailModalProps> = () => {
 }
 
 export default CouponDetailModal
+
+const BarcodeWrap = styled.div`
+    display: flex;
+    justify-content: center;
+`
