@@ -136,3 +136,25 @@ a {
         opacity: 1;
     }
 }
+
+/* element style */
+.advertisement {
+    width: 280px;
+    margin-left: 1em;
+    margin-right: 1em;
+}
+
+.my-store {
+    width: 230px;
+    margin: 14px 14px 14px 0;
+}
+
+@media screen and (max-width: 768px) {
+    .advertisement {
+        width: 92%;
+    }
+
+    .my-store {
+        width: 100%;
+    }
+}

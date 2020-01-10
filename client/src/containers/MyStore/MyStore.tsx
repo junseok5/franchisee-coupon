@@ -25,7 +25,7 @@ const MyStore: React.SFC<MyStoreProps> = ({ store }) => {
     }, [])
 
     return (
-        <div className={"animated fade-in"}>
+        <div className={"my-store animated fade-in"}>
             <Container>
                 <RowLayout>
                     <CircleImage src={`${storageURL}/stores${store.logoImg}`} />
@@ -63,10 +63,9 @@ export default MyStore
 
 const Container = styled.div`
     position: relative;
-    width: 230px;
+    width: 100%;
     height: auto;
     padding: 1em 1em 3em 1em;
-    margin: 14px 14px 14px 0;
     border: 1px solid ${COLORS.grayLight};
     border-bottom-width: 2px;
     color: ${COLORS.grayTitle};

@@ -238,7 +238,7 @@ const Container = styled.div`
     @media screen and (max-width: 768px) {
         width: 100%;
         height: auto;
-        margin-left: 14px;
+        /* margin-left: 14px; */
     }
 
     .remove-ad {

@@ -26,7 +26,7 @@ const Advertisement: React.SFC<AdvertisementProps> = ({ ad }) => {
     }, [])
 
     return (
-        <div className={"animated fade-in"}>
+        <div className={"advertisement animated fade-in"}>
             <Container onClick={onClickAdvertisement}>
                 <div className={"header"}>
                     <div className={"logo"}>
@@ -57,12 +57,14 @@ export default Advertisement
 
 const Container = styled.div`
     width: 280px;
-    margin-left: 1em;
-    margin-right: 1em;
     margin-bottom: 1em;
     user-select: none;
     cursor: pointer;
     overflow: hidden;
+
+    @media screen and (max-width: 768px) {
+        width: 100%;
+    }
 
     .header {
         position: relative;
@@ -178,7 +180,6 @@ const Container = styled.div`
 
             .title {
                 width: 100%;
-                
                 margin-bottom: 0.2em;
                 font-size: 1.3em;
                 font-weight: bold;

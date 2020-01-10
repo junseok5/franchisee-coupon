@@ -13,7 +13,7 @@ import Text from "src/components/elements/Text"
 import Button from "src/components/elements/Button"
 import useRemoveAdminAdvertisement from "src/hooks/admin/useRemoveAdminAdvertisement"
 import useAdminLogin from "src/hooks/admin/useAdminLogin"
-import useLoadAdminAdvertisements from 'src/hooks/admin/useLoadAdminAdvertisements'
+import useLoadAdminAdvertisements from "src/hooks/admin/useLoadAdminAdvertisements"
 
 interface AdminAdvertisementProps {
     advertisement: IAdvertisement
@@ -81,47 +81,53 @@ const AdminAdvertisement: React.SFC<AdminAdvertisementProps> = ({
                 )
             )}
             <ColumnLayout>
-                <RowLayout>
-                    {advertisement.photo && (
-                        <Image
-                            src={`${storageURL}/ads${advertisement.photo}`}
-                            width={"160px"}
-                            height={"240px"}
-                        />
-                    )}
-                    <ColumnLayout>
+                {advertisement.photo && (
+                    <Image
+                        src={`${storageURL}/ads${advertisement.photo}`}
+                        width={"100%"}
+                        height={"auto"}
+                    />
+                )}
+                <ColumnLayout>
+                    <RowLayout>
                         <RowWrap>
                             <SubTitle>제목</SubTitle>
                         </RowWrap>
                         <RowWrap>
                             <Text size={12}>{advertisement.title}</Text>
                         </RowWrap>
-                        {advertisement.description && (
-                            <>
-                                <RowWrap>
-                                    <SubTitle>설명</SubTitle>
-                                </RowWrap>
-                                <RowWrap>
-                                    <Text size={12}>
-                                        {advertisement.description}
-                                    </Text>
-                                </RowWrap>
-                            </>
-                        )}
+                    </RowLayout>
+
+                    {advertisement.description && (
+                        <RowLayout>
+                            <RowWrap>
+                                <SubTitle>설명</SubTitle>
+                            </RowWrap>
+                            <RowWrap>
+                                <Text size={12}>
+                                    {advertisement.description}
+                                </Text>
+                            </RowWrap>
+                        </RowLayout>
+                    )}
+                    <RowLayout>
                         <RowWrap>
                             <SubTitle>광고 시작일</SubTitle>
                         </RowWrap>
                         <RowWrap>
                             <Text size={12}>{advertisement.startAt}</Text>
                         </RowWrap>
+                    </RowLayout>
+
+                    <RowLayout>
                         <RowWrap>
                             <SubTitle>광고 마감일</SubTitle>
                         </RowWrap>
                         <RowWrap>
                             <Text size={12}>{advertisement.endAt}</Text>
                         </RowWrap>
-                    </ColumnLayout>
-                </RowLayout>
+                    </RowLayout>
+                </ColumnLayout>
             </ColumnLayout>
             <ColumnLayout>
                 <RowLayout>
