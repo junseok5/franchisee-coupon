@@ -1,7 +1,6 @@
 import * as React from "react"
 import styled from "styled-components"
 import { COLORS, PAGE_PATHS, storageURL } from "src/constants"
-import Image from "../../components/elements/Image"
 import { IAdvertisement } from "src/store/reducers/store"
 import RowLayout from "../../components/layout/RowLayout"
 import ColumnLayout from "../../components/layout/ColumnLayout"
@@ -113,11 +112,11 @@ const MyStoreAdvertisement: React.SFC<MyStoreAdvertisementProps> = ({
                 )}
                 <ColumnLayout>
                     {advertisement.photo && (
-                        <Image
-                            src={`${storageURL}/ads${advertisement.photo}`}
-                            width={"100%"}
-                            height={"auto"}
-                        />
+                        <div className={"ad-img"}>
+                            <img
+                                src={`${storageURL}/ads${advertisement.photo}`}
+                            />
+                        </div>
                     )}
                     <RowLayout>
                         <RowWrap>
@@ -238,7 +237,6 @@ const Container = styled.div`
     @media screen and (max-width: 768px) {
         width: 100%;
         height: auto;
-        /* margin-left: 14px; */
     }
 
     .remove-ad {
@@ -250,5 +248,22 @@ const Container = styled.div`
         position: absolute;
         width: calc(100% - 1em);
         bottom: 0.5em;
+    }
+
+    .ad-img {
+        position: relative;
+        width: 100%;
+        height: 200px;
+        margin-top: 1em;
+        overflow: hidden;
+
+        img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
     }
 `
