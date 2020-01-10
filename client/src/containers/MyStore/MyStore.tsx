@@ -42,7 +42,7 @@ const MyStore: React.SFC<MyStoreProps> = ({ store }) => {
                 <ColumnWrap>
                     <div className={"row"}>
                         <div className={"field"}>설명</div>
-                        {store.description}
+                       <OneLineText>{store.description}</OneLineText> 
                     </div>
                 </ColumnWrap>
                 <ColumnWrap>
