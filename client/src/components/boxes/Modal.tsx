@@ -18,7 +18,7 @@ const Modal: React.SFC<ModalProps> = ({
     return (
         <Container show={show}>
             <div className={"dark-bg"} onClick={onHideModal} />
-            <div className={"modal"}>
+            <div className={"modal animated fade-in-up"}>
                 <div className={"header"}>
                     <h3>{title}</h3>
                     <div className={"close-button"} onClick={onHideModal}>
@@ -48,7 +48,7 @@ const Container = styled.div<ContainerProps>`
     bottom: 0;
     width: 100%;
     height: 100%;
-    z-index: 5;
+    z-index: 20;
 
     .dark-bg {
         background: rgba(0, 0, 0, 0.5);
@@ -63,6 +63,13 @@ const Container = styled.div<ContainerProps>`
         display: flex;
         justify-content: space-between;
         border-bottom: 1px dotted ${COLORS.border};
+
+        h3 {
+            width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
 
         .close-button {
             cursor: pointer;

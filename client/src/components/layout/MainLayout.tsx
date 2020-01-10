@@ -12,5 +12,5 @@ export default MainLayout
 const Container = styled.div`
     width: 100%;
     height: calc(100vh - 4em);
-    background-color: #fff;
+    /* background-color: #fff; */
 `

@@ -8,6 +8,8 @@ import { PAGE_PATHS, COLORS } from "src/constants"
 import RowLayout from "src/components/layout/RowLayout"
 import TextButton from "src/components/elements/TextButton"
 import SmallButton from "src/components/elements/SmallButton"
+import Image from "src/components/elements/Image"
+import SmallReverseButton from 'src/components/elements/SmallReverseButton'
 
 interface HeaderProps {}
 
@@ -20,7 +22,13 @@ const Header: React.SFC<HeaderProps> = () => {
         <HeaderLayout>
             <div className="left">
                 <Link to={PAGE_PATHS.HOME}>
-                    <span>In500m</span>
+                    <div className={"logo-img"}>
+                        <Image
+                            src={require("src/static/images/in500m_logo_2.png")}
+                            width={"100%"}
+                            height={"auto"}
+                        />
+                    </div>
                 </Link>
             </div>
             <div className="right">
@@ -35,13 +43,13 @@ const Header: React.SFC<HeaderProps> = () => {
                 ) : (
                     <>
                         <div className={"pc-auth"}>
-                            <SmallButton
+                            <SmallReverseButton
                                 title={"로그인"}
-                                bgColor={COLORS.grayButton}
                                 onClick={onShowLoginModal}
                             />
                             <SmallButton
                                 title={"회원가입"}
+                                bgColor={COLORS.main}
                                 onClick={onShowRegisterModal}
                             />
                         </div>

@@ -20,6 +20,7 @@ const Container = styled.div`
     align-items: center;
     border-bottom: 1px solid ${COLORS.grayNormal};
     background-color: #fff;
+    overflow: hidden;
 
     .header-wrap {
         width: 1080px;
@@ -35,14 +36,19 @@ const Container = styled.div`
             font-size: 1.4em;
 
             a {
-                span {
-                    user-select: none;
-                    cursor: pointer;
-                }
-            }
+                .logo-img {
+                    width: 180px;
+                    height: auto;
 
-            @media screen and (max-width: 1088px) {
-                margin-left: 1em;
+                    @media screen and (max-width: 1088px) {
+                        width: 150px;
+                    }
+
+                    img {
+                        user-select: none;
+                        cursor: pointer;
+                    }
+                }
             }
         }
 

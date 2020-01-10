@@ -11,6 +11,7 @@ import Button from "src/components/elements/Button"
 import SubTitle from "src/components/elements/SubTitle"
 import ColumnWrap from "src/components/wrap/ColumnWrap"
 import RowWrap from "src/components/wrap/RowWrap"
+import OneLineText from "src/components/elements/OneLineText"
 
 interface MyStoreProps {
     store: IStore
@@ -24,37 +25,37 @@ const MyStore: React.SFC<MyStoreProps> = ({ store }) => {
     }, [])
 
     return (
-        <Container>
-            <RowLayout>
-                <CircleImage
-                    src={`${storageURL}/stores${store.logoImg}`}
-                />
-                <RowWrap>
-                    <SubTitle>{store.name}</SubTitle>
-                </RowWrap>
-            </RowLayout>
-            <ColumnWrap>
-                <div className={"row"}>
-                    <div className={"field"}>업종</div>
-                    {getCategoryName(store.category)}
+        <div className={"animated fade-in"}>
+            <Container>
+                <RowLayout>
+                    <CircleImage src={`${storageURL}/stores${store.logoImg}`} />
+                    <RowWrap>
+                        <SubTitle>{store.name}</SubTitle>
+                    </RowWrap>
+                </RowLayout>
+                <ColumnWrap>
+                    <div className={"row"}>
+                        <div className={"field"}>업종</div>
+                        {getCategoryName(store.category)}
+                    </div>
+                </ColumnWrap>
+                <ColumnWrap>
+                    <div className={"row"}>
+                        <div className={"field"}>설명</div>
+                        {store.description}
+                    </div>
+                </ColumnWrap>
+                <ColumnWrap>
+                    <div className={"row"}>
+                        <div className={"field"}>주소</div>
+                        <OneLineText>{store.address}</OneLineText>
+                    </div>
+                </ColumnWrap>
+                <div className={"button-wrap"}>
+                    <Button title={"상세보기"} onClick={goToStoreDetail} />
                 </div>
-            </ColumnWrap>
-            <ColumnWrap>
-                <div className={"row"}>
-                    <div className={"field"}>설명</div>
-                    {store.description}
-                </div>
-            </ColumnWrap>
-            <ColumnWrap>
-                <div className={"row"}>
-                    <div className={"field"}>주소</div>
-                    {store.address}
-                </div>
-            </ColumnWrap>
-            <div className={"button-wrap"}>
-                <Button title={"상세보기"} onClick={goToStoreDetail} />
-            </div>
-        </Container>
+            </Container>
+        </div>
     )
 }
 

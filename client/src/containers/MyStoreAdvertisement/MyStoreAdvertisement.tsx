@@ -17,6 +17,7 @@ import TextButton from "src/components/elements/TextButton"
 import useRemoveAdvertisement from "src/hooks/advertisement/useRemoveAdvertisement"
 import NotifyText from "src/components/elements/NotifyText"
 import RowWrap from "src/components/wrap/RowWrap"
+import OneLineText from "src/components/elements/OneLineText"
 
 interface MyStoreAdvertisementProps {
     advertisement: IAdvertisement
@@ -87,137 +88,138 @@ const MyStoreAdvertisement: React.SFC<MyStoreAdvertisementProps> = ({
     const endAt = new Date(`${advertisement.endAt}T00:00:00`)
 
     return (
-        <Container>
-            {advertisement.isStopped ? (
-                <RowLayout>
-                    <ErrorText>중지된 광고</ErrorText>
-                </RowLayout>
-            ) : endAt <= now ? (
-                <RowLayout>
-                    <ErrorText>마감된 광고입니다.</ErrorText>
-                </RowLayout>
-            ) : startAt <= now && endAt >= now ? (
-                <RowLayout>
-                    <NotifyText>광고 진행중..</NotifyText>
-                </RowLayout>
-            ) : (
-                endAt > now && (
+        <div className={"animated fade-in"}>
+            <Container>
+                {advertisement.isStopped ? (
                     <RowLayout>
-                        <NotifyText color={COLORS.grayBold}>
-                            광고 준비중입니다.
-                        </NotifyText>
+                        <ErrorText>중지된 광고</ErrorText>
                     </RowLayout>
-                )
-            )}
-            <ColumnLayout>
-                <RowLayout>
+                ) : endAt <= now ? (
+                    <RowLayout>
+                        <ErrorText>마감된 광고입니다.</ErrorText>
+                    </RowLayout>
+                ) : startAt <= now && endAt >= now ? (
+                    <RowLayout>
+                        <NotifyText>광고 진행중..</NotifyText>
+                    </RowLayout>
+                ) : (
+                    endAt > now && (
+                        <RowLayout>
+                            <NotifyText color={COLORS.grayBold}>
+                                광고 준비중입니다.
+                            </NotifyText>
+                        </RowLayout>
+                    )
+                )}
+                <ColumnLayout>
                     {advertisement.photo && (
                         <Image
                             src={`${storageURL}/ads${advertisement.photo}`}
-                            width={"160px"}
-                            height={"240px"}
+                            width={"100%"}
+                            height={"auto"}
                         />
                     )}
-                    <ColumnLayout>
+                    <RowLayout>
                         <RowWrap>
                             <SubTitle>제목</SubTitle>
                         </RowWrap>
-                        <RowWrap>
-                            <Text size={12}>{advertisement.title}</Text>
-                        </RowWrap>
-                        {advertisement.description && (
-                            <>
-                                <RowWrap>
-                                    <SubTitle>설명</SubTitle>
-                                </RowWrap>
-                                <RowWrap>
-                                    <Text size={12}>
-                                        {advertisement.description}
-                                    </Text>
-                                </RowWrap>
-                            </>
-                        )}
+                        <OneLineText size={12}>
+                            {advertisement.title}
+                        </OneLineText>
+                    </RowLayout>
+
+                    {advertisement.description && (
+                        <RowLayout>
+                            <RowWrap>
+                                <SubTitle>설명</SubTitle>
+                            </RowWrap>
+                            <OneLineText size={12}>
+                                {advertisement.description}
+                            </OneLineText>
+                        </RowLayout>
+                    )}
+                    <RowLayout>
                         <RowWrap>
                             <SubTitle>광고 시작일</SubTitle>
                         </RowWrap>
-                        <RowWrap>
-                            <Text size={12}>{advertisement.startAt}</Text>
-                        </RowWrap>
+                        <Text size={12}>{advertisement.startAt}</Text>
+                    </RowLayout>
+
+                    <RowLayout>
                         <RowWrap>
                             <SubTitle>광고 마감일</SubTitle>
                         </RowWrap>
-                        <RowWrap>
-                            <Text size={12}>{advertisement.endAt}</Text>
-                        </RowWrap>
-                    </ColumnLayout>
-                </RowLayout>
-            </ColumnLayout>
-            <ColumnLayout>
-                <RowLayout>
-                    <RowWrap>
-                        <SubTitle>광고 유형</SubTitle>
-                    </RowWrap>
-                    <Text>
-                        {advertisement.adType === "COUPON" ? "쿠폰" : "특가"}
-                    </Text>
-                </RowLayout>
-                {advertisement.adType === "COUPON" && (
+                        <Text size={12}>{advertisement.endAt}</Text>
+                    </RowLayout>
+
                     <RowLayout>
                         <RowWrap>
-                            <SubTitle>쿠폰 번호</SubTitle>
+                            <SubTitle>광고 유형</SubTitle>
                         </RowWrap>
-                        <Text>{advertisement.couponNum}</Text>
+                        <Text>
+                            {advertisement.adType === "COUPON"
+                                ? "쿠폰"
+                                : "특가"}
+                        </Text>
                     </RowLayout>
-                )}
-                <RowLayout>
-                    <RowWrap>
-                        <SubTitle>조회수</SubTitle>
-                    </RowWrap>
-                    <Text>{advertisement.views}회</Text>
-                </RowLayout>
-                <RowLayout>
-                    <RowWrap>
-                        <SubTitle>클릭수</SubTitle>
-                    </RowWrap>
-                    <Text>{advertisement.clickNum}회</Text>
-                </RowLayout>
-                <RowLayout>
-                    <RowWrap>
-                        <SubTitle>다운로드수</SubTitle>
-                    </RowWrap>
-                    <Text>{advertisement.downloadNum}회</Text>
-                </RowLayout>
-            </ColumnLayout>
-            <div className={"bottom"}>
-                <div className={"remove-ad"}>
-                    <TextButton
-                        color={COLORS.redNormal}
-                        onClick={onClickRemoveAdButton}
-                    >
-                        광고 삭제하기
-                    </TextButton>
-                </div>
-                <ColumnLayout>
-                    <Button
-                        title={"수정하기"}
-                        onClick={goToAdvertisementFormPage}
-                    />
-                    {advertisement.isStopped ? (
-                        <Button
-                            title={"광고 시작"}
-                            bgColor={COLORS.greenNormal}
-                            onClick={toggleAdIsStopped}
-                        />
-                    ) : (
-                        <Button
-                            title={"광고 중지"}
-                            bgColor={COLORS.redNormal}
-                            onClick={toggleAdIsStopped}
-                        />
+                    {advertisement.adType === "COUPON" && (
+                        <RowLayout>
+                            <RowWrap>
+                                <SubTitle>쿠폰 번호</SubTitle>
+                            </RowWrap>
+                            <Text>{advertisement.couponNum}</Text>
+                        </RowLayout>
                     )}
+                    <RowLayout>
+                        <RowWrap>
+                            <SubTitle>조회수</SubTitle>
+                        </RowWrap>
+                        <Text>{advertisement.views}회</Text>
+                    </RowLayout>
+                    <RowLayout>
+                        <RowWrap>
+                            <SubTitle>클릭수</SubTitle>
+                        </RowWrap>
+                        <Text>{advertisement.clickNum}회</Text>
+                    </RowLayout>
+                    <RowLayout>
+                        <RowWrap>
+                            <SubTitle>다운로드수</SubTitle>
+                        </RowWrap>
+                        <Text>{advertisement.downloadNum}회</Text>
+                    </RowLayout>
                 </ColumnLayout>
-            </div>
-        </Container>
+                <div className={"bottom"}>
+                    <div className={"remove-ad"}>
+                        <TextButton
+                            color={COLORS.redNormal}
+                            onClick={onClickRemoveAdButton}
+                        >
+                            광고 삭제하기
+                        </TextButton>
+                    </div>
+                    <ColumnLayout>
+                        <Button
+                            title={"수정하기"}
+                            onClick={goToAdvertisementFormPage}
+                        />
+                        {advertisement.isStopped ? (
+                            <Button
+                                title={"광고 시작"}
+                                bgColor={COLORS.greenNormal}
+                                onClick={toggleAdIsStopped}
+                            />
+                        ) : (
+                            <Button
+                                title={"광고 중지"}
+                                bgColor={COLORS.redNormal}
+                                onClick={toggleAdIsStopped}
+                            />
+                        )}
+                    </ColumnLayout>
+                </div>
+            </Container>
+        </div>
     )
 }
 
@@ -225,7 +227,7 @@ export default MyStoreAdvertisement
 
 const Container = styled.div`
     position: relative;
-    width: 320px;
+    width: 360px;
     height: auto;
     padding: 0.5em 0.5em 8em 0.5em;
     margin: 14px 14px 14px 0;

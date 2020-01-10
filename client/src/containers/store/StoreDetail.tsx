@@ -72,7 +72,7 @@ const StoreDetail: React.SFC<StoreDetailProps> = () => {
             {isLoadingStore ? (
                 <Loading minHeight={200} />
             ) : (
-                <>
+                <div className={"animated fade-in"}>
                     <RowBetweenLayout>
                         <RowLayout>
                             <CircleImage
@@ -162,7 +162,7 @@ const StoreDetail: React.SFC<StoreDetailProps> = () => {
                             </RowWrap>
                         </RowLayout>
                     </ColumnLayout>
-                </>
+                </div>
             )}
             <Helmet>
                 <title>{store?.name}</title>

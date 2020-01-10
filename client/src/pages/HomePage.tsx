@@ -19,9 +19,7 @@ const HomePage: React.SFC = () => {
         <>
             <Header />
             <MainLayout>
-                <ListLayout>
-                    <CategoryList />
-                </ListLayout>
+                <CategoryList />
                 {storeId && (
                     <ListLayout>
                         <SelectRadius />

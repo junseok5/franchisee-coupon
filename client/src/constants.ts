@@ -17,7 +17,7 @@ export enum PAGE_PATHS {
 }
 
 export enum COLORS {
-    main = "#2099BB",
+    main = "#34C6F5",
     mainHover = "#24ABD1",
     grayLight = "#DFDFDF",
     grayLightHover = "#dfe4ea",

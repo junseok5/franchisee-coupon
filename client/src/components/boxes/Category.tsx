@@ -29,19 +29,19 @@ interface StyledProps {
 }
 
 const Styled = styled.div<StyledProps>`
-    width: 80px;
-    margin-top: 0.5em;
-    margin-bottom: 0.5em;
+    width: 90px;
+    padding-top: 1em;
+    padding-bottom: 1em;
     user-select: none;
     cursor: pointer;
 
     .icon {
-        width: 40px;
-        height: 40px;
+        width: 60px;
+        height: 60px;
         margin: 0.2em auto;
         border-radius: 50%;
         background: ${props => props.bgColor};
-        font-size: 1.5em;
+        font-size: 2em;
         color: white;
         display: flex;
         justify-content: center;

@@ -1,4 +1,5 @@
 import * as React from "react"
+import { Helmet } from "react-helmet"
 import AdminLoginForm from "src/containers/admin/AdminLoginForm"
 import AdminHeader from "src/components/boxes/AdminHeader"
 import CenterLayout from "src/components/layout/CenterLayout"
@@ -33,6 +34,9 @@ const AdminPage: React.SFC = () => {
                     <AdminLoginForm />
                 </CenterLayout>
             )}
+            <Helmet>
+                <title>관리자 페이지</title>
+            </Helmet>
         </>
     )
 }
