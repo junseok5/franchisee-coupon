@@ -5,7 +5,6 @@ import useAdvertisementInModal from "src/hooks/modal/useAdvertisementInModal"
 import Modal from "src/components/boxes/Modal"
 import SubTitle from "src/components/elements/SubTitle"
 import Text from "src/components/elements/Text"
-import Image from "src/components/elements/Image"
 import Button from "src/components/elements/Button"
 // @ts-ignore
 import Barcode from "react-barcode"
@@ -23,15 +22,19 @@ const CouponDetailModal: React.SFC<CouponDetailModalProps> = () => {
     const { advertisementInModal: ad } = useAdvertisementInModal()
 
     const onClickDownloadButton = React.useCallback(() => {
-        const modalDom = document.getElementById("modal")
+        const modalDom = document.getElementById(`coupon-wrap ${ad.id}`)
         domtoimage
-            .toSvg(modalDom, {
-                filter: (node: HTMLElement) => node.tagName !== "i"
-            })
+            .toJpeg(modalDom, { quality: 0.95 })
             .then((dataUrl: string) => {
-                console.log(dataUrl)
+                const link = document.createElement("a")
+                link.download = `${ad.title}.jpeg`
+                link.href = dataUrl
+                link.click()
             })
-    }, [])
+            .catch((e: Error) => {
+                console.error(e)
+            })
+    }, [ad])
 
     return (
         <Modal
@@ -39,18 +42,18 @@ const CouponDetailModal: React.SFC<CouponDetailModalProps> = () => {
             show={couponDetailModalVisible}
             onHideModal={onHideCouponDetailModal}
         >
-            <Image
-                src={`${storageURL}/ads${ad.photo}`}
-                width={"292px"}
-                height={"auto"}
-            />
-            <BarcodeWrap>
-                <Barcode value={ad.couponNum} width={2.4} height={80} />
-            </BarcodeWrap>
-            <Text>{ad.description}</Text>
-            <SubTitle noHorizontalMargin={true}>
-                {ad.startAt} ~ {ad.endAt}
-            </SubTitle>
+            <div id={`coupon-wrap ${ad.id}`}>
+                <Container>
+                    <CouponImage src={`${storageURL}/ads${ad.photo}`} />
+                    <BarcodeWrap>
+                        <Barcode value={ad.couponNum} width={2.4} height={80} />
+                    </BarcodeWrap>
+                    <Text>{ad.description}</Text>
+                    <SubTitle noHorizontalMargin={true}>
+                        {ad.startAt} ~ {ad.endAt}
+                    </SubTitle>
+                </Container>
+            </div>
             <Button title={"다운받기"} onClick={onClickDownloadButton} />
         </Modal>
     )
@@ -58,7 +61,25 @@ const CouponDetailModal: React.SFC<CouponDetailModalProps> = () => {
 
 export default CouponDetailModal
 
+const Container = styled.div`
+    background-color: #fff;
+`
+
 const BarcodeWrap = styled.div`
     display: flex;
     justify-content: center;
+`
+
+const CouponImage = styled.img`
+    width: 292px;
+    height: auto;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    border-radius: 4px;
+    overflow: hidden;
+
+    img {
+        width: 100%;
+        height: 100%;
+    }
 `

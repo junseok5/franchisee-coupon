@@ -25,7 +25,7 @@ const Modal: React.SFC<ModalProps> = ({
                         <FiX size={24} />
                     </div>
                 </div>
-                <div className={"main"} id={"modal"}>
+                <div className={"main"}>
                     {children}
                 </div>
             </div>

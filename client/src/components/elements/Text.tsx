@@ -32,4 +32,5 @@ const Container = styled.div<StyledProps>`
     color: ${props => props.color};
     font-size: ${props => props.size}px;
     margin: ${props => (props.noMargin ? 0 : "0 14px 0.5em 14px")};
+    /* background-color: #fff; */
 `

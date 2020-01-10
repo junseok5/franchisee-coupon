@@ -149,6 +149,10 @@ a {
     margin: 14px 14px 14px 0;
 }
 
+#coupon-wrap {
+    background-color: #fff;
+}
+
 @media screen and (max-width: 768px) {
     .advertisement {
         width: 92%;
