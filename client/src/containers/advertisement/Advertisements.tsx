@@ -1,4 +1,5 @@
 import * as React from "react"
+import styled from "styled-components"
 import Advertisement from "./Advertisement"
 import useLoadAdvertisements from "src/hooks/advertisement/useLoadAdvertisements"
 import { useParams } from "react-router-dom"
@@ -43,7 +44,11 @@ const Advertisements: React.SFC<AdvertisementsProps> = () => {
             {isLoadingAdvertisements ? (
                 <HomeLoading />
             ) : advertisements.length ? (
-                advertisements.map(ad => <Advertisement key={ad.id} ad={ad} />)
+                <Container>
+                    {advertisements.map(ad => (
+                        <Advertisement key={ad.id} ad={ad} />
+                    ))}
+                </Container>
             ) : (
                 <ErrorNotice>주변에 등록된 광고가 없습니다.</ErrorNotice>
             )}
@@ -52,3 +57,13 @@ const Advertisements: React.SFC<AdvertisementsProps> = () => {
 }
 
 export default Advertisements
+
+const Container = styled.div`
+    width: 1248px;
+    display: flex;
+    flex-wrap: wrap;
+
+    @media screen and (max-width: 768px) {
+        width: 100%;
+    }
+`
