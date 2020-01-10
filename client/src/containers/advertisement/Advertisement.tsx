@@ -44,7 +44,9 @@ const Advertisement: React.SFC<AdvertisementProps> = ({ ad }) => {
                         <div
                             className={"date"}
                         >{`${ad.startAt} ~ ${ad.endAt}`}</div>
-                        <div className={"coupon-download-button"}>쿠폰받기</div>
+                        <div className={"coupon-download-button"}>
+                            {ad.adType === "COUPON" ? "쿠폰받기" : "상세보기"}
+                        </div>
                     </div>
                     <div className={"bottom-outset"} />
                 </div>
