@@ -48,10 +48,12 @@ const CouponDetailModal: React.SFC<CouponDetailModalProps> = () => {
                     <BarcodeWrap>
                         <Barcode value={ad.couponNum} width={2.4} height={80} />
                     </BarcodeWrap>
-                    <Text>{ad.description}</Text>
-                    <SubTitle noHorizontalMargin={true}>
-                        {ad.startAt} ~ {ad.endAt}
-                    </SubTitle>
+                    <BottomWrap>
+                        <Text>{ad.description}</Text>
+                        <SubTitle noHorizontalMargin={true}>
+                            {ad.startAt} ~ {ad.endAt}
+                        </SubTitle>
+                    </BottomWrap>
                 </Container>
             </div>
             <Button title={"다운받기"} onClick={onClickDownloadButton} />
@@ -63,6 +65,8 @@ export default CouponDetailModal
 
 const Container = styled.div`
     background-color: #fff;
+    width: 100%;
+    padding-bottom: 1em;
 `
 
 const BarcodeWrap = styled.div`
@@ -71,7 +75,7 @@ const BarcodeWrap = styled.div`
 `
 
 const CouponImage = styled.img`
-    width: 292px;
+    width: 100%;
     height: auto;
     margin-top: 1em;
     margin-bottom: 1em;
@@ -82,4 +86,8 @@ const CouponImage = styled.img`
         width: 100%;
         height: 100%;
     }
+`
+const BottomWrap = styled.div`
+    padding-left: 0.5em;
+    padding-right: 0.5em;
 `
